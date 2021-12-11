@@ -13,6 +13,7 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.tuwaiq.value.R
+import com.tuwaiq.value.general.GeneralFragment
 
 private const val TAG = "NextRegisterFragment"
 class NextRegisterFragment : Fragment() {
@@ -49,23 +50,7 @@ class NextRegisterFragment : Fragment() {
 
 
 
-    private fun registerUser(username:String,email: String, password: String) {
-        auth.createUserWithEmailAndPassword(email,password)
-            .addOnCompleteListener { task->
-                if (task.isSuccessful){
-                    showToast("good job")
-                }else{
-                    Log.e(TAG , "there was something wrong",task.exception)
-                }
 
-            }
-        val updateProfile = userProfileChangeRequest{
-            displayName = username
-        }
-
-        auth.currentUser?.updateProfile(updateProfile)
-
-    }
 
     private fun showToast(msg:String){
         Toast.makeText( requireContext(), msg  , Toast.LENGTH_SHORT).show()
@@ -76,6 +61,40 @@ class NextRegisterFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this)[NextRegisterViewModel::class.java]
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+
+        doneImgV.setOnClickListener {
+
+            val weight:String = userWeight.text.toString()
+            val height:String = userHeight.text.toString()
+            val active:String = userActive.text.toString()
+            val stepsG:String = stepsGoal.text.toString()
+            val weightG:String = weightGoal.text.toString()
+
+            when{
+                weight.isEmpty() -> showToast("Enter weight!")
+                height.isEmpty() -> showToast("Enter height!")
+                active.isEmpty() -> showToast("Enter active!")
+                stepsG.isEmpty() -> showToast("Enter steps goals!")
+                weightG.isEmpty() -> showToast("Enter weight goals!")
+
+                else -> {
+                    val fragment = GeneralFragment()
+                    activity?.let {
+                        it.supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.fragment_container,fragment)
+                            .addToBackStack(null)
+                            .commit()}
+                }
+            }
+
+
+        }
     }
 
 }

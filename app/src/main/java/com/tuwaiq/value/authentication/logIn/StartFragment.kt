@@ -13,6 +13,8 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.tuwaiq.value.R
+import com.tuwaiq.value.authentication.register.RegisterFragment
+import com.tuwaiq.value.general.GeneralFragment
 
 private const val TAG = "StartFragment"
 class StartFragment : Fragment() {
@@ -22,6 +24,7 @@ class StartFragment : Fragment() {
     private lateinit var passwordLogin:EditText
     private lateinit var registerTV:TextView
 
+
     private lateinit var auth: FirebaseAuth
 
 
@@ -29,12 +32,7 @@ class StartFragment : Fragment() {
 
     private lateinit var viewModel: StartViewModel
 
-    fun init(view :View){
-        loginBtn = view.findViewById(R.id.login_btn)
-        emailLoginET = view.findViewById(R.id.email_login)
-        passwordLogin = view.findViewById(R.id.pas_login)
-        registerTV = view.findViewById(R.id.register_click)
-    }
+
 
 
 
@@ -44,6 +42,11 @@ class StartFragment : Fragment() {
     ): View? {
 
        val view = inflater.inflate(R.layout.start_fragment, container, false)
+        loginBtn = view.findViewById(R.id.login_btn)
+        emailLoginET = view.findViewById(R.id.email_login)
+        passwordLogin = view.findViewById(R.id.pas_login)
+        registerTV = view.findViewById(R.id.register_click)
+
 
 
         return view
@@ -52,6 +55,17 @@ class StartFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+
+
+
+    }
+
+
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProvider(this).get(StartViewModel::class.java)
 
         auth = FirebaseAuth.getInstance()
 
@@ -65,28 +79,43 @@ class StartFragment : Fragment() {
 
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener{ task->
-                    if (task.isSuccessful){
-                        showToast("good job")
-                    }else{
-                        Log.e(TAG , "there was something wrong",task.exception)
-                    }
+                        if (task.isSuccessful){
+                            showToast("good job")
+                            val fragment = GeneralFragment()
+            activity?.let {
+                it.supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragment_container,fragment)
+                    .addToBackStack(null)
+                    .commit()}
+                        }else{
+                            showToast("email or password is wrong")
+                            Log.e(TAG , "there was something wrong",task.exception)
+                        }
 
-                }
+                    }
             }
+
+
 
         }
 
+        registerTV.setOnClickListener {
+           // Log.e(TAG ,"there is someyhing wrong")
+//           val register = RegisterFragment()
+//            register.fragmentManager
+            val fragment = RegisterFragment()
+            activity?.let {
+                it.supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragment_container,fragment)
+                    .addToBackStack(null)
+                    .commit()}
+        }
 
     }
-
     private fun showToast(msg:String){
         Toast.makeText( requireContext(), msg  ,Toast.LENGTH_LONG).show()
-
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(StartViewModel::class.java)
 
     }
 

@@ -85,10 +85,8 @@
         android:id="@+id/register_click"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="85dp"
-        android:text="register"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_btn" />
+        android:text="TextView"
+        tools:layout_editor_absoluteX="204dp"
+        tools:layout_editor_absoluteY="616dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

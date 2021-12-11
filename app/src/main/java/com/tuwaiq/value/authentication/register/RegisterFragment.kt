@@ -49,6 +49,7 @@ class RegisterFragment : Fragment() {
             .addOnCompleteListener { task->
                 if (task.isSuccessful){
                     showToast("good job")
+
                 }else{
                     Log.e(TAG , "there was something wrong",task.exception)
                 }
@@ -79,13 +80,26 @@ class RegisterFragment : Fragment() {
 
             when{
                 username.isEmpty() -> showToast("Enter username please")
-                email.isEmpty() -> showToast("Enter Email please")
+                email.isEmpty() || !email.contains("@")-> showToast("Enter Email please")
                 password.isEmpty() -> showToast("Enter password please")
                 password != confirmPassword -> showToast("passwords must be matched" )
+
+
+
+
                 else ->{
                     registerUser(username,email,password)
+                    val fragment = NextRegisterFragment()
+                    activity?.let {
+                        it.supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.fragment_container,fragment)
+                            .addToBackStack(null)
+                            .commit()}
                 }
             }
+
+
         }
 
     }
@@ -98,6 +112,8 @@ class RegisterFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
+        auth = FirebaseAuth.getInstance()
+
 
     }
 
