@@ -1,15 +1,26 @@
 package com.tuwaiq.value.database
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+
+@Entity
 data class Value(
 
-    val weight:String ="",
-    val height:String ="",
+    @PrimaryKey
+    var weight:String ="",
+    var weightGoal:String="",
+    var height:String ="",
     val name:String ="",
-    val email:String ="",
-    val active:String= "",
-    val steps:Int= 0,
-    val calories:Int= 0,
-    val stGoal:Int=0,
-    val calGoal:Int= 0
+    var password:String ="",
+    var email:String ="",
+    var active:String= "",
+    var steps:String= "",
+    var calories:String= "",
+    var stGoal:String="",
+    var calGoal:String= "",
+    var gender:String="",
+    var age:String=""
+
 
 )

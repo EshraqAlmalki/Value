@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/value_nav"
+    app:startDestination="@id/loginFragment">
+    <fragment
+        android:id="@+id/homePageFragment"
+        android:name="com.tuwaiq.value.homePage.HomePageFragment"
+        android:label="general_fragment"
+        tools:layout="@layout/home_page_fragment">
+        <action
+            android:id="@+id/action_generalFragment2_to_infoFragment3"
+            app:destination="@id/personalInfoFragment"
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_out_top" />
+        <action
+            android:id="@+id/action_generalFragment2_to_stepsCountFragment3"
+            app:destination="@id/stepsCountFragment3" />
+        <action
+            android:id="@+id/action_generalFragment2_to_timerFragment3"
+            app:destination="@id/timerFragment3" />
+    </fragment>
+    <fragment
+        android:id="@+id/personalInfoFragment"
+        android:name="com.tuwaiq.value.personalInfo.PersonalInfoFragment"
+        android:label="info_fragment"
+        tools:layout="@layout/personal_info_fragment" />
+    <fragment
+        android:id="@+id/stepsCountFragment3"
+        android:name="com.tuwaiq.value.steps.StepsCountFragment"
+        android:label="steps_count_fragment"
+        tools:layout="@layout/steps_count_fragment" />
+    <fragment
+        android:id="@+id/timerFragment3"
+        android:name="com.tuwaiq.value.timer.TimerFragment"
+        android:label="timer_fragment"
+        tools:layout="@layout/timer_fragment" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.tuwaiq.value.authentication.logIn.LoginFragment"
+        android:label="start_fragment"
+        tools:layout="@layout/login_fragment">
+        <action
+            android:id="@+id/action_startFragment_to_generalFragment2"
+            app:destination="@id/homePageFragment" />
+        <action
+            android:id="@+id/action_startFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.tuwaiq.value.authentication.register.RegisterFragment"
+        android:label="register_fragment"
+        tools:layout="@layout/register_fragment" >
+        <action
+            android:id="@+id/action_registerFragment_to_nextRegisterFragment"
+            app:destination="@id/nextRegisterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/nextRegisterFragment"
+        android:name="com.tuwaiq.value.authentication.register.NextRegisterFragment"
+        android:label="next_register_fragment"
+        tools:layout="@layout/next_register_fragment" >
+        <action
+            android:id="@+id/action_nextRegisterFragment_to_startFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+</navigation>

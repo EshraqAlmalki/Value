@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/personalInfoFragment"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:title="info"/>
+
+    <item
+        android:id="@+id/stepsCountFragment3"
+        android:icon="@drawable/ic_baseline_do_not_step_24"
+        android:title="steps"/>
+
+    <item
+        android:id="@+id/timerFragment3"
+        android:icon="@drawable/ic_baseline_av_timer_24"
+        android:title="timer"/>
+
+    <item
+        android:id="@+id/homePageFragment"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="home"/>
+
+</menu>

@@ -1,7 +1,7 @@
-package com.tuwaiq.value.general
+package com.tuwaiq.value.homePage
 
 import androidx.lifecycle.ViewModel
 
-class GeneralViewModel : ViewModel() {
+class HomePageViewModel : ViewModel() {
     // TODO: Implement the ViewModel
 }

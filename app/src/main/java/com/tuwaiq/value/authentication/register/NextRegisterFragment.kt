@@ -2,7 +2,6 @@ package com.tuwaiq.value.authentication.register
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,11 +9,13 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.tuwaiq.value.R
-import com.tuwaiq.value.general.GeneralFragment
+import com.tuwaiq.value.database.Value
 
+
+private const val INFO_KYE = "user-info"
 private const val TAG = "NextRegisterFragment"
 class NextRegisterFragment : Fragment() {
 
@@ -24,6 +25,10 @@ class NextRegisterFragment : Fragment() {
     private lateinit var stepsGoal:EditText
     private lateinit var weightGoal:EditText
     private lateinit var doneImgV:ImageView
+    private lateinit var ageET:EditText
+    private lateinit var genderET:EditText
+
+    lateinit var value:Value
 
     private lateinit var auth: FirebaseAuth
 
@@ -44,6 +49,10 @@ class NextRegisterFragment : Fragment() {
         stepsGoal = view.findViewById(R.id.steps_goal)
         weightGoal = view.findViewById(R.id.weight_goals)
         doneImgV = view.findViewById(R.id.done_iv)
+        ageET = view.findViewById(R.id.age_et)
+        genderET = view.findViewById(R.id.gender_et)
+
+        value = Value()
 
         return view
     }
@@ -67,34 +76,51 @@ class NextRegisterFragment : Fragment() {
         super.onStart()
 
 
+
         doneImgV.setOnClickListener {
 
-            val weight:String = userWeight.text.toString()
-            val height:String = userHeight.text.toString()
-            val active:String = userActive.text.toString()
-            val stepsG:String = stepsGoal.text.toString()
-            val weightG:String = weightGoal.text.toString()
+           value.weight = userWeight.text.toString()
+            value.height = userHeight.text.toString()
+            value.active = userActive.text.toString()
+            value.stGoal = stepsGoal.text.toString()
+            value.weightGoal= weightGoal.text.toString()
+            value.age= ageET.text.toString()
+            value.gender = genderET.text.toString()
 
             when{
-                weight.isEmpty() -> showToast("Enter weight!")
-                height.isEmpty() -> showToast("Enter height!")
-                active.isEmpty() -> showToast("Enter active!")
-                stepsG.isEmpty() -> showToast("Enter steps goals!")
-                weightG.isEmpty() -> showToast("Enter weight goals!")
+                value.weight.isEmpty() -> showToast("Enter weight!")
+                value.height.isEmpty() -> showToast("Enter height!")
+                value.active.isEmpty() -> showToast("Enter active!")
+                value.stGoal.isEmpty() -> showToast("Enter steps goals!")
+                value.weightGoal.isEmpty() -> showToast("Enter weight goals!")
+                value.age.isEmpty() -> showToast("Enter age!")
+                value.gender.isEmpty() -> showToast("Enter gender!")
 
                 else -> {
-                    val fragment = GeneralFragment()
-                    activity?.let {
-                        it.supportFragmentManager
-                            .beginTransaction()
-                            .replace(R.id.fragment_container,fragment)
-                            .addToBackStack(null)
-                            .commit()}
+
+
+                    findNavController().navigate(R.id.homePageFragment)
+
                 }
             }
 
 
         }
+
     }
+
+     fun onClick(view:View){
+         val args = arguments?.getString(INFO_KYE)
+         if (args=="user-info"){
+             userActive.isEnabled
+             userHeight.isEnabled
+             userWeight.isEnabled
+             weightGoal.isEnabled
+             stepsGoal.isEnabled
+             ageET.isEnabled
+             genderET.isEnabled
+             }
+
+     }
 
 }

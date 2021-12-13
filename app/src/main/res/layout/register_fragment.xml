@@ -17,7 +17,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:text="username"
+        android:text="@string/username"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -69,6 +69,16 @@
 
     <ImageView
         android:id="@+id/next_iv"
+        android:layout_width="117dp"
+        android:layout_height="58dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="96dp"
+        android:src="@drawable/ic_baseline_arrow_forward_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/edit_next_iv"
         android:layout_width="117dp"
         android:layout_height="58dp"
         android:layout_marginEnd="25dp"

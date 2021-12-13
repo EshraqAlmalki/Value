@@ -3,11 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".general.GeneralFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".homePage.HomePageFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
 
 </FrameLayout>

@@ -1,4 +1,4 @@
-package com.tuwaiq.value.general
+package com.tuwaiq.value.homePage
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -8,24 +8,26 @@ import android.view.View
 import android.view.ViewGroup
 import com.tuwaiq.value.R
 
-class GeneralFragment : Fragment() {
+class HomePageFragment : Fragment() {
 
     companion object {
-        fun newInstance() = GeneralFragment()
+        fun newInstance() = HomePageFragment()
     }
 
-    private lateinit var viewModel: GeneralViewModel
+    private lateinit var viewModel: HomePageViewModel
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.general_fragment, container, false)
+        return inflater.inflate(R.layout.home_page_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(GeneralViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(HomePageViewModel::class.java)
         // TODO: Use the ViewModel
     }
 

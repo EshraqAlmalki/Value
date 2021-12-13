@@ -3,16 +3,23 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Value/app/src/main/res/layout/activity_main.xml" value="0.1796875" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Value/app/src/main/res/drawable/ic_baseline_av_timer_24.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Value/app/src/main/res/drawable/ic_baseline_do_not_step_24.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Value/app/src/main/res/layout/activity_main.xml" value="0.1565217391304348" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Value/app/src/main/res/layout/general_fragment.xml" value="0.16111111111111112" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Value/app/src/main/res/layout/home_page_fragment.xml" value="0.1796875" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Value/app/src/main/res/layout/info_fragment.xml" value="0.1796875" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Value/app/src/main/res/layout/login_fragment.xml" value="0.1796875" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Value/app/src/main/res/layout/next_register_fragment.xml" value="0.1796875" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Value/app/src/main/res/layout/personal_info_fragment.xml" value="0.1796875" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Value/app/src/main/res/layout/register_fragment.xml" value="0.1796875" />
         <entry key="..\:/Users/ASUS/AndroidStudioProjects/Value/app/src/main/res/layout/start_fragment.xml" value="0.22" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Value/app/src/main/res/layout/steps_count_fragment.xml" value="0.1796875" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Value/app/src/main/res/layout/timer_fragment.xml" value="0.1796875" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Value/app/src/main/res/menu/logout.xml" value="0.1796875" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/Value/app/src/main/res/menu/menu.xml" value="0.1796875" />
       </map>
     </option>
-  </component>
-  <component name="ProjectPlainTextFileTypeManager">
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/tuwaiq/value/database/Database.kt" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />

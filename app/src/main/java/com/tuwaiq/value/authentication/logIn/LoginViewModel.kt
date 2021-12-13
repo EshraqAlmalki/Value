@@ -2,6 +2,6 @@ package com.tuwaiq.value.authentication.logIn
 
 import androidx.lifecycle.ViewModel
 
-class StartViewModel : ViewModel() {
+class LoginViewModel : ViewModel() {
     // TODO: Implement the ViewModel
 }

@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.tuwaiq.value.R
@@ -22,6 +23,7 @@ class RegisterFragment : Fragment() {
     private lateinit var confirmPass: EditText
     private lateinit var emailET:EditText
     private lateinit var nextImgV:ImageView
+    private lateinit var editNextImgV:ImageView
 
     private lateinit var auth: FirebaseAuth
 
@@ -38,6 +40,7 @@ class RegisterFragment : Fragment() {
         confirmPass = view.findViewById(R.id.confirm_et)
         emailET = view.findViewById(R.id.email_et)
         nextImgV = view.findViewById(R.id.next_iv)
+        editNextImgV = view.findViewById(R.id.edit_next_iv)
 
 
 
@@ -89,16 +92,43 @@ class RegisterFragment : Fragment() {
 
                 else ->{
                     registerUser(username,email,password)
-                    val fragment = NextRegisterFragment()
-                    activity?.let {
-                        it.supportFragmentManager
-                            .beginTransaction()
-                            .replace(R.id.fragment_container,fragment)
-                            .addToBackStack(null)
-                            .commit()}
+//                    val fragment = NextRegisterFragment()
+//                    activity?.let {
+//                        it.supportFragmentManager
+//                            .beginTransaction()
+//                            .replace(R.id.fragment_container,fragment)
+//                            .addToBackStack(null)
+//                            .commit()}
+
+                    findNavController().navigate(R.id.nextRegisterFragment)
+
                 }
             }
 
+
+        }
+
+        editNextImgV.setOnClickListener {
+            val username:String = usernameET.text.toString()
+            val email:String = emailET.text.toString()
+            val password:String = passwordET.text.toString()
+            val confirmPassword = confirmPass.text.toString()
+
+            when{
+                username.isEmpty() -> showToast("Enter username please")
+                email.isEmpty() || !email.contains("@")-> showToast("Enter Email please")
+                password.isEmpty() -> showToast("Enter password please")
+                password != confirmPassword -> showToast("passwords must be matched" )
+
+
+
+
+                else ->{
+
+
+                    findNavController().navigate(R.id.nextRegisterFragment)
+                }
+            }
 
         }
 
@@ -113,6 +143,12 @@ class RegisterFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
         auth = FirebaseAuth.getInstance()
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
 
 
     }

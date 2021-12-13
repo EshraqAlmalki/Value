@@ -1,4 +1,13 @@
 package com.tuwaiq.value.database
 
-class ValueApp {
+import android.app.Application
+
+class ValueApp:Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+
+
+        ValueRepo.initialize(this)
+    }
 }
