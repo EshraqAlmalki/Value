@@ -22,5 +22,4 @@ data class Value(
     var gender:String="",
     var age:String=""
 
-
 )

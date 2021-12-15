@@ -6,7 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.tuwaiq.value.R
+import com.tuwaiq.value.authentication.register.NextRegisterViewModel
 
 class HomePageFragment : Fragment() {
 
@@ -14,7 +19,7 @@ class HomePageFragment : Fragment() {
         fun newInstance() = HomePageFragment()
     }
 
-    private lateinit var viewModel: HomePageViewModel
+    val fragmentViewModel by lazy { ViewModelProvider(this)[HomePageViewModel::class.java]}
 
 
 
@@ -22,13 +27,19 @@ class HomePageFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.home_page_fragment, container, false)
+        val view = inflater.inflate(R.layout.home_page_fragment,
+            container, false)
+
+
+
+        return view
     }
+
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(HomePageViewModel::class.java)
-        // TODO: Use the ViewModel
+
     }
 
 }

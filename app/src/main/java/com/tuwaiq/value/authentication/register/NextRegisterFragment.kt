@@ -34,7 +34,7 @@ class NextRegisterFragment : Fragment() {
 
 
 
-    private lateinit var viewModel: NextRegisterViewModel
+   val fragmentViewModel by lazy { ViewModelProvider(this)[NextRegisterViewModel::class.java]}
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,14 +68,12 @@ class NextRegisterFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this)[NextRegisterViewModel::class.java]
+
 
     }
 
     override fun onStart() {
         super.onStart()
-
-
 
         doneImgV.setOnClickListener {
 
@@ -86,6 +84,8 @@ class NextRegisterFragment : Fragment() {
             value.weightGoal= weightGoal.text.toString()
             value.age= ageET.text.toString()
             value.gender = genderET.text.toString()
+
+
 
             when{
                 value.weight.isEmpty() -> showToast("Enter weight!")
@@ -99,6 +99,9 @@ class NextRegisterFragment : Fragment() {
                 else -> {
 
 
+
+                    fragmentViewModel.macrosCount(weight = "",height = "",activityLevel = "",
+                    gender = "",goal = "",age = "")
                     findNavController().navigate(R.id.homePageFragment)
 
                 }
@@ -109,18 +112,31 @@ class NextRegisterFragment : Fragment() {
 
     }
 
-     fun onClick(view:View){
-         val args = arguments?.getString(INFO_KYE)
-         if (args=="user-info"){
-             userActive.isEnabled
-             userHeight.isEnabled
-             userWeight.isEnabled
-             weightGoal.isEnabled
-             stepsGoal.isEnabled
-             ageET.isEnabled
-             genderET.isEnabled
-             }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-     }
+
+        fragmentViewModel.liveDataValue.observe(
+            viewLifecycleOwner, androidx.lifecycle.Observer{
+                it?.let {
+
+                }
+            }
+        )
+    }
+
+//     fun onClick(view:View){
+//         val args = arguments?.getString(INFO_KYE)
+//         if (args=="user-info"){
+//             userActive.isEnabled
+//             userHeight.isEnabled
+//             userWeight.isEnabled
+//             weightGoal.isEnabled
+//             stepsGoal.isEnabled
+//             ageET.isEnabled
+//             genderET.isEnabled
+//             }
+//
+//     }
 
 }

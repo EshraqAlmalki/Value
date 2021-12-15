@@ -61,12 +61,13 @@ class PersonalInfoFragment : Fragment() {
 
     }
 
-     fun onClick(v : View){
+     fun onClick(menu: Menu) {
 //         val args = Bundle()
 //         args.putString(INFO_KYE, "user-info")
 //
 //         val fragment = NextRegisterFragment()
 //         fragment.arguments = args
+
 
      }
 

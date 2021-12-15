@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.tuwaiq.value.R
 import com.tuwaiq.value.database.Value
@@ -27,11 +28,7 @@ class LoginFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
 
 
-
-
     private lateinit var viewModel: LoginViewModel
-
-
 
 
 
@@ -48,11 +45,13 @@ class LoginFragment : Fragment() {
 
 
 
-        return view
+            return view
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
 
 
         value=Value()
