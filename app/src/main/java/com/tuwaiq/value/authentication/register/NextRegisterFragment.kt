@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.tuwaiq.value.R
 import com.tuwaiq.value.database.Value
+import kotlinx.coroutines.coroutineScope
 
 
 private const val INFO_KYE = "user-info"
@@ -87,6 +88,7 @@ class NextRegisterFragment : Fragment() {
 
 
 
+
             when{
                 value.weight.isEmpty() -> showToast("Enter weight!")
                 value.height.isEmpty() -> showToast("Enter height!")
@@ -100,8 +102,9 @@ class NextRegisterFragment : Fragment() {
 
 
 
-                    fragmentViewModel.macrosCount(weight = "",height = "",activityLevel = "",
-                    gender = "",goal = "",age = "")
+                    fragmentViewModel.macrosCount(weight = value.weight,height = value.height,
+                        activityLevel = value.active, gender = value.gender
+                        ,goal = value.calGoal,age = value.age)
                     findNavController().navigate(R.id.homePageFragment)
 
                 }
@@ -116,7 +119,8 @@ class NextRegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        fragmentViewModel.liveDataValue.observe(
+        fragmentViewModel.fitnessRepo.member
+            .observe(
             viewLifecycleOwner, androidx.lifecycle.Observer{
                 it?.let {
 
@@ -125,18 +129,6 @@ class NextRegisterFragment : Fragment() {
         )
     }
 
-//     fun onClick(view:View){
-//         val args = arguments?.getString(INFO_KYE)
-//         if (args=="user-info"){
-//             userActive.isEnabled
-//             userHeight.isEnabled
-//             userWeight.isEnabled
-//             weightGoal.isEnabled
-//             stepsGoal.isEnabled
-//             ageET.isEnabled
-//             genderET.isEnabled
-//             }
-//
-//     }
+
 
 }

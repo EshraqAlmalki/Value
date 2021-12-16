@@ -1,7 +1,6 @@
 package com.tuwaiq.value.fitnessCalculator.api
 
-import com.tuwaiq.value.fitnessCalculator.models.MacrosCount
-import com.tuwaiq.value.fitnessCalculator.models.MacrosCountResponse
+import com.tuwaiq.value.fitnessCalculator.models.RapidRespnse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -17,6 +16,6 @@ interface FitnessCalculatorApi {
                          @Query("height") height:String,
                          @Query("activitylevel") activityLevel:String,
                          @Query("goal") goal:String
-    ):Call<MacrosCountResponse>
+    ):Call<RapidRespnse>
 
 }
