@@ -12,17 +12,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 private const val TAG = "FitnessRepo"
 class FitnessRepo {
 
-   var member:MutableLiveData<RapidRespnse> = MutableLiveData()
 
-    private val client: OkHttpClient = OkHttpClient.Builder()
-        .build()
 
 
 
     private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl("https://fitness-calculator.p.rapidapi.com/")
         .addConverterFactory(GsonConverterFactory.create())
-        .client(client)
         .build()
 
     private val api = retrofit.create(FitnessCalculatorApi::class.java)
@@ -34,10 +30,13 @@ class FitnessRepo {
 
        val response = api.calculatorMacros(age, gender, weight, height,
            activityLevel, goal).awaitResponse()
+       val member:MutableLiveData<RapidRespnse> = MutableLiveData()
+
        if (response.isSuccessful){
+           Log.e(TAG, "macrosCount: wrong")
            member.value =response.body()!!
        }else{
-           Log.e(TAG, "there is no response $member")
+           Log.e(TAG, "the error is: ${response.errorBody()}")
        }
 //       api.calculatorMacros(age, gender, weight, height,
 //           activityLevel, goal).await()

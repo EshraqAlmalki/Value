@@ -2,6 +2,7 @@ package com.tuwaiq.value.authentication.register
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +10,12 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.tuwaiq.value.R
 import com.tuwaiq.value.database.Value
+import com.tuwaiq.value.fitnessCalculator.models.RapidRespnse
 import kotlinx.coroutines.coroutineScope
 
 
@@ -35,7 +38,7 @@ class NextRegisterFragment : Fragment() {
 
 
 
-   val fragmentViewModel by lazy { ViewModelProvider(this)[NextRegisterViewModel::class.java]}
+   private val fragmentViewModel by lazy { ViewModelProvider(this)[NextRegisterViewModel::class.java]}
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,18 +70,14 @@ class NextRegisterFragment : Fragment() {
 
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
 
-
-    }
 
     override fun onStart() {
         super.onStart()
 
         doneImgV.setOnClickListener {
 
-           value.weight = userWeight.text.toString()
+            value.weight = userWeight.text.toString()
             value.height = userHeight.text.toString()
             value.active = userActive.text.toString()
             value.stGoal = stepsGoal.text.toString()
@@ -102,33 +101,20 @@ class NextRegisterFragment : Fragment() {
 
 
 
-                    fragmentViewModel.macrosCount(weight = value.weight,height = value.height,
-                        activityLevel = value.active, gender = value.gender
-                        ,goal = value.calGoal,age = value.age)
+                    fragmentViewModel.macrosCount(weight = value.weight,
+                        height = value.height, activityLevel = value.active,
+                        gender = value.gender,goal = value.calGoal,age = value.age)
+
+
+
                     findNavController().navigate(R.id.homePageFragment)
 
                 }
             }
 
-
         }
 
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-        fragmentViewModel.fitnessRepo.member
-            .observe(
-            viewLifecycleOwner, androidx.lifecycle.Observer{
-                it?.let {
-
-                }
-            }
-        )
-    }
-
 
 
 }

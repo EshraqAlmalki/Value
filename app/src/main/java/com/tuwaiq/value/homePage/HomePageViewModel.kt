@@ -1,9 +1,6 @@
 package com.tuwaiq.value.homePage
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.tuwaiq.value.database.Value
 import com.tuwaiq.value.database.ValueRepo
 import com.tuwaiq.value.fitnessCalculator.models.RapidRespnse
@@ -15,26 +12,33 @@ class HomePageViewModel : ViewModel() {
     private val valueRepo = ValueRepo.get()
 
 
-    val fitnessRepo = FitnessRepo()
+    private val fitnessRepo = FitnessRepo()
 
 
     fun saveUpdate(value: Value){
         valueRepo.updateUserInfo(value)
     }
 
-
-    fun macrosCount(age:String, gender:String, weight:String,
-                    height:String, goal:String,
-                    activityLevel:String) {
-        viewModelScope.launch {
-            var liveData = fitnessRepo
-                .macrosCount(
-                    age,
-                    gender, weight,
-                    height, goal,
-                    activityLevel
-                )
-        }
-
+    fun getAllInfo():LiveData<RapidRespnse>{
+        val infoLiveData:MutableLiveData<RapidRespnse> = MutableLiveData()
+        valueRepo.getAllUserInfo()
+        return infoLiveData
     }
+
+
+
+//    fun macrosCount(age:String, gender:String, weight:String,
+//                    height:String, goal:String,
+//                    activityLevel:String) {
+//        viewModelScope.launch {
+//            var liveData = fitnessRepo
+//                .macrosCount(
+//                    age,
+//                    gender, weight,
+//                    height, goal,
+//                    activityLevel
+//                )
+//        }
+//
+//    }
 }
