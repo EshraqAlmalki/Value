@@ -26,17 +26,17 @@ class FitnessRepo {
 
    suspend fun macrosCount(age:String, gender:String, weight:String,
                            height:String, goal:String,
-                           activityLevel:String):LiveData<RapidRespnse>{
+                           activityLevel:String):RapidRespnse{
 
        val response = api.calculatorMacros(age, gender, weight, height,
            activityLevel, goal).awaitResponse()
-       val member:MutableLiveData<RapidRespnse> = MutableLiveData()
+       var rapidRespnse = RapidRespnse()
 
        if (response.isSuccessful){
-           Log.e(TAG, "macrosCount: wrong")
-           member.value =response.body()!!
+
+           rapidRespnse =response.body()!!
        }else{
-           Log.e(TAG, "the error is: ${response.errorBody()}")
+           Log.e(TAG, "the error is: ${response.raw()}")
        }
 //       api.calculatorMacros(age, gender, weight, height,
 //           activityLevel, goal).await()
@@ -61,7 +61,7 @@ class FitnessRepo {
 //           }
 //       })
 
-       return member
+       return rapidRespnse
 
    }
 

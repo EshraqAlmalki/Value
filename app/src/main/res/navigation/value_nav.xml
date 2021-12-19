@@ -21,22 +21,38 @@
         <action
             android:id="@+id/action_generalFragment2_to_timerFragment3"
             app:destination="@id/timerFragment3" />
+        <argument android:name="calor" />
+        <argument android:name="carb" />
+        <argument android:name="fat" />
+        <argument android:name="protein" />
     </fragment>
     <fragment
         android:id="@+id/personalInfoFragment"
         android:name="com.tuwaiq.value.personalInfo.PersonalInfoFragment"
         android:label="info_fragment"
-        tools:layout="@layout/personal_info_fragment" />
+        tools:layout="@layout/personal_info_fragment" >
+        <action
+            android:id="@+id/action_personalInfoFragment_to_homePageFragment"
+            app:destination="@id/homePageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/stepsCountFragment3"
         android:name="com.tuwaiq.value.steps.StepsCountFragment"
         android:label="steps_count_fragment"
-        tools:layout="@layout/steps_count_fragment" />
+        tools:layout="@layout/steps_count_fragment" >
+        <action
+            android:id="@+id/action_stepsCountFragment3_to_homePageFragment"
+            app:destination="@id/homePageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/timerFragment3"
         android:name="com.tuwaiq.value.timer.TimerFragment"
         android:label="timer_fragment"
-        tools:layout="@layout/timer_fragment" />
+        tools:layout="@layout/timer_fragment" >
+        <action
+            android:id="@+id/action_timerFragment3_to_homePageFragment"
+            app:destination="@id/homePageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.tuwaiq.value.authentication.logIn.LoginFragment"
@@ -64,7 +80,7 @@
         android:label="next_register_fragment"
         tools:layout="@layout/next_register_fragment" >
         <action
-            android:id="@+id/action_nextRegisterFragment_to_startFragment"
-            app:destination="@id/loginFragment" />
+            android:id="@+id/action_nextRegisterFragment_to_homePageFragment"
+            app:destination="@id/homePageFragment" />
     </fragment>
 </navigation>

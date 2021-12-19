@@ -12,6 +12,7 @@ import android.widget.*
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.tuwaiq.value.MainActivity
 import com.tuwaiq.value.R
 import com.tuwaiq.value.database.Value
 
@@ -51,15 +52,9 @@ class LoginFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-
-
         value=Value()
 
-
-
     }
-
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -81,10 +76,11 @@ class LoginFragment : Fragment() {
                         if (task.isSuccessful){
                             showToast("good job")
 
+
                             findNavController().navigate(R.id.homePageFragment)
                         }else{
                             showToast("email or password is wrong")
-                            //Log.e(TAG , "there was something wrong",task.exception)
+                            Log.e(TAG , "there was something wrong",task.exception)
                         }
 
                     }
@@ -93,17 +89,13 @@ class LoginFragment : Fragment() {
         }
 
         registerTV.setOnClickListener {
-       //  Log.e(TAG ,"there is someyhing wrong")
+       //  Log.e(TAG ,"there is something wrong")
          findNavController().navigate(R.id.registerFragment)
         }
 
     }
     private fun showToast(msg:String){
         Toast.makeText( requireContext(), msg  ,Toast.LENGTH_LONG).show()
-
-    }
-
-    fun userCheck(){
 
     }
 

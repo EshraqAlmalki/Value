@@ -14,9 +14,9 @@
         android:layout_marginStart="96dp"
         android:layout_marginTop="36dp"
         android:ems="10"
+        android:hint="weight"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:text="weight"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,9 +27,9 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="100dp"
         android:ems="10"
+        android:hint="height"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:text="height"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/weight_et" />
 
@@ -40,6 +40,7 @@
         android:layout_marginStart="100dp"
         android:layout_marginTop="28dp"
         android:ems="10"
+        android:hint="active level"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,9 +54,9 @@
         android:layout_marginTop="36dp"
         android:layout_marginEnd="112dp"
         android:ems="10"
+        android:hint="steps goal"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:text="Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/active_et" />
 
@@ -66,9 +67,9 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="124dp"
         android:ems="10"
+        android:hint="weight goal"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:text="Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/steps_goal" />
 
@@ -89,8 +90,8 @@
         android:layout_marginStart="28dp"
         android:layout_marginTop="28dp"
         android:ems="10"
+        android:hint="age"
         android:inputType="textPersonName"
-        android:text="age"
         app:layout_constraintEnd_toStartOf="@+id/gender_et"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -103,8 +104,8 @@
         android:layout_marginTop="19dp"
         android:layout_marginEnd="115dp"
         android:ems="10"
+        android:hint="gender"
         android:inputType="textPersonName"
-        android:text="gender"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/weight_goals" />
 </androidx.constraintlayout.widget.ConstraintLayout>

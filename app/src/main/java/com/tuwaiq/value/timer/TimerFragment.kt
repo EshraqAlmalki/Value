@@ -18,6 +18,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.CIRCLE
+import androidx.navigation.fragment.findNavController
 import com.tuwaiq.value.R
 import nl.dionsegijn.konfetti.KonfettiView
 
@@ -28,6 +29,7 @@ class TimerFragment : Fragment() {
     lateinit var reset:Button
     lateinit var time_edit_text:EditText
     lateinit var viewKonfetti:KonfettiView
+    lateinit var timer:TextView
 
     var START_MILLI_SECONDS = 60000L
 
@@ -46,6 +48,7 @@ class TimerFragment : Fragment() {
         reset = view.findViewById(R.id.reset)
         time_edit_text = view.findViewById(R.id.time_edit_text)
         viewKonfetti = view.findViewById(R.id.viewKonfetti)
+        timer = view.findViewById(R.id.timer)
 
 
 
@@ -55,9 +58,8 @@ class TimerFragment : Fragment() {
     }
 
 
-        override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+    override fun onStart() {
+        super.onStart()
 
         button.setOnClickListener {
             if (isRunning) {
@@ -72,9 +74,13 @@ class TimerFragment : Fragment() {
         reset.setOnClickListener {
             resetTimer()
         }
-
-
     }
+
+
+
+
+
+
 
     private fun pauseTimer() {
 
@@ -113,7 +119,7 @@ class TimerFragment : Fragment() {
         val minute = (time_in_milli_seconds / 1000) / 60
         val seconds = (time_in_milli_seconds / 1000) % 60
 
-      // timer.text = "$minute:$seconds"
+      timer.text = "$minute:$seconds"
     }
 
 
@@ -130,6 +136,7 @@ class TimerFragment : Fragment() {
             .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f)
             .streamFor(300, 5000L)
     }
+
 }
 
 

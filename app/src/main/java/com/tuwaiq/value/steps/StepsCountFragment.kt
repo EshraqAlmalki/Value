@@ -64,7 +64,7 @@ class StepsCountFragment : Fragment() , SensorEventListener{
         }
     }
 
-    override fun onPause() {
+    override fun onPause(){
         super.onPause()
         running = false
         sensorManager?.unregisterListener(this)

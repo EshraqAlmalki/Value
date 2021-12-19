@@ -94,7 +94,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
         android:layout_marginEnd="80dp"
-        android:text="23g"
         app:layout_constraintEnd_toStartOf="@+id/carb_tv"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
@@ -104,7 +103,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
         android:layout_marginEnd="72dp"
-        android:text="43g"
         app:layout_constraintEnd_toStartOf="@+id/fat_tv"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
@@ -114,7 +112,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
         android:layout_marginEnd="84dp"
-        android:text="12g"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 

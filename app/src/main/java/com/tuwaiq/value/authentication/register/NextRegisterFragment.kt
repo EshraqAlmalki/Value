@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.tuwaiq.value.R
 import com.tuwaiq.value.database.Value
 import com.tuwaiq.value.fitnessCalculator.models.RapidRespnse
+import com.tuwaiq.value.homePage.HomePageFragment
 import kotlinx.coroutines.coroutineScope
 
 
@@ -101,15 +102,45 @@ class NextRegisterFragment : Fragment() {
 
 
 
-                    fragmentViewModel.macrosCount(weight = value.weight,
-                        height = value.height, activityLevel = value.active,
-                        gender = value.gender,goal = value.calGoal,age = value.age)
+                    fragmentViewModel.macrosCount(age = value.age , gender = value.gender ,
+                    weight = value.weight ,height = value.height, goal = value.weightGoal ,
+                    activityLevel = value.active).observe(
+                        viewLifecycleOwner , Observer {
+
+                                rapidResponse ->
+                            Log.e(TAG, "onStart: ${rapidResponse.data?.calorie}")
 
 
+                            val action = NextRegisterFragmentDirections
+                                .actionNextRegisterFragmentToHomePageFragment(
 
-                    findNavController().navigate(R.id.homePageFragment)
+                                    calor = rapidResponse.data?.calorie.toString()
+                                    ,carb = rapidResponse?.data?.balanced?.carbs.toString(),
+                                    fat = rapidResponse.data?.balanced?.fat.toString(),
+                                    protein = rapidResponse.data?.balanced?.protein.toString()
+                                )
+                            findNavController().navigate(action)
+                        }
+                        )
+
+//                    { rapidResponse ->
+//
+//
+//
+//                     val action = NextRegisterFragmentDirections
+//                         .actionNextRegisterFragmentToHomePageFragment(
+//                             calor = rapidResponse.data?.calorie.toString()
+//                             ,carb = rapidResponse?.data?.balanced?.carbs.toString(),
+//                             fat = rapidResponse.data?.balanced?.fat.toString(),
+//                             protein = rapidResponse.data?.balanced?.protein.toString()
+//                         )
+//
+//                        findNavController().navigate(action)
+//
+//                    }
 
                 }
+
             }
 
         }

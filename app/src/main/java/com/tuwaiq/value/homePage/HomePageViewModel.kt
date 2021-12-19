@@ -19,11 +19,11 @@ class HomePageViewModel : ViewModel() {
         valueRepo.updateUserInfo(value)
     }
 
-    fun getAllInfo():LiveData<RapidRespnse>{
-        val infoLiveData:MutableLiveData<RapidRespnse> = MutableLiveData()
-        valueRepo.getAllUserInfo()
-        return infoLiveData
-    }
+//    fun getAllInfo():LiveData<RapidRespnse>{
+//        val infoLiveData:MutableLiveData<RapidRespnse> = MutableLiveData()
+//        valueRepo.getAllUserInfo()
+//        return infoLiveData
+//    }
 
 
 

@@ -28,13 +28,17 @@ class NextRegisterViewModel : ViewModel() {
     fun macrosCount(age:String,gender:String,weight:String,height:String,
                     goal:String,activityLevel:String):LiveData<RapidRespnse>{
 
-        var userInfoLiveData:MutableLiveData<RapidRespnse> = MutableLiveData()
+        val userInfoLiveData:MutableLiveData<RapidRespnse> = MutableLiveData()
+            var rapidRespnse =RapidRespnse()
 
+            viewModelScope.launch{
 
-            viewModelScope.launch(Dispatchers.IO) {
-
-                userInfoLiveData = fitnessRepo.macrosCount(age, gender, weight,
-                    height, goal, activityLevel) as MutableLiveData<RapidRespnse>
+                rapidRespnse = fitnessRepo.macrosCount(age, gender, weight,
+                    height, goal, activityLevel)
+            }.invokeOnCompletion {
+                viewModelScope.launch {
+                    userInfoLiveData.value = rapidRespnse
+                }
             }
 
            return userInfoLiveData
