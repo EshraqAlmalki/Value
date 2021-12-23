@@ -16,10 +16,14 @@ data class Value(
     var email:String ="",
     var active:String= "",
     var steps:String= "",
-    var calories:String= "",
+//    var calories:String= "",
     var stGoal:String="",
     var calGoal:String= "",
     var gender:String="",
-    var age:String=""
+    var age:String="",
+    var fat:String ="",
+    var carb:String ="",
+    var protein:String ="",
+    var calor:String= ""
 
 )

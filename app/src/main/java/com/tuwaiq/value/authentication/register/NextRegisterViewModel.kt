@@ -14,8 +14,12 @@ class NextRegisterViewModel : ViewModel() {
     private val valueRepo = ValueRepo.get()
     //private val userInfo : MutableLiveData<String> = MutableLiveData()
 
-    fun saveUpdate(value: Value){
-        valueRepo.updateUserInfo(value)
+//    fun saveUpdate(value: Value){
+//        valueRepo.updateUserInfo(value)
+//    }
+
+    fun addNewUser(value: Value){
+        valueRepo.addNewUser(value)
     }
 
 
@@ -31,10 +35,12 @@ class NextRegisterViewModel : ViewModel() {
         val userInfoLiveData:MutableLiveData<RapidRespnse> = MutableLiveData()
             var rapidRespnse =RapidRespnse()
 
+
             viewModelScope.launch{
 
                 rapidRespnse = fitnessRepo.macrosCount(age, gender, weight,
-                    height, goal, activityLevel)
+                    height, goal , activityLevel)
+
             }.invokeOnCompletion {
                 viewModelScope.launch {
                     userInfoLiveData.value = rapidRespnse
@@ -44,10 +50,7 @@ class NextRegisterViewModel : ViewModel() {
            return userInfoLiveData
         }
 
-
     }
 
-//    fun sendQuery(query : String){
-//        userInfo.value = query
-//    }
+
 

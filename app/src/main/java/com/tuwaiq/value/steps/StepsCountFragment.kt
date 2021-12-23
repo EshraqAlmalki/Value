@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.navigation.fragment.findNavController
 import com.tuwaiq.value.R
 
 class StepsCountFragment : Fragment() , SensorEventListener{
@@ -29,7 +30,7 @@ class StepsCountFragment : Fragment() , SensorEventListener{
     }
 
 
-    private val fragmentViewModel by lazy {
+    private val stepsCountViewModel by lazy {
         ViewModelProvider(this)[StepsCountViewModel::class.java]}
 
     override fun onCreateView(
@@ -47,7 +48,7 @@ class StepsCountFragment : Fragment() , SensorEventListener{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        this.sensorManager = requireActivity().getSystemService(Context
+        sensorManager = requireActivity().getSystemService(Context
             .SENSOR_SERVICE) as SensorManager
     }
 
@@ -73,7 +74,7 @@ class StepsCountFragment : Fragment() , SensorEventListener{
     override fun onSensorChanged(event: SensorEvent?) {
         if (running) {
             if (event != null) {
-                stepsCounter.setText("" + event.values[0])
+                stepsCounter.text = " ${event.values[0]}"
             }
         }
     }
@@ -85,6 +86,14 @@ class StepsCountFragment : Fragment() , SensorEventListener{
     private fun showToast(msg:String){
         Toast.makeText( requireContext(), msg  , Toast.LENGTH_SHORT).show()
 
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+//        findNavController().navigate(R.id.homePageFragment)
+//        findNavController().navigate(R.id.timerFragment3)
+//        findNavController().navigate(R.id.personalInfoFragment)
     }
 
 }

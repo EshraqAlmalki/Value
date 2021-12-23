@@ -12,4 +12,8 @@ class RegisterViewModel : ViewModel() {
         valueRepo.updateUserInfo(value)
     }
 
+
+    fun addNewUser(value: Value){
+        valueRepo.addNewUser(value)
+    }
 }

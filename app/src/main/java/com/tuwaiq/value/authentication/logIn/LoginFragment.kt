@@ -32,13 +32,13 @@ class LoginFragment : Fragment() {
     private lateinit var viewModel: LoginViewModel
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-       val view = inflater.inflate(R.layout.login_fragment, container, false)
+       val view = inflater.inflate(R.layout.login_fragment,
+           container, false)
         loginBtn = view.findViewById(R.id.login_btn)
         emailLoginET = view.findViewById(R.id.email_login)
         passwordLogin = view.findViewById(R.id.pas_login)
@@ -77,6 +77,7 @@ class LoginFragment : Fragment() {
                             showToast("good job")
 
 
+                            viewModel.getUserInfo(email = value.email)
                             findNavController().navigate(R.id.homePageFragment)
                         }else{
                             showToast("email or password is wrong")

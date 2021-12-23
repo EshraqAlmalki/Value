@@ -17,29 +17,24 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-      val navController =  findNavController(R.id.fragment_container)
+        val navController = findNavController(R.id.fragment_container)
 
-        val bottomNavigationView:BottomNavigationView = findViewById(R.id.bottom_nav)
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_nav)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-//            if (destination.id == R.id.loginFragment){
-//                bottomNavigationView.visibility = View.GONE
-//            }else{
-//                bottomNavigationView.visibility = View.VISIBLE
-//            }
-            when(destination.id){
+            when (destination.id) {
                 R.id.loginFragment -> bottomNavigationView.visibility = View.GONE
                 R.id.registerFragment -> bottomNavigationView.visibility = View.GONE
                 R.id.nextRegisterFragment -> bottomNavigationView.visibility = View.GONE
-                R.id.homePageFragment -> bottomNavigationView.visibility = View.VISIBLE
+               R.id.homePageFragment -> bottomNavigationView.visibility = View.VISIBLE
             }
+
+
+
+            bottomNavigationView.setupWithNavController(navController)
+
+
         }
 
-
-        bottomNavigationView.setupWithNavController(navController)
-
-
-
     }
-
 }

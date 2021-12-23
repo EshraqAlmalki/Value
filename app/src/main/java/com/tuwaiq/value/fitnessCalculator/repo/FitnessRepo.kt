@@ -64,5 +64,4 @@ class FitnessRepo {
        return rapidRespnse
 
    }
-
 }

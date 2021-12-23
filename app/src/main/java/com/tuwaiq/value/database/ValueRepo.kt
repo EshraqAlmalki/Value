@@ -3,6 +3,7 @@ package com.tuwaiq.value.database
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.Room
+import kotlinx.coroutines.flow.Flow
 import java.lang.IllegalStateException
 import java.util.concurrent.Executors
 
@@ -11,8 +12,10 @@ class ValueRepo private constructor(context: Context){
 
 
     private val database:ValueDatabase= Room.databaseBuilder(context
-        .applicationContext, ValueDatabase::class.java,DATABASE_NAME).build()
-
+        .applicationContext,
+        ValueDatabase::class.java,
+        DATABASE_NAME)
+        .build()
 
 
 
@@ -23,6 +26,10 @@ class ValueRepo private constructor(context: Context){
 
     fun getAllUserInfo(): LiveData<Value> = valueDao.getAllUserInfo()
 
+    fun getUserInfo(email:String): LiveData<Value?> {
+            return valueDao.getUserInfo(email)
+
+    }
 
     fun updateUserInfo(value: Value){
         executor.execute {
@@ -36,7 +43,12 @@ class ValueRepo private constructor(context: Context){
         }
     }
 
+    fun addNewUser(value: Value){
+        executor.execute {
+            valueDao.addNewUser(value)
+        }
 
+    }
 
     companion object{
         var INSTANCE : ValueRepo?= null
@@ -47,8 +59,7 @@ class ValueRepo private constructor(context: Context){
         }
 
         fun get():ValueRepo{
-            return INSTANCE?: throw IllegalStateException(" ValueRepo must be initialized")
+            return INSTANCE?:throw IllegalStateException(" ValueRepo must be initialized")
         }
-
     }
 }

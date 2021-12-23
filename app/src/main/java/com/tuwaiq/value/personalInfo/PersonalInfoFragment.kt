@@ -6,6 +6,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.tuwaiq.value.R
+import com.tuwaiq.value.steps.StepsCountViewModel
 
 const val INFO_KYE = "user-info"
 private const val TAG = "InfoFragment"
@@ -17,8 +18,9 @@ class PersonalInfoFragment : Fragment() {
         fun newInstance() = PersonalInfoFragment()
     }
 
-    private lateinit var personalInfoViewModel: PersonalInfoViewModel
 
+    private val personalInfoViewModel by lazy {
+        ViewModelProvider(this)[PersonalInfoViewModel::class.java]}
 
 
     override fun onCreateView(
@@ -57,18 +59,10 @@ class PersonalInfoFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        personalInfoViewModel = ViewModelProvider(this)[PersonalInfoViewModel::class.java]
+
 
     }
 
-     fun onClick(menu: Menu) {
-//         val args = Bundle()
-//         args.putString(INFO_KYE, "user-info")
-//
-//         val fragment = NextRegisterFragment()
-//         fragment.arguments = args
 
-
-     }
 
 }

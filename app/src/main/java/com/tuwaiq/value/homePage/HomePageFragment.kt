@@ -10,9 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.tuwaiq.value.R
-import com.tuwaiq.value.authentication.register.NextRegisterFragment
 import com.tuwaiq.value.database.Value
 import com.tuwaiq.value.fitnessCalculator.models.RapidRespnse
 
@@ -23,6 +23,10 @@ class HomePageFragment : Fragment() {
     lateinit var carbTV :TextView
     lateinit var proteinTV :TextView
 
+    lateinit var value:Value
+
+    lateinit var rapidResponse: RapidRespnse
+
     private val args : HomePageFragmentArgs by navArgs()
 
     companion object {
@@ -31,10 +35,14 @@ class HomePageFragment : Fragment() {
 
 
 
-    val fragmentViewModel by lazy {
+    private val homeViewModel by lazy {
         ViewModelProvider(this)[HomePageViewModel::class.java]}
 
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,16 +59,17 @@ class HomePageFragment : Fragment() {
         proteinTV = view.findViewById(R.id.protein_tv)
 
 
+        rapidResponse= RapidRespnse()
+
+
         return view
     }
 
+//
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    fun setTextMacros(){
 
-        calorieTV.text= args.calor
-        fatTV.text= args.fat
-        carbTV.text= args.carb
-        proteinTV.text = args.protein
 
     }
 
@@ -68,7 +77,25 @@ class HomePageFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        setTextMacros()
+        homeViewModel.userInfo.observe(
+            this , Observer {
+
+                setTextMacros()
+
+
+                Log.e(TAG, "onStart: ${value.calor}", )
+            }
+        )
+
+ }
+
+
+    fun setTextMacros(){
+
+        calorieTV.text = value.calor
+        fatTV.text = value.fat
+        proteinTV.text = value.protein
+        carbTV.text = value.carb
     }
 
 
@@ -76,8 +103,6 @@ class HomePageFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-
 
     }
 

@@ -20,6 +20,7 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.CIRCLE
 import androidx.navigation.fragment.findNavController
 import com.tuwaiq.value.R
+import com.tuwaiq.value.homePage.HomePageViewModel
 import nl.dionsegijn.konfetti.KonfettiView
 
 private const val TAG = "TimerFragment"
@@ -36,6 +37,10 @@ class TimerFragment : Fragment() {
     lateinit var countdown_timer: CountDownTimer
     var isRunning: Boolean = false;
     var time_in_milli_seconds = 0L
+
+
+    private val timerViewModel by lazy {
+        ViewModelProvider(this)[TimerViewModel::class.java]}
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -135,6 +140,14 @@ class TimerFragment : Fragment() {
             .addSizes(nl.dionsegijn.konfetti.models.Size(12))
             .setPosition(-50f, viewKonfetti.width + 50f, -50f, -50f)
             .streamFor(300, 5000L)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+//        findNavController().navigate(R.id.homePageFragment)
+//        findNavController().navigate(R.id.stepsCountFragment3)
+//        findNavController().navigate(R.id.personalInfoFragment)
     }
 
 }

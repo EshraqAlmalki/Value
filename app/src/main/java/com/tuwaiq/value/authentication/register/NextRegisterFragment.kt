@@ -16,8 +16,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.tuwaiq.value.R
 import com.tuwaiq.value.database.Value
 import com.tuwaiq.value.fitnessCalculator.models.RapidRespnse
-import com.tuwaiq.value.homePage.HomePageFragment
-import kotlinx.coroutines.coroutineScope
 
 
 private const val INFO_KYE = "user-info"
@@ -32,6 +30,7 @@ class NextRegisterFragment : Fragment() {
     private lateinit var doneImgV:ImageView
     private lateinit var ageET:EditText
     private lateinit var genderET:EditText
+    lateinit var rapidResponse:RapidRespnse
 
     lateinit var value:Value
 
@@ -39,7 +38,7 @@ class NextRegisterFragment : Fragment() {
 
 
 
-   private val fragmentViewModel by lazy { ViewModelProvider(this)[NextRegisterViewModel::class.java]}
+   private val nextRegisterViewModel by lazy { ViewModelProvider(this)[NextRegisterViewModel::class.java]}
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,6 +57,7 @@ class NextRegisterFragment : Fragment() {
         genderET = view.findViewById(R.id.gender_et)
 
         value = Value()
+        rapidResponse=RapidRespnse()
 
         return view
     }
@@ -102,42 +102,33 @@ class NextRegisterFragment : Fragment() {
 
 
 
-                    fragmentViewModel.macrosCount(age = value.age , gender = value.gender ,
+                    nextRegisterViewModel.macrosCount(age = value.age , gender = value.gender ,
                     weight = value.weight ,height = value.height, goal = value.weightGoal ,
-                    activityLevel = value.active).observe(
+                    activityLevel = value.active)
+                        .observe(
                         viewLifecycleOwner , Observer {
 
                                 rapidResponse ->
-                            Log.e(TAG, "onStart: ${rapidResponse.data?.calorie}")
+//
+//                            val action = NextRegisterFragmentDirections
+//                                .actionNextRegisterFragmentToHomePageFragment(
+//
+//                                )
+                                value.calor = rapidResponse.data?.calorie.toString()
+                                value.fat = rapidResponse.data?.balanced?.fat.toString()
+                                value.carb = rapidResponse.data?.balanced?.protein.toString()
+                                value.protein = rapidResponse.data?.balanced?.protein.toString()
 
 
-                            val action = NextRegisterFragmentDirections
-                                .actionNextRegisterFragmentToHomePageFragment(
+                                Log.e(TAG, "onStart: $value")
+                                Log.e(TAG, "onStart fat: ${value.fat}" )
 
-                                    calor = rapidResponse.data?.calorie.toString()
-                                    ,carb = rapidResponse?.data?.balanced?.carbs.toString(),
-                                    fat = rapidResponse.data?.balanced?.fat.toString(),
-                                    protein = rapidResponse.data?.balanced?.protein.toString()
-                                )
-                            findNavController().navigate(action)
+
+                                findNavController().navigate(R.id.homePageFragment)
                         }
-                        )
 
-//                    { rapidResponse ->
-//
-//
-//
-//                     val action = NextRegisterFragmentDirections
-//                         .actionNextRegisterFragmentToHomePageFragment(
-//                             calor = rapidResponse.data?.calorie.toString()
-//                             ,carb = rapidResponse?.data?.balanced?.carbs.toString(),
-//                             fat = rapidResponse.data?.balanced?.fat.toString(),
-//                             protein = rapidResponse.data?.balanced?.protein.toString()
-//                         )
-//
-//                        findNavController().navigate(action)
-//
-//                    }
+                   )
+
 
                 }
 
@@ -146,6 +137,5 @@ class NextRegisterFragment : Fragment() {
         }
 
     }
-
 
 }
