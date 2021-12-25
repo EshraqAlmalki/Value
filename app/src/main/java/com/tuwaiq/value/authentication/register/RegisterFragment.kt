@@ -2,6 +2,8 @@ package com.tuwaiq.value.authentication.register
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,12 +11,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextSwitcher
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.tuwaiq.value.R
 import com.tuwaiq.value.database.Value
+import com.tuwaiq.value.homePage.HomePageFragmentArgs
 
 private const val TAG = "RegisterFragment"
 class RegisterFragment : Fragment() {
@@ -24,10 +30,11 @@ class RegisterFragment : Fragment() {
     private lateinit var confirmPass: EditText
     private lateinit var emailET:EditText
     private lateinit var nextImgV:ImageView
-    private lateinit var editNextImgV:ImageView
+  //  private lateinit var editNextImgV:ImageView
 
     lateinit var value:Value
     private lateinit var auth: FirebaseAuth
+
 
 
     private val registerViewModel by lazy { ViewModelProvider(this)[RegisterViewModel::class.java]}
@@ -42,7 +49,7 @@ class RegisterFragment : Fragment() {
         confirmPass = view.findViewById(R.id.confirm_et)
         emailET = view.findViewById(R.id.email_et)
         nextImgV = view.findViewById(R.id.next_iv)
-        editNextImgV = view.findViewById(R.id.edit_next_iv)
+       // editNextImgV = view.findViewById(R.id.edit_next_iv)
         value = Value()
 
 
@@ -69,6 +76,8 @@ class RegisterFragment : Fragment() {
 
     }
 
+
+
     override fun onStart() {
         super.onStart()
         val currentUser = auth.currentUser
@@ -82,54 +91,37 @@ class RegisterFragment : Fragment() {
            value.email = emailET.text.toString()
             value.password = passwordET.text.toString()
             val confirmPassword = confirmPass.text.toString()
+            
+           val tempEmail = value.email
 
 
+//
 
             when{
                 username.isEmpty() -> showToast("Enter username please")
                 value.email.isEmpty() || !value.email.contains("@")-> showToast("Enter Email please")
                 value.password.isEmpty() -> showToast("Enter password please")
                 value.password != confirmPassword -> showToast("passwords must be matched" )
-
-
-
-
+           
                 else ->{
+
+
 
                     registerUser(username,value.email,value.password)
+
+
                     registerViewModel.addNewUser(value)
-
-
-                    findNavController().navigate(R.id.nextRegisterFragment)
+                   
+                    val action = RegisterFragmentDirections
+                        .actionRegisterFragmentToNextRegisterFragment(email = tempEmail)
+                    Log.e(TAG, "onStart: $tempEmail", )
+                    findNavController().navigate(action)
 
                 }
             }
         }
 
-        editNextImgV.setOnClickListener {
-            val username:String = usernameET.text.toString()
-            val email:String = emailET.text.toString()
-            val password:String = passwordET.text.toString()
-            val confirmPassword = confirmPass.text.toString()
 
-            when{
-                username.isEmpty() -> showToast("Enter username please")
-                email.isEmpty() || !email.contains("@")-> showToast("Enter Email please")
-                password.isEmpty() -> showToast("Enter password please")
-                password != confirmPassword -> showToast("passwords must be matched" )
-
-
-
-
-                else ->{
-
-
-
-                    findNavController().navigate(R.id.nextRegisterFragment)
-                }
-            }
-
-        }
 
     }
 
@@ -148,6 +140,13 @@ class RegisterFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
+        registerViewModel.userInfo.observe(
+            viewLifecycleOwner , Observer {
+                if (it != null) {
+                    emailET.setText(it.email)
+                }
+            }
+        )
 
     }
 

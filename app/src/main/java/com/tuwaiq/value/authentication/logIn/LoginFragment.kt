@@ -90,7 +90,7 @@ class LoginFragment : Fragment() {
         }
 
         registerTV.setOnClickListener {
-       //  Log.e(TAG ,"there is something wrong")
+
          findNavController().navigate(R.id.registerFragment)
         }
 

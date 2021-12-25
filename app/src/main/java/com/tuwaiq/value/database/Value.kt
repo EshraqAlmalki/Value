@@ -7,12 +7,13 @@ import androidx.room.PrimaryKey
 @Entity
 data class Value(
 
-    @PrimaryKey
+
     var weight:String ="",
     var weightGoal:String="",
     var height:String ="",
     val name:String ="",
     var password:String ="",
+    @PrimaryKey
     var email:String ="",
     var active:String= "",
     var steps:String= "",

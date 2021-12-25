@@ -21,21 +21,10 @@
         <action
             android:id="@+id/action_generalFragment2_to_timerFragment3"
             app:destination="@id/timerFragment3" />
-        <argument android:name="calor"
-            app:argType="string"
-            android:defaultValue='""' />
-        <argument android:name="carb"
-            app:argType="string"
-            android:defaultValue='""' />
-        <argument android:name="fat"
-            android:defaultValue='""'
-            app:argType="string" />
-        <argument android:name="protein"
-            app:argType="string"
-            android:defaultValue='""' />
         <argument
             android:name="email"
-            app:argType="string" />
+            app:argType="string"
+            android:defaultValue='""' />
     </fragment>
     <fragment
         android:id="@+id/personalInfoFragment"
@@ -93,5 +82,8 @@
         <action
             android:id="@+id/action_nextRegisterFragment_to_homePageFragment"
             app:destination="@id/homePageFragment" />
+        <argument android:name="email"
+            app:argType="string"
+            android:defaultValue='""' />
     </fragment>
 </navigation>

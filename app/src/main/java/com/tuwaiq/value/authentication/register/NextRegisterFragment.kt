@@ -12,10 +12,12 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.firebase.auth.FirebaseAuth
 import com.tuwaiq.value.R
 import com.tuwaiq.value.database.Value
 import com.tuwaiq.value.fitnessCalculator.models.RapidRespnse
+import com.tuwaiq.value.homePage.HomePageFragmentArgs
 
 
 private const val INFO_KYE = "user-info"
@@ -37,8 +39,10 @@ class NextRegisterFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
 
 
+    private val args : NextRegisterFragmentArgs by navArgs()
 
-   private val nextRegisterViewModel by lazy { ViewModelProvider(this)[NextRegisterViewModel::class.java]}
+
+    private val nextRegisterViewModel by lazy { ViewModelProvider(this)[NextRegisterViewModel::class.java]}
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +60,7 @@ class NextRegisterFragment : Fragment() {
         ageET = view.findViewById(R.id.age_et)
         genderET = view.findViewById(R.id.gender_et)
 
-        value = Value()
+
         rapidResponse=RapidRespnse()
 
         return view
@@ -67,16 +71,32 @@ class NextRegisterFragment : Fragment() {
 
 
     private fun showToast(msg:String){
-        Toast.makeText( requireContext(), msg  , Toast.LENGTH_SHORT).show()
+        Toast.makeText( requireContext(),
+            msg  , Toast.LENGTH_SHORT).show()
 
     }
 
+    private fun updateUI(value: Value?){
+        val value = value
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        value = Value()
+
+        val userInfo = args.email
+
+        nextRegisterViewModel.getUserInfo(userInfo)
+    }
 
 
     override fun onStart() {
         super.onStart()
 
+
         doneImgV.setOnClickListener {
+
 
             value.weight = userWeight.text.toString()
             value.height = userHeight.text.toString()
@@ -101,6 +121,13 @@ class NextRegisterFragment : Fragment() {
                 else -> {
 
 
+                    
+                    nextRegisterViewModel.userInfo.observe(
+                        viewLifecycleOwner , Observer {
+
+                            updateUI(it)
+                        }
+                    )
 
                     nextRegisterViewModel.macrosCount(age = value.age , gender = value.gender ,
                     weight = value.weight ,height = value.height, goal = value.weightGoal ,
@@ -109,11 +136,8 @@ class NextRegisterFragment : Fragment() {
                         viewLifecycleOwner , Observer {
 
                                 rapidResponse ->
-//
-//                            val action = NextRegisterFragmentDirections
-//                                .actionNextRegisterFragmentToHomePageFragment(
-//
-//                                )
+
+
                                 value.calor = rapidResponse.data?.calorie.toString()
                                 value.fat = rapidResponse.data?.balanced?.fat.toString()
                                 value.carb = rapidResponse.data?.balanced?.protein.toString()
@@ -122,9 +146,11 @@ class NextRegisterFragment : Fragment() {
 
                                 Log.e(TAG, "onStart: $value")
                                 Log.e(TAG, "onStart fat: ${value.fat}" )
+                                val action = NextRegisterFragmentDirections
+                                    .actionNextRegisterFragmentToHomePageFragment(email = args.email)
+                                Log.e(TAG, "onStart: ${args.email}", )
 
-
-                                findNavController().navigate(R.id.homePageFragment)
+                                findNavController().navigate(action)
                         }
 
                    )

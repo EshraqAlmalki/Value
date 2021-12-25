@@ -5,12 +5,15 @@ import com.tuwaiq.value.database.Value
 import com.tuwaiq.value.database.ValueRepo
 import com.tuwaiq.value.fitnessCalculator.models.RapidRespnse
 import com.tuwaiq.value.fitnessCalculator.repo.FitnessRepo
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class HomePageViewModel : ViewModel() {
 
     private val valueRepo = ValueRepo.get()
+
+
+    fun getUserInfo(email:String): LiveData<Value?> =
+        valueRepo.getUserInfo(email)
 
 
     private val fitnessRepo = FitnessRepo()
@@ -26,7 +29,7 @@ class HomePageViewModel : ViewModel() {
     fun getAllUserInfo():LiveData<Value> = valueRepo.getAllUserInfo()
 
 
-    fun getUserInfo(email:String): LiveData<Value?> = valueRepo.getUserInfo(email)
+
 
 //
 //    fun saveAdd(value: Value){

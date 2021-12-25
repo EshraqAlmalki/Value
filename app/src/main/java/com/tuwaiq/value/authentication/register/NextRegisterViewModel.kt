@@ -12,20 +12,16 @@ import kotlinx.coroutines.launch
 class NextRegisterViewModel : ViewModel() {
 
     private val valueRepo = ValueRepo.get()
-    //private val userInfo : MutableLiveData<String> = MutableLiveData()
+    private var userLiveData = MutableLiveData<String>()
 
-//    fun saveUpdate(value: Value){
-//        valueRepo.updateUserInfo(value)
-//    }
-
-    fun addNewUser(value: Value){
-        valueRepo.addNewUser(value)
+    fun getUserInfo(email:String) {
+        userLiveData.value = email
     }
 
-
-//    init {
-//        userInfo.value = ""
-//    }
+    var userInfo:LiveData<Value?> =
+        Transformations.switchMap(userLiveData){
+            valueRepo.getUserInfo(it)
+        }
 
     private val fitnessRepo = FitnessRepo()
 
