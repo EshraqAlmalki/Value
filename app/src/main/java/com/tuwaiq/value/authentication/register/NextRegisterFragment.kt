@@ -76,9 +76,7 @@ class NextRegisterFragment : Fragment() {
 
     }
 
-    private fun updateUI(value: Value?){
-        val value = value
-    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -121,13 +119,6 @@ class NextRegisterFragment : Fragment() {
                 else -> {
 
 
-                    
-                    nextRegisterViewModel.userInfo.observe(
-                        viewLifecycleOwner , Observer {
-
-                            updateUI(it)
-                        }
-                    )
 
                     nextRegisterViewModel.macrosCount(age = value.age , gender = value.gender ,
                     weight = value.weight ,height = value.height, goal = value.weightGoal ,

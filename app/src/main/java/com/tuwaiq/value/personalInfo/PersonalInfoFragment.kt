@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
@@ -47,14 +48,30 @@ class PersonalInfoFragment : Fragment() {
         return when(item.itemId){
             R.id.logout_menu -> {
 
-                FirebaseAuth.getInstance().signOut()
+                val builder = context?.let { it -> AlertDialog.Builder(it) }
+                builder?.let {
+                    it.setMessage("are sure you want to sign out?")
+                    it.setCancelable(false)
+                    it.setPositiveButton("Yes I'm"){ _ ,_ ->
+                        FirebaseAuth.getInstance().signOut()
+                        findNavController().navigate(R.id.loginFragment)
+                    }
+                    it.setNegativeButton("No"){dialog , id -> dialog.dismiss()}
+                    val alert = builder.create()
+                    alert.show()
+                }
+
+
+
                 Log.e(TAG, "onOptionsItemSelected: ${FirebaseAuth.getInstance().signOut()}", )
 
-                findNavController().navigate(R.id.loginFragment)
+
                 true
             }else->super.onContextItemSelected(item)
             }
         }
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

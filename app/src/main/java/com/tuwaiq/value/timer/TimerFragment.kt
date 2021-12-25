@@ -1,14 +1,10 @@
 package com.tuwaiq.value.timer
 
-import android.content.Context
 import android.graphics.Color
-import android.graphics.drawable.shapes.Shape
-import android.icu.lang.UCharacter.DecompositionType.CIRCLE
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
-import android.util.Size
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,26 +13,21 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.CIRCLE
-import androidx.navigation.fragment.findNavController
 import com.tuwaiq.value.R
-import com.tuwaiq.value.homePage.HomePageViewModel
 import nl.dionsegijn.konfetti.KonfettiView
 
 private const val TAG = "TimerFragment"
 class TimerFragment : Fragment() {
 
-    lateinit var button:Button
+    lateinit var startBtn:Button
     lateinit var reset:Button
     lateinit var time_edit_text:EditText
     lateinit var viewKonfetti:KonfettiView
     lateinit var timer:TextView
-
-    var START_MILLI_SECONDS = 60000L
-
+    private var START_MILLI_SECONDS = 60000L
     lateinit var countdown_timer: CountDownTimer
-    var isRunning: Boolean = false;
-    var time_in_milli_seconds = 0L
+    private var isRunning: Boolean = false
+    private var time_in_milli_seconds = 0L
 
 
     private val timerViewModel by lazy {
@@ -49,7 +40,7 @@ class TimerFragment : Fragment() {
         val view = inflater.inflate(
             R.layout.timer_fragment, container, false
         )
-        button = view.findViewById(R.id.button)
+        startBtn = view.findViewById(R.id.button)
         reset = view.findViewById(R.id.reset)
         time_edit_text = view.findViewById(R.id.time_edit_text)
         viewKonfetti = view.findViewById(R.id.viewKonfetti)
@@ -66,14 +57,19 @@ class TimerFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        button.setOnClickListener {
-            if (isRunning) {
+        startBtn.setOnClickListener {
+
+            val time  = time_edit_text.text.toString()
+            if (isRunning){
                 pauseTimer()
-            } else {
-                val time  = time_edit_text.text.toString()
+            }else if (time.isEmpty()) {
+                showToast("set timer")
+            }else{
                 time_in_milli_seconds = time.toLong() *60000L
                 startTimer(time_in_milli_seconds)
             }
+
+
         }
 
         reset.setOnClickListener {
@@ -83,16 +79,22 @@ class TimerFragment : Fragment() {
 
 
 
+    private fun showToast(msg:String){
+        Toast.makeText( requireContext(),
+            msg  , Toast.LENGTH_SHORT).show()
+
+    }
 
 
 
 
     private fun pauseTimer() {
 
-        button.text = "Start"
+        startBtn.text = "Start"
         countdown_timer.cancel()
         isRunning = false
         reset.visibility = View.VISIBLE
+
     }
 
     private fun startTimer(time_in_seconds: Long) {
@@ -109,7 +111,7 @@ class TimerFragment : Fragment() {
         countdown_timer.start()
 
         isRunning = true
-        button.text = "Pause"
+        startBtn.text = "Pause"
         reset.visibility = View.INVISIBLE
 
     }

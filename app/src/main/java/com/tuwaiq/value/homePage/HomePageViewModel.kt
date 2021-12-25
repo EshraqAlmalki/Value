@@ -10,14 +10,6 @@ import kotlinx.coroutines.launch
 class HomePageViewModel : ViewModel() {
 
     private val valueRepo = ValueRepo.get()
-
-
-    fun getUserInfo(email:String): LiveData<Value?> =
-        valueRepo.getUserInfo(email)
-
-
-    private val fitnessRepo = FitnessRepo()
-
     private var valueLiveData = MutableLiveData<String>()
 
     var userInfo:LiveData<Value?> =
@@ -25,36 +17,8 @@ class HomePageViewModel : ViewModel() {
             valueRepo.getUserInfo(it)
         }
 
-
-    fun getAllUserInfo():LiveData<Value> = valueRepo.getAllUserInfo()
-
-
-
-
-//
-//    fun saveAdd(value: Value){
-//        valueRepo.addUser(value)
-//    }
-
-
-
-    fun macrosCount(age:String,gender:String,weight:String,height:String,
-                    goal:String,activityLevel:String):LiveData<RapidRespnse>{
-
-        val userInfoLiveData:MutableLiveData<RapidRespnse> = MutableLiveData()
-        var rapidRespnse =RapidRespnse()
-
-        viewModelScope.launch{
-
-            rapidRespnse = fitnessRepo.macrosCount(age, gender, weight,
-                height, goal, activityLevel)
-        }.invokeOnCompletion {
-            viewModelScope.launch {
-                userInfoLiveData.value = rapidRespnse
-            }
-        }
-
-        return userInfoLiveData
+    fun getUserInfo(email:String){
+       valueLiveData.value = email
     }
 
 }

@@ -55,7 +55,8 @@ class StepsCountFragment : Fragment() , SensorEventListener{
     override fun onResume() {
         super.onResume()
         running = true
-        val stepsSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
+        val stepsSensor = sensorManager?.getDefaultSensor(Sensor
+            .TYPE_STEP_COUNTER)
 
         if (stepsSensor == null) {
             showToast("No Step Counter Sensor !")
@@ -95,5 +96,7 @@ class StepsCountFragment : Fragment() , SensorEventListener{
 //        findNavController().navigate(R.id.timerFragment3)
 //        findNavController().navigate(R.id.personalInfoFragment)
     }
+
+
 
 }

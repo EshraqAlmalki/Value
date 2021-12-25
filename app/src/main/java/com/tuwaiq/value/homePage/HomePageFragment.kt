@@ -17,13 +17,13 @@ import com.tuwaiq.value.fitnessCalculator.models.RapidRespnse
 
 class HomePageFragment : Fragment() {
 
+
     lateinit var calorieTV : TextView
     lateinit var fatTV :TextView
     lateinit var carbTV :TextView
     lateinit var proteinTV :TextView
 
-    lateinit var value:Value
-
+    private lateinit var value:Value
     lateinit var rapidResponse: RapidRespnse
 
     private val args : HomePageFragmentArgs by navArgs()
@@ -41,12 +41,17 @@ class HomePageFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+
 //        value=Value()
-        val userInfo = args.email
-
-        homeViewModel.getUserInfo(userInfo)
-        Log.e(TAG, "onCreate: $userInfo", )
-
+//        val userInfo = args.email
+//
+//        if (userInfo != null){
+//            homeViewModel.getUserInfo(userInfo)
+//        }
+//
+//        Log.e(TAG, "onCreate: $value", )
+//
 
 
 
@@ -78,36 +83,28 @@ class HomePageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-
     }
 
 
     override fun onStart() {
         super.onStart()
 
-      homeViewModel.userInfo.observe(
-          viewLifecycleOwner , Observer {
-
-              setTextMacros(value)
-          }
-      )
-
- }
-
-
-    private fun setTextMacros(value: Value){
-
-        this.value = value
-        value.let {
-            calorieTV.text = it.calor
-            fatTV.text = it.fat
-            proteinTV.text = it.protein
-            carbTV.text = it.carb
-        }
-       
+        homeViewModel.userInfo.observe(
+            viewLifecycleOwner , Observer {
+                value?.let {
+                    bind(value)
+                }
+            }
+        )
     }
 
-
+    fun bind(value: Value){
+        this.value = value
+        calorieTV.text = value.calor
+        carbTV.text = value.carb
+        fatTV.text = value.fat
+        proteinTV.text = value.protein
+    }
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
