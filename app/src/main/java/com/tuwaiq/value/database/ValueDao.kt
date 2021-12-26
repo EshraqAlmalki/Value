@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 interface ValueDao {
 
     @Query("SELECT * FROM value")
-    fun getAllUserInfo():LiveData<Value>
+    fun getAllUserInfo():LiveData<List<Value>>
 
     @Query("SELECT * FROM value WHERE email=(:email)")
     fun getUserInfo(email :String):LiveData<Value?>

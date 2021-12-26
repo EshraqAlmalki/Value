@@ -34,6 +34,7 @@ class NextRegisterFragment : Fragment() {
     private lateinit var genderET:EditText
     lateinit var rapidResponse:RapidRespnse
 
+
     lateinit var value:Value
 
     private lateinit var auth: FirebaseAuth
@@ -133,10 +134,12 @@ class NextRegisterFragment : Fragment() {
                                 value.fat = rapidResponse.data?.balanced?.fat.toString()
                                 value.carb = rapidResponse.data?.balanced?.protein.toString()
                                 value.protein = rapidResponse.data?.balanced?.protein.toString()
+                                value.email = args.email
 
 
                                 Log.e(TAG, "onStart: $value")
                                 Log.e(TAG, "onStart fat: ${value.fat}" )
+                                nextRegisterViewModel.updateUserInfo(value)
                                 val action = NextRegisterFragmentDirections
                                     .actionNextRegisterFragmentToHomePageFragment(email = args.email)
                                 Log.e(TAG, "onStart: ${args.email}", )

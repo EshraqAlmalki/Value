@@ -21,7 +21,6 @@ class StepsCountFragment : Fragment() , SensorEventListener{
 
     lateinit var stepsTV:TextView
     lateinit var stepsCounter:TextView
-
     var running = false
     var sensorManager:SensorManager? = null
 
@@ -92,9 +91,7 @@ class StepsCountFragment : Fragment() , SensorEventListener{
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-//        findNavController().navigate(R.id.homePageFragment)
-//        findNavController().navigate(R.id.timerFragment3)
-//        findNavController().navigate(R.id.personalInfoFragment)
+
     }
 
 

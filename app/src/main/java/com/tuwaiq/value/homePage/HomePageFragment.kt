@@ -11,6 +11,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.tuwaiq.value.R
 import com.tuwaiq.value.database.Value
 import com.tuwaiq.value.fitnessCalculator.models.RapidRespnse
@@ -23,7 +25,7 @@ class HomePageFragment : Fragment() {
     lateinit var carbTV :TextView
     lateinit var proteinTV :TextView
 
-    private lateinit var value:Value
+    //private lateinit var value:Value
     lateinit var rapidResponse: RapidRespnse
 
     private val args : HomePageFragmentArgs by navArgs()
@@ -43,18 +45,12 @@ class HomePageFragment : Fragment() {
 
 
 
-//        value=Value()
-//        val userInfo = args.email
-//
-//        if (userInfo != null){
-//            homeViewModel.getUserInfo(userInfo)
-//        }
-//
-//        Log.e(TAG, "onCreate: $value", )
-//
+       // value=Value()
+        val userInfo = args.email
 
-
-
+        if (userInfo != null){
+            homeViewModel.getUserInfo(userInfo)
+        }
     }
 
 
@@ -89,22 +85,44 @@ class HomePageFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        homeViewModel.userInfo.observe(
-            viewLifecycleOwner , Observer {
-                value?.let {
-                    bind(value)
+
+        if(args.email != "-1"){
+            homeViewModel.getUserInfo(Firebase.auth.currentUser?.email.toString())
+            homeViewModel.userInfo.observe(
+                viewLifecycleOwner, Observer {
+                    it?.let {
+                        calorieTV.text = it.calor
+                        carbTV.text = it.carb
+                        fatTV.text = it.fat
+                        proteinTV.text = it.protein
+                    }
+                    Log.e(TAG, "if onStart: $it",)
                 }
-            }
-        )
+            )
+        }else{
+            homeViewModel.userInfo.observe(
+                viewLifecycleOwner, Observer {
+                    it?.let {
+                        calorieTV.text = it.calor
+                        carbTV.text = it.carb
+                        fatTV.text = it.fat
+                        proteinTV.text = it.protein
+                    }
+                    Log.e(TAG, "else onStart: $it",)
+                    Log.e(TAG, "onStart: ${args.email} ${it?.email}", )
+                }
+            )
+        }
+
     }
 
-    fun bind(value: Value){
-        this.value = value
-        calorieTV.text = value.calor
-        carbTV.text = value.carb
-        fatTV.text = value.fat
-        proteinTV.text = value.protein
-    }
+//    private fun bind(value: Value){
+//        this.value = value
+//        calorieTV.text = value.calor
+//        carbTV.text = value.carb
+//        fatTV.text = value.fat
+//        proteinTV.text = value.protein
+//    }
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

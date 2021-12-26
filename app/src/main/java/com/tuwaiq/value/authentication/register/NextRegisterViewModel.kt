@@ -18,6 +18,14 @@ class NextRegisterViewModel : ViewModel() {
         userLiveData.value = email
     }
 
+//    fun addNewUser(value: Value){
+//        valueRepo.addNewUser(value)
+//    }
+
+    fun updateUserInfo(value: Value){
+        valueRepo.updateUserInfo(value)
+    }
+
     var userInfo:LiveData<Value?> =
         Transformations.switchMap(userLiveData){
             valueRepo.getUserInfo(it)

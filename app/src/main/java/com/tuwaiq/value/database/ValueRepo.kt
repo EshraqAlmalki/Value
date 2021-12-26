@@ -24,7 +24,7 @@ class ValueRepo private constructor(context: Context){
     private val executor = Executors.newSingleThreadExecutor()
 
 
-    fun getAllUserInfo(): LiveData<Value> = valueDao.getAllUserInfo()
+    fun getAllUserInfo(): LiveData<List<Value>> = valueDao.getAllUserInfo()
 
     fun getUserInfo(email:String): LiveData<Value?> {
             return valueDao.getUserInfo(email)

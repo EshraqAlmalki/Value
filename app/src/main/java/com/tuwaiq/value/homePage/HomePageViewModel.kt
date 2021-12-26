@@ -17,6 +17,8 @@ class HomePageViewModel : ViewModel() {
             valueRepo.getUserInfo(it)
         }
 
+    fun getAllUserInfo():LiveData<List<Value>> = valueRepo.getAllUserInfo()
+
     fun getUserInfo(email:String){
        valueLiveData.value = email
     }
