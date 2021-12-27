@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/personalInfoFragment"
-        android:name="com.tuwaiq.value.personalInfo.PersonalInfoFragment"
+        android:name="com.tuwaiq.value.firestoreUserInfo.personalInfo.PersonalInfoFragment"
         android:label="info_fragment"
         tools:layout="@layout/personal_info_fragment" >
         <action

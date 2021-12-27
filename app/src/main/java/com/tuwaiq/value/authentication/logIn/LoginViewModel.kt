@@ -17,6 +17,10 @@ class LoginViewModel : ViewModel() {
 
     }
 
+    fun retrieverUserInfo(){
+        valueRepo.retrieverUserInfo()
+    }
+
 
 
 }

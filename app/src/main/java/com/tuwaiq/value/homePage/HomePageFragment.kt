@@ -88,6 +88,7 @@ class HomePageFragment : Fragment() {
 
         if(args.email != "-1"){
             homeViewModel.getUserInfo(Firebase.auth.currentUser?.email.toString())
+
             homeViewModel.userInfo.observe(
                 viewLifecycleOwner, Observer {
                     it?.let {
@@ -99,7 +100,9 @@ class HomePageFragment : Fragment() {
                     Log.e(TAG, "if onStart: $it",)
                 }
             )
+
         }else{
+
             homeViewModel.userInfo.observe(
                 viewLifecycleOwner, Observer {
                     it?.let {
@@ -115,6 +118,7 @@ class HomePageFragment : Fragment() {
         }
 
     }
+
 
 //    private fun bind(value: Value){
 //        this.value = value

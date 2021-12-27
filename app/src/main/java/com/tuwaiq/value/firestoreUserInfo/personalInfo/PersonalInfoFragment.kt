@@ -1,4 +1,4 @@
-package com.tuwaiq.value.personalInfo
+package com.tuwaiq.value.firestoreUserInfo.personalInfo
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -8,9 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
 import com.tuwaiq.value.R
-import com.tuwaiq.value.steps.StepsCountViewModel
 
 const val INFO_KYE = "user-info"
 private const val TAG = "InfoFragment"
@@ -84,6 +82,8 @@ class PersonalInfoFragment : Fragment() {
 
 
     }
+
+
 
 
 

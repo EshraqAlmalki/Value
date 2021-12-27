@@ -1,4 +1,4 @@
-package com.tuwaiq.value.personalInfo
+package com.tuwaiq.value.firestoreUserInfo.personalInfo
 
 import androidx.lifecycle.ViewModel
 

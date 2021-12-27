@@ -1,6 +1,8 @@
 package com.tuwaiq.value.authentication.register
 
 import androidx.lifecycle.*
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.tuwaiq.value.database.Value
 import com.tuwaiq.value.database.ValueRepo
 import com.tuwaiq.value.fitnessCalculator.models.Data
@@ -17,6 +19,12 @@ class NextRegisterViewModel : ViewModel() {
     fun getUserInfo(email:String) {
         userLiveData.value = email
     }
+
+    fun saveFirestore(value: Value){
+        valueRepo.saveFireStore(value)
+    }
+
+
 
 //    fun addNewUser(value: Value){
 //        valueRepo.addNewUser(value)
@@ -53,6 +61,8 @@ class NextRegisterViewModel : ViewModel() {
 
            return userInfoLiveData
         }
+
+
 
     }
 

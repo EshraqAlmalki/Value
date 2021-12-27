@@ -78,6 +78,8 @@ class LoginFragment : Fragment() {
 
 
                             viewModel.getUserInfo(email = value.email)
+                            viewModel.retrieverUserInfo()
+
                             findNavController().navigate(R.id.homePageFragment)
                         }else{
                             showToast("email or password is wrong")
