@@ -10,9 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.tuwaiq.value.MainActivity
 import com.tuwaiq.value.R
 import com.tuwaiq.value.database.Value
 
@@ -78,7 +76,8 @@ class LoginFragment : Fragment() {
 
 
                             viewModel.getUserInfo(email = value.email)
-                            viewModel.retrieverUserInfo()
+                            //viewModel.saveFirestore(value)
+
 
                             findNavController().navigate(R.id.homePageFragment)
                         }else{

@@ -17,10 +17,15 @@ class HomePageViewModel : ViewModel() {
             valueRepo.getUserInfo(it)
         }
 
-    fun getAllUserInfo():LiveData<List<Value>> = valueRepo.getAllUserInfo()
+
+    fun retrieverUserInfo(email: String):LiveData<Value> = valueRepo.retrieverUserInfo(email)
 
     fun getUserInfo(email:String){
        valueLiveData.value = email
     }
+
+//    fun retrieverUserInfo(){
+//        valueRepo.retrieverUserInfo()
+//    }
 
 }

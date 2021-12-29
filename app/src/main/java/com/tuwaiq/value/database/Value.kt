@@ -26,5 +26,4 @@ data class Value(
     var carb:String ="",
     var protein:String ="",
     var calor:String= ""
-
 )

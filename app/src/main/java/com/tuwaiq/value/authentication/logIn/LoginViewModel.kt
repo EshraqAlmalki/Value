@@ -17,9 +17,14 @@ class LoginViewModel : ViewModel() {
 
     }
 
-    fun retrieverUserInfo(){
-        valueRepo.retrieverUserInfo()
-    }
+//    fun getMacrosInfo(value:Value){
+//        valueRepo.getMacrosInfo(value)
+//    }
+
+//    fun saveFirestore(value: Value){
+//        valueRepo.saveFireStore(value)
+//    }
+
 
 
 

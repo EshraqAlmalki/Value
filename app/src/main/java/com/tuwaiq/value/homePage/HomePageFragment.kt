@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.tuwaiq.value.R
 import com.tuwaiq.value.database.Value
@@ -87,17 +88,32 @@ class HomePageFragment : Fragment() {
 
 
         if(args.email != "-1"){
+
+            homeViewModel.retrieverUserInfo(Firebase.auth.currentUser?.email.toString())
+                .observe(viewLifecycleOwner){
+
+                    calorieTV.text = it.calor
+                    carbTV.text = it.carb
+                    fatTV.text = it.fat
+                    proteinTV.text = it.protein
+
+                }
+
             homeViewModel.getUserInfo(Firebase.auth.currentUser?.email.toString())
 
             homeViewModel.userInfo.observe(
                 viewLifecycleOwner, Observer {
                     it?.let {
-                        calorieTV.text = it.calor
-                        carbTV.text = it.carb
-                        fatTV.text = it.fat
-                        proteinTV.text = it.protein
+
+                            calorieTV.text = it.calor
+                            carbTV.text = it.carb
+                            fatTV.text = it.fat
+                            proteinTV.text = it.protein
+
+
                     }
                     Log.e(TAG, "if onStart: $it",)
+
                 }
             )
 
@@ -106,6 +122,7 @@ class HomePageFragment : Fragment() {
             homeViewModel.userInfo.observe(
                 viewLifecycleOwner, Observer {
                     it?.let {
+
                         calorieTV.text = it.calor
                         carbTV.text = it.carb
                         fatTV.text = it.fat
@@ -115,8 +132,8 @@ class HomePageFragment : Fragment() {
                     Log.e(TAG, "onStart: ${args.email} ${it?.email}", )
                 }
             )
+            
         }
-
     }
 
 

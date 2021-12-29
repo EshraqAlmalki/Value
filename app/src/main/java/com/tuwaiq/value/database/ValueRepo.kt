@@ -4,16 +4,14 @@ import android.content.ContentValues.TAG
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.liveData
 import androidx.room.Room
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 import java.lang.IllegalStateException
 import java.util.concurrent.Executors
 
@@ -28,32 +26,53 @@ class ValueRepo private constructor(context: Context){
         .build()
 
 
-    private val userPhysicalInfo = Firebase.firestore.collection("user-physical-info")
-
-     fun retrieverUserInfo() = CoroutineScope(Dispatchers.IO).launch {
-        try {
-
-            val querySnapshot = userPhysicalInfo.get().await()
-            val sb = StringBuilder()
-            for (document in querySnapshot.documents) {
-                val value = document.toObject<Value>()
-                sb.append("$value\n")
-            }
-
-            withContext(Dispatchers.Main){
-                Log.e(TAG, "retrieverUserInfo: good job", )
-            }
-
-        } catch (E: Exception) {
+    private val userPhysicalInfo = Firebase.firestore
+        .collection("user-physical-info")
 
 
-            withContext(Dispatchers.Main) {
-                Log.e(TAG, "retrieverUserInfo: hi from here",)
-            }
-        }
+    fun retrieverUserInfo(email: String):LiveData<Value> = liveData {
+        val getUserPhysicalInfo = Firebase.firestore
+
+      val dataList =  getUserPhysicalInfo.collection("user-physical-info")
+            .whereEqualTo("email",email)
+            .get()
+            .await().toObjects(Value::class.java)
+        emit(dataList[0])
     }
 
-    fun saveFireStore(value:Value) = CoroutineScope(Dispatchers.IO).launch { 
+
+
+
+
+
+
+
+
+   // fun retrieverUserInfo() = CoroutineScope(Dispatchers.IO).launch {
+
+
+//        try {
+//
+//           val querySnapshot = userPhysicalInfo.get().await()
+//            val sb = StringBuilder()
+//            for (document in querySnapshot.documents) {
+//                val value = document.toObject<Value>()
+//                sb.append("${value?.email}\n")
+//            }
+//
+//            withContext(Dispatchers.Main){
+//                Log.e(TAG, "retrieverUserInfo: good job", )
+//            }
+//
+//        } catch (E: Exception) {
+//
+//            withContext(Dispatchers.Main) {
+//                Log.e(TAG, "retrieverUserInfo: hi from here",)
+//            }
+//        }
+  //  }
+
+    fun saveFireStore(value:Value) = CoroutineScope(Dispatchers.IO).launch {
         try{
             userPhysicalInfo.add(value).await()
             Log.d(TAG, "saveFireStore: good")
@@ -63,6 +82,8 @@ class ValueRepo private constructor(context: Context){
             }
         }
     }
+    
+
 
 
     private val valueDao = database.valueDao()
