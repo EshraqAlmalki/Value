@@ -1,32 +1,47 @@
 package com.tuwaiq.value.timelineUserActive
 
+import android.app.ProgressDialog.show
+import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.SimpleAdapter
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.tuwaiq.value.R
 import com.tuwaiq.value.database.Value
-import com.tuwaiq.value.databinding.TimeLineActiveFragmentBinding
-import com.tuwaiq.value.databinding.UserActiveTimelineItemsBinding
+
 import java.sql.Time
+import java.time.Duration
+import java.time.Instant
 import java.util.*
 
 class TimeLineActiveFragment : Fragment() {
 
     private lateinit var timelineUserActiveRV:RecyclerView
+    private lateinit var activeAdapter: TimelineActiveAdapter
+
+
+
+
 
 
     companion object {
@@ -59,14 +74,12 @@ class TimeLineActiveFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
     }
 
     fun updateUI(value:List<Value>){
         val valueAdapter = TimelineActiveAdapter(value)
         timelineUserActiveRV.adapter=valueAdapter
-
-
+        activeAdapter = TimelineActiveAdapter(value)
     }
 
 
@@ -78,6 +91,49 @@ class TimeLineActiveFragment : Fragment() {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        swipeToDel()
+    }
+    fun swipeToDel(){
+        ItemTouchHelper(object :ItemTouchHelper.SimpleCallback(0 , ItemTouchHelper.LEFT){
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val active = activeAdapter.value[position]
+                    // timeLineActiveViewModel.deleteUserInfo(active)
+                    Snackbar.make(
+                        requireView(), "delete" , Snackbar.LENGTH_SHORT
+                    ).show()
+
+                val builder = context?.let { it -> AlertDialog.Builder(it) }
+                builder?.let {
+                    it.setMessage("are sure you want to del?")
+                    it.setCancelable(false)
+                    it.setPositiveButton("Yes I'm"){ _ ,_ ->
+                        timeLineActiveViewModel.deleteUserInfo(active)
+
+                    }
+                    it.setNegativeButton("No"){dialog , id -> dialog.dismiss()}
+                    val alert = builder.create()
+                    alert.show()
+                }
+            }
+
+
+        }).attachToRecyclerView(timelineUserActiveRV)
+    }
+
+
+
     private inner class TimelineActiveHolder(view: View):RecyclerView.ViewHolder(view){
 
         private lateinit var value : Value
@@ -85,12 +141,47 @@ class TimeLineActiveFragment : Fragment() {
         private val shareActive :ImageView = itemView.findViewById(R.id.share_user_steps)
 
 
+
         fun bind(value:Value){
             this.value = value
 
-                if (value.steps == value.stGoal){
-                    stepsGoalTV.text = value.stGoal
-                }
+
+//            fun swipeToDel(){
+//                ItemTouchHelper(object :ItemTouchHelper.SimpleCallback(0 , ItemTouchHelper.LEFT){
+//                    override fun onMove(
+//                        recyclerView: RecyclerView,
+//                        viewHolder: RecyclerView.ViewHolder,
+//                        target: RecyclerView.ViewHolder
+//                    ): Boolean {
+//                        return false
+//                    }
+//
+//                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+//                        val position = viewHolder.adapterPosition
+//                        val active =
+//                        timeLineActiveViewModel.deleteUserInfo(value)
+//
+//                    }
+//
+//
+//                }).attachToRecyclerView(timelineUserActiveRV)
+//            }
+
+            stepsGoalTV.text = value.stGoal
+            Log.e(TAG, "bind: ${value.stGoal}", )
+
+
+//            val shareActiveTime = Instant.parse("2021-01-03T14:00:00.013678Z")
+//            val now = Instant.now()
+//            val duration = Duration.between(shareActiveTime , now)
+//            val showActivity = duration.toHours()
+//
+//            if (showActivity >= 24L ){
+//                if (value.steps == value.stGoal){
+//
+//                    stepsGoalTV.text = value.steps
+//                }
+//            }
 
 
 
@@ -136,6 +227,7 @@ class TimeLineActiveFragment : Fragment() {
             holder.bind(value)
 
 
+
         }
 
         override fun getItemCount(): Int = value.size
@@ -158,5 +250,8 @@ class TimeLineActiveFragment : Fragment() {
 
 
     }
+
+
+
 
 }

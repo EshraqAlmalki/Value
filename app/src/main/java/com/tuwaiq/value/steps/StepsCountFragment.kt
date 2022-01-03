@@ -8,6 +8,7 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -32,6 +33,8 @@ class StepsCountFragment : Fragment() , SensorEventListener{
     private var totalSteps = 0f
     private var previousTotalSteps = 0f
 
+    lateinit var value: Value
+
     companion object {
         fun newInstance() = StepsCountFragment()
     }
@@ -54,6 +57,8 @@ class StepsCountFragment : Fragment() , SensorEventListener{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        value = Value()
 
 
         sensorManager = requireActivity().getSystemService(Context
@@ -89,6 +94,8 @@ class StepsCountFragment : Fragment() , SensorEventListener{
         }
     }
 
+
+
     private fun resetSteps(){
         stepsCounter.setOnClickListener {
             showToast("long tap to reset steps")
@@ -120,6 +127,8 @@ class StepsCountFragment : Fragment() , SensorEventListener{
 
             val currentSteps = totalSteps.toInt() - previousTotalSteps.toInt()
             stepsCounter.text = ("$currentSteps")
+            stepsCounter.text = value.steps
+            stepsCountViewModel.updateUserInfo(value)
 
         }
     }

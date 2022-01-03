@@ -24,4 +24,9 @@ class StepsCountViewModel : ViewModel() {
     }
 
 
+    fun updateUserInfo(value: Value){
+
+            valueRepo.updateUserInfo(value)
+
+    }
 }
