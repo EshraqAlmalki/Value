@@ -147,9 +147,7 @@ class TimerFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-//        findNavController().navigate(R.id.homePageFragment)
-//        findNavController().navigate(R.id.stepsCountFragment3)
-//        findNavController().navigate(R.id.personalInfoFragment)
+
     }
 
 }

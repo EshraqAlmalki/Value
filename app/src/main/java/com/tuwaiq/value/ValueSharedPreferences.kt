@@ -10,7 +10,8 @@
 //
 //
 //    fun setStepsCounter(context: Context , steps : String){
-//        PreferenceManager.getDefaultSharedPreferences(context).edit().putString(STEPS_KEY ,steps )
+//        PreferenceManager.getDefaultSharedPreferences(context)
+//            .edit().putString(STEPS_KEY ,steps )
 //            .apply()
 //    }
 //

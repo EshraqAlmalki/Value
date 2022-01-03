@@ -40,41 +40,21 @@ class ValueRepo private constructor(context: Context){
         emit(dataList[0])
     }
 
+    fun retrieverUserActivity(steps : String):LiveData<Value> = liveData {
+        val getUserActivity = Firebase.firestore
+
+        val userActive = getUserActivity.collection("user-physical-info")
+            .whereEqualTo("steps", steps)
+            .get().await().toObjects(Value::class.java)
+        emit(userActive[0])
+    }
 
 
-
-
-
-
-
-
-   // fun retrieverUserInfo() = CoroutineScope(Dispatchers.IO).launch {
-
-
-//        try {
-//
-//           val querySnapshot = userPhysicalInfo.get().await()
-//            val sb = StringBuilder()
-//            for (document in querySnapshot.documents) {
-//                val value = document.toObject<Value>()
-//                sb.append("${value?.email}\n")
-//            }
-//
-//            withContext(Dispatchers.Main){
-//                Log.e(TAG, "retrieverUserInfo: good job", )
-//            }
-//
-//        } catch (E: Exception) {
-//
-//            withContext(Dispatchers.Main) {
-//                Log.e(TAG, "retrieverUserInfo: hi from here",)
-//            }
-//        }
-  //  }
 
     fun saveFireStore(value:Value) = CoroutineScope(Dispatchers.IO).launch {
         try{
             userPhysicalInfo.add(value).await()
+
             Log.d(TAG, "saveFireStore: good")
         }catch (E:Exception){
             withContext(Dispatchers.Main){

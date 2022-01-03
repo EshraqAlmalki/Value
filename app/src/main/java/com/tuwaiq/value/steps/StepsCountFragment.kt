@@ -1,6 +1,7 @@
 package com.tuwaiq.value.steps
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModelProvider
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -14,15 +15,22 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.tuwaiq.value.R
+import com.tuwaiq.value.database.Value
 
 class StepsCountFragment : Fragment() , SensorEventListener{
 
-    lateinit var stepsTV:TextView
+
     lateinit var stepsCounter:TextView
-    var running = false
-    var sensorManager:SensorManager? = null
+    private var running = false
+    private var sensorManager:SensorManager? = null
+    private var totalSteps = 0f
+    private var previousTotalSteps = 0f
 
     companion object {
         fun newInstance() = StepsCountFragment()
@@ -40,15 +48,31 @@ class StepsCountFragment : Fragment() , SensorEventListener{
             container, false)
 
         stepsCounter = view.findViewById(R.id.stepsValue)
-        stepsTV = view.findViewById(R.id.stepsLbl)
+
         return view
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
         sensorManager = requireActivity().getSystemService(Context
             .SENSOR_SERVICE) as SensorManager
+    }
+
+
+
+
+
+    override fun onStart() {
+        super.onStart()
+
+        resetSteps()
+
+        stepsCountViewModel.getUserInfo(Firebase
+            .auth.currentUser?.email.toString())
+
+
     }
 
     override fun onResume() {
@@ -65,6 +89,24 @@ class StepsCountFragment : Fragment() , SensorEventListener{
         }
     }
 
+    private fun resetSteps(){
+        stepsCounter.setOnClickListener {
+            showToast("long tap to reset steps")
+        }
+
+        stepsCounter.setOnLongClickListener {
+            previousTotalSteps = totalSteps
+            stepsCounter.text = 0.toString()
+            showToast("done")
+
+
+            true
+        }
+    }
+
+
+
+
     override fun onPause(){
         super.onPause()
         running = false
@@ -73,15 +115,24 @@ class StepsCountFragment : Fragment() , SensorEventListener{
 
     override fun onSensorChanged(event: SensorEvent?) {
         if (running) {
-            if (event != null) {
-                stepsCounter.text = " ${event.values[0]}"
-            }
+
+            totalSteps = event!!.values[0]
+
+            val currentSteps = totalSteps.toInt() - previousTotalSteps.toInt()
+            stepsCounter.text = ("$currentSteps")
+
         }
     }
+
+
+
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
 
     }
+
+
+
 
     private fun showToast(msg:String){
         Toast.makeText( requireContext(), msg  , Toast.LENGTH_SHORT).show()

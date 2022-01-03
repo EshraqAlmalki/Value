@@ -17,14 +17,23 @@
             app:popEnterAnim="@anim/slide_out_top" />
         <action
             android:id="@+id/action_generalFragment2_to_stepsCountFragment3"
-            app:destination="@id/stepsCountFragment3" />
+            app:destination="@id/stepsCountFragment3"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_in_right" />
         <action
             android:id="@+id/action_generalFragment2_to_timerFragment3"
-            app:destination="@id/timerFragment3" />
+            app:destination="@id/timerFragment3"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <argument
             android:name="email"
             app:argType="string"
             android:defaultValue='"-1"' />
+        <action
+            android:id="@+id/action_homePageFragment_to_timeLineActiveFragment"
+            app:destination="@id/timeLineActiveFragment" />
     </fragment>
     <fragment
         android:id="@+id/personalInfoFragment"
@@ -85,5 +94,14 @@
         <argument android:name="email"
             app:argType="string"
             android:defaultValue='""' />
+    </fragment>
+    <fragment
+        android:id="@+id/timeLineActiveFragment"
+        android:name="com.tuwaiq.value.timelineUserActive.TimeLineActiveFragment"
+        android:label="time_line_active_fragment"
+        tools:layout="@layout/time_line_active_fragment" >
+        <action
+            android:id="@+id/action_timeLineActiveFragment_to_homePageFragment"
+            app:destination="@id/homePageFragment" />
     </fragment>
 </navigation>

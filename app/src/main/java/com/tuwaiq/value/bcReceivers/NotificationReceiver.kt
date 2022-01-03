@@ -11,17 +11,16 @@
 //class NotificationReceiver :BroadcastReceiver() {
 //    override fun onReceive(context: Context?, intent: Intent?) {
 //
-//        if (resultCode != Activity.RESULT_OK){
+//        if (resultCode != Activity.RESULT_OK) {
 //            return
 //        }
 //
 //
-//        val notification:Notification = intent?.getParcelableExtra(ValueWorker.NOTIFICATION_KEY)!!
+//        val notification: Notification = intent?.getParcelableExtra(ValueWorker.NOTIFICATION_KEY)!!
 //
-//        val notificationManager = context?.let { NotificationManagerCompat.from(it) }
-//
-//        if (notificationManager != null) {
-//            notificationManager.notify(1 ,notification)
-//        }
+//        context?.let {
+//            NotificationManagerCompat
+//                .from(it) }?.
+//                notify(1, notification)
 //    }
 //}

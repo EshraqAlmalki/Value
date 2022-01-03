@@ -3,11 +3,13 @@ package com.tuwaiq.value.homePage
 import android.content.ContentValues.TAG
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.text.format.Formatter
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.NumberPicker
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
@@ -17,6 +19,8 @@ import com.google.firebase.ktx.Firebase
 import com.tuwaiq.value.R
 import com.tuwaiq.value.database.Value
 import com.tuwaiq.value.fitnessCalculator.models.RapidRespnse
+import java.math.RoundingMode
+import java.text.DecimalFormat
 
 class HomePageFragment : Fragment() {
 
@@ -25,9 +29,11 @@ class HomePageFragment : Fragment() {
     lateinit var fatTV :TextView
     lateinit var carbTV :TextView
     lateinit var proteinTV :TextView
+    lateinit var stepsTV : TextView
 
     //private lateinit var value:Value
     lateinit var rapidResponse: RapidRespnse
+
 
     private val args : HomePageFragmentArgs by navArgs()
 
@@ -68,6 +74,7 @@ class HomePageFragment : Fragment() {
         fatTV = view.findViewById(R.id.fat_tv)
         carbTV = view.findViewById(R.id.carb_tv)
         proteinTV = view.findViewById(R.id.protein_tv)
+        stepsTV = view.findViewById(R.id.steps_tv)
 
 
         rapidResponse= RapidRespnse()
@@ -80,11 +87,14 @@ class HomePageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
+
     }
 
 
     override fun onStart() {
         super.onStart()
+
+
 
 
         if(args.email != "-1"){
@@ -96,6 +106,7 @@ class HomePageFragment : Fragment() {
                     carbTV.text = it.carb
                     fatTV.text = it.fat
                     proteinTV.text = it.protein
+                    stepsTV.text = it.stGoal
 
                 }
 
@@ -105,10 +116,12 @@ class HomePageFragment : Fragment() {
                 viewLifecycleOwner, Observer {
                     it?.let {
 
+
                             calorieTV.text = it.calor
                             carbTV.text = it.carb
                             fatTV.text = it.fat
                             proteinTV.text = it.protein
+                            stepsTV.text= it.stGoal
 
 
                     }
@@ -124,9 +137,11 @@ class HomePageFragment : Fragment() {
                     it?.let {
 
                         calorieTV.text = it.calor
+
                         carbTV.text = it.carb
                         fatTV.text = it.fat
                         proteinTV.text = it.protein
+                        stepsTV.text = it.stGoal
                     }
                     Log.e(TAG, "else onStart: $it",)
                     Log.e(TAG, "onStart: ${args.email} ${it?.email}", )

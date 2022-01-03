@@ -3,6 +3,7 @@
     package="com.tuwaiq.value">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION"/>
 
 
 
@@ -29,5 +30,13 @@
 
 
     </application>
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.PICK"/>
+            <data android:mimeType="vnd.android.cursor.dir/contact"/>
+        </intent>
+    </queries>
+
 
 </manifest>

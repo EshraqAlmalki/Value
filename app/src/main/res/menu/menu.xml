@@ -21,4 +21,8 @@
         android:icon="@drawable/ic_baseline_home_24"
         android:title="home"/>
 
+    <item android:id="@+id/timeLineActiveFragment"
+        android:icon="@drawable/ic_baseline_timeline_24"
+        android:title="timeline"/>
+
 </menu>

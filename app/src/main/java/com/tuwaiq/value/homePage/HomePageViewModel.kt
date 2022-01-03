@@ -24,8 +24,5 @@ class HomePageViewModel : ViewModel() {
        valueLiveData.value = email
     }
 
-//    fun retrieverUserInfo(){
-//        valueRepo.retrieverUserInfo()
-//    }
 
 }
