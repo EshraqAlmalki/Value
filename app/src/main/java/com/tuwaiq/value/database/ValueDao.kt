@@ -23,6 +23,12 @@ interface ValueDao {
     @Insert
     fun addNewUser(value: Value)
 
+    @Query("SELECT * FROM value WHERE steps=(:steps)")
+    fun getUserSteps(steps :Int):List<Value>
+
+    @Query("SELECT * FROM value WHERE stGoal=(:stGoal)")
+    fun getStepsGoal(stGoal : Int):List<Value>
+
 
 
     //fun saveFirestore(value:Value)

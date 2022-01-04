@@ -32,6 +32,9 @@ import com.tuwaiq.value.database.Value
 import java.sql.Time
 import java.time.Duration
 import java.time.Instant
+import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class TimeLineActiveFragment : Fragment() {
@@ -109,23 +112,11 @@ class TimeLineActiveFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 val active = activeAdapter.value[position]
-                    // timeLineActiveViewModel.deleteUserInfo(active)
+                    timeLineActiveViewModel.deleteUserInfo(active)
                     Snackbar.make(
                         requireView(), "delete" , Snackbar.LENGTH_SHORT
                     ).show()
 
-                val builder = context?.let { it -> AlertDialog.Builder(it) }
-                builder?.let {
-                    it.setMessage("are sure you want to del?")
-                    it.setCancelable(false)
-                    it.setPositiveButton("Yes I'm"){ _ ,_ ->
-                        timeLineActiveViewModel.deleteUserInfo(active)
-
-                    }
-                    it.setNegativeButton("No"){dialog , id -> dialog.dismiss()}
-                    val alert = builder.create()
-                    alert.show()
-                }
             }
 
 
@@ -143,49 +134,35 @@ class TimeLineActiveFragment : Fragment() {
 
 
         fun bind(value:Value){
-            this.value = value
+            //this.value = value
 
 
-//            fun swipeToDel(){
-//                ItemTouchHelper(object :ItemTouchHelper.SimpleCallback(0 , ItemTouchHelper.LEFT){
-//                    override fun onMove(
-//                        recyclerView: RecyclerView,
-//                        viewHolder: RecyclerView.ViewHolder,
-//                        target: RecyclerView.ViewHolder
-//                    ): Boolean {
-//                        return false
-//                    }
-//
-//                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-//                        val position = viewHolder.adapterPosition
-//                        val active =
-//                        timeLineActiveViewModel.deleteUserInfo(value)
-//
-//                    }
-//
-//
-//                }).attachToRecyclerView(timelineUserActiveRV)
-//            }
 
-            stepsGoalTV.text = value.stGoal
+
+
             Log.e(TAG, "bind: ${value.stGoal}", )
 
 
-//            val shareActiveTime = Instant.parse("2021-01-03T14:00:00.013678Z")
-//            val now = Instant.now()
-//            val duration = Duration.between(shareActiveTime , now)
-//            val showActivity = duration.toHours()
-//
-//            if (showActivity >= 24L ){
-//                if (value.steps == value.stGoal){
-//
-//                    stepsGoalTV.text = value.steps
-//                }
-//            }
+            val shareActiveTime = Instant.parse("2021-01-03T14:00:00.013678Z")
+            val now = Instant.now()
+            val duration = Duration.between(shareActiveTime , now)
+            val showActivity = duration.toHours()
+            Log.e(TAG, "bind: $shareActiveTime", )
+
+            if (showActivity >= 24L ) {
+                if (value.stGoal >= value.steps) {
+                    stepsGoalTV.text = "you reach the goal"
+                } else {
+                    stepsGoalTV.text = "try to reach the goal"
+                }
+            }
 
 
 
-            shareActive.setOnClickListener {
+
+
+
+                shareActive.setOnClickListener {
                 showToast("share it now")
                 Intent(Intent.ACTION_SEND).apply {
                     putExtra(Intent.EXTRA_TEXT , shareSteps())

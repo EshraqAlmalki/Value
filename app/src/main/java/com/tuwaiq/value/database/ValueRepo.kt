@@ -84,6 +84,15 @@ class ValueRepo private constructor(context: Context){
         }
     }
 
+    fun getUserSteps(steps:Int):List<Value>{
+        return valueDao.getUserSteps(steps)
+
+    }
+
+    fun getStepsGoal(stGoal:Int):List<Value>{
+        return valueDao.getStepsGoal(stGoal)
+    }
+
     fun deleteUserInfo(value: Value){
         executor.execute {
             valueDao.deleteUserInfo(value)

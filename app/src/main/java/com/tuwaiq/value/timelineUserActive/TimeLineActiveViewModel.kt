@@ -48,4 +48,6 @@ class TimeLineActiveViewModel : ViewModel() {
 
     }
 
+    fun getUserGoal(stGoal:Int):List<Value> = valueRepo.getStepsGoal(stGoal)
+
 }
