@@ -2,10 +2,13 @@ package com.tuwaiq.value.database
 
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.icu.text.CaseMap
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.room.Room
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -14,6 +17,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
 import java.lang.IllegalStateException
 import java.util.concurrent.Executors
+import kotlin.math.E
 
 const val DATABASE_NAME = "my-database"
 class ValueRepo private constructor(context: Context){
@@ -29,7 +33,6 @@ class ValueRepo private constructor(context: Context){
     private val userPhysicalInfo = Firebase.firestore
         .collection("user-physical-info")
 
-
     fun retrieverUserInfo(email: String):LiveData<Value> = liveData {
         val getUserPhysicalInfo = Firebase.firestore
 
@@ -38,6 +41,40 @@ class ValueRepo private constructor(context: Context){
             .get()
             .await().toObjects(Value::class.java)
         emit(dataList[0])
+    }
+
+    fun updateFirestore(value: Value):LiveData<Value> = liveData {
+
+        val userInfo = userPhysicalInfo
+            .whereEqualTo("weight" , value.weight)
+            .whereEqualTo("height" , value.height)
+            .whereEqualTo("weightGoal",value.weightGoal)
+            .whereEqualTo("age",value.age)
+            .whereEqualTo("gender",value.gender)
+            .whereEqualTo("active",value.active)
+            .get()
+        userInfo.addOnSuccessListener {
+            for (document in it){
+                userPhysicalInfo.document(document.id).set(value, SetOptions.merge())
+
+            }
+        }
+
+//            .await()
+//        if (userInfo.documents.isNotEmpty()){
+//            for (document in userInfo){
+//                try {
+//                    userPhysicalInfo.document(document.id).set(
+//                        newUserInfoMap , SetOptions.merge()
+//                    ).await()
+//                }catch (E:Exception){
+//                    withContext(Dispatchers.Main){
+//                        Log.d(TAG, E.message.toString())
+//                    }
+//                }
+//            }
+//        }
+
     }
 
     fun retrieverUserActivity(steps : String):LiveData<Value> = liveData {
@@ -62,7 +99,9 @@ class ValueRepo private constructor(context: Context){
             }
         }
     }
-    
+
+
+
 
 
 

@@ -2,8 +2,11 @@ package com.tuwaiq.value.firestoreUserInfo.personalInfo
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.*
+import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -13,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.google.protobuf.Value
 import com.tuwaiq.value.R
 
 const val INFO_KYE = "user-info"
@@ -28,6 +32,9 @@ class PersonalInfoFragment : Fragment() {
     lateinit var genderTV:TextView
     lateinit var activeTV:TextView
     lateinit var goalTV:TextView
+    lateinit var editBtn:Button
+    lateinit var value:com.tuwaiq.value.database.Value
+
 
 
     companion object {
@@ -52,9 +59,8 @@ class PersonalInfoFragment : Fragment() {
         genderTV = view.findViewById(R.id.gender_info)
         activeTV = view.findViewById(R.id.active_level_info)
         goalTV = view.findViewById(R.id.weight_goal_info)
-//        usernameET = view.findViewById(R.id.username_info)
-//        emailET = view.findViewById(R.id.email_info)
-//        passwordET = view.findViewById(R.id.password_info)
+        editBtn = view.findViewById(R.id.edit_btn)
+
 
         return view
     }
@@ -62,20 +68,21 @@ class PersonalInfoFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        personalInfoViewModel.userInfo.observe(
-            viewLifecycleOwner , Observer {
-               it?.let {
-                  weightTV.text = it.weight
-                  heightTV.text = it.height
-                  ageTV.text = it.age
-                  genderTV.text = it.gender
-                  activeTV.text = it.active
-                  goalTV.text = it.weightGoal
 
-               }
-
-            }
-        )
+//        personalInfoViewModel.userInfo.observe(
+//            viewLifecycleOwner , Observer {
+//               it?.let {
+//                  weightTV.text = it.weight
+//                  heightTV.text = it.height
+//                  ageTV.text = it.age
+//                  genderTV.text = it.gender
+//                  activeTV.text = it.active
+//                  goalTV.text = it.weightGoal
+//
+//               }
+//
+//            }
+//        )
 
         personalInfoViewModel.retrieverUserInfo(Firebase.auth.currentUser?.email.toString())
             .observe(viewLifecycleOwner){
@@ -86,7 +93,37 @@ class PersonalInfoFragment : Fragment() {
                 activeTV.text = it.active
                 goalTV.text = it.weightGoal
             }
+
+
+        editBtn.setOnClickListener {
+
+            personalInfoViewModel.updateFirestore(value).observe(
+                this, Observer {
+                    it?.let {
+                        value.gender = genderTV.toString()
+                    }
+
+                }
+            )
+        }
+
+        val watcher = object :TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                value.gender = s.toString()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+        }
+
+        genderTV.addTextChangedListener(watcher)
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -129,6 +166,11 @@ class PersonalInfoFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+
+     value = com.tuwaiq.value.database.Value()
+
+        val email = value.email
+     personalInfoViewModel.getUserInfo(email)
     }
 
 
@@ -138,6 +180,11 @@ class PersonalInfoFragment : Fragment() {
 
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+    }
 
 
 

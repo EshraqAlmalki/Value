@@ -134,7 +134,7 @@ class TimeLineActiveFragment : Fragment() {
 
 
         fun bind(value:Value){
-            //this.value = value
+            this.value = value
 
 
 
@@ -167,6 +167,7 @@ class TimeLineActiveFragment : Fragment() {
                 Intent(Intent.ACTION_SEND).apply {
                     putExtra(Intent.EXTRA_TEXT , shareSteps())
                     putExtra(Intent.EXTRA_SUBJECT,"share with other")
+                    setType("TEXT/plain")
                 }.also {
                     val chooserIntent = Intent.createChooser(it,"share it")
                     startActivity(chooserIntent)

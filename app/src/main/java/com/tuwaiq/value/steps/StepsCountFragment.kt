@@ -104,6 +104,8 @@ class StepsCountFragment : Fragment() , SensorEventListener{
         stepsCounter.setOnLongClickListener {
             previousTotalSteps = totalSteps
             stepsCounter.text = 0.toString()
+            totalSteps ++
+
             showToast("done")
 
 
@@ -139,9 +141,6 @@ class StepsCountFragment : Fragment() , SensorEventListener{
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
 
     }
-
-
-
 
     private fun showToast(msg:String){
         Toast.makeText( requireContext(), msg  , Toast.LENGTH_SHORT).show()

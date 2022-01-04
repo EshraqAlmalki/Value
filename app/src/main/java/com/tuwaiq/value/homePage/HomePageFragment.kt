@@ -124,6 +124,7 @@ class HomePageFragment : Fragment() {
                             stepsTV.text= it.stGoal
 
 
+
                     }
                     Log.e(TAG, "if onStart: $it",)
 
