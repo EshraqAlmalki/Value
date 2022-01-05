@@ -28,11 +28,4 @@ interface ValueDao {
 
     @Query("SELECT * FROM value WHERE stGoal=(:stGoal)")
     fun getStepsGoal(stGoal : Int):List<Value>
-
-
-
-    //fun saveFirestore(value:Value)
-
-
-
 }

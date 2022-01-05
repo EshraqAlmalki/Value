@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.room.Room
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
@@ -33,6 +34,11 @@ class ValueRepo private constructor(context: Context){
     private val userPhysicalInfo = Firebase.firestore
         .collection("user-physical-info")
 
+    private val document = Firebase.firestore
+        .collection("user-physical-info").document()
+
+
+
     fun retrieverUserInfo(email: String):LiveData<Value> = liveData {
         val getUserPhysicalInfo = Firebase.firestore
 
@@ -43,39 +49,6 @@ class ValueRepo private constructor(context: Context){
         emit(dataList[0])
     }
 
-    fun updateFirestore(value: Value):LiveData<Value> = liveData {
-
-        val userInfo = userPhysicalInfo
-            .whereEqualTo("weight" , value.weight)
-            .whereEqualTo("height" , value.height)
-            .whereEqualTo("weightGoal",value.weightGoal)
-            .whereEqualTo("age",value.age)
-            .whereEqualTo("gender",value.gender)
-            .whereEqualTo("active",value.active)
-            .get()
-        userInfo.addOnSuccessListener {
-            for (document in it){
-                userPhysicalInfo.document(document.id).set(value, SetOptions.merge())
-
-            }
-        }
-
-//            .await()
-//        if (userInfo.documents.isNotEmpty()){
-//            for (document in userInfo){
-//                try {
-//                    userPhysicalInfo.document(document.id).set(
-//                        newUserInfoMap , SetOptions.merge()
-//                    ).await()
-//                }catch (E:Exception){
-//                    withContext(Dispatchers.Main){
-//                        Log.d(TAG, E.message.toString())
-//                    }
-//                }
-//            }
-//        }
-
-    }
 
     fun retrieverUserActivity(steps : String):LiveData<Value> = liveData {
         val getUserActivity = Firebase.firestore
@@ -93,6 +66,25 @@ class ValueRepo private constructor(context: Context){
             userPhysicalInfo.add(value).await()
 
             Log.d(TAG, "saveFireStore: good")
+        }catch (E:Exception){
+            withContext(Dispatchers.Main){
+                Log.d(TAG, E.message.toString())
+            }
+        }
+    }
+
+    fun updateFirestore(value: Value) = CoroutineScope(Dispatchers.IO).launch {
+
+        value.documentId = document.id
+
+        try {
+
+            userPhysicalInfo.document(value.documentId)
+                .update("weight",value.weight ,
+                "height" , value.height ,
+                    "weightGoal" , value.weightGoal , "age" ,
+                value.age , "gender" , value.gender , "active"
+                , value.active).await()
         }catch (E:Exception){
             withContext(Dispatchers.Main){
                 Log.d(TAG, E.message.toString())

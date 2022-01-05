@@ -21,8 +21,8 @@ class PersonalInfoViewModel : ViewModel() {
         return valueRepo.getUserInfo(email)
     }
 
-    fun updateFirestore(value: Value):LiveData<Value>{
-        return valueRepo.updateFirestore(value )
+    fun updateFirestore(value: Value){
+       valueRepo.updateFirestore(value )
     }
 
     fun updateUserInfo(value: Value){

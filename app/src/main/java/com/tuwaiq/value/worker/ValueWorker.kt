@@ -3,7 +3,6 @@
 //import android.app.Notification
 //import android.content.Context
 //import android.content.Intent
-//import androidx.lifecycle.LiveData
 //import androidx.work.Worker
 //import androidx.work.WorkerParameters
 //import com.tuwaiq.value.ValueSharedPreferences
@@ -14,8 +13,9 @@
 //    override fun doWork(): Result {
 //
 //
-//        val steps = ValueSharedPreferences.getStepsCounter(context)
-//        val timer = ValueSharedPreferences.getTimerAlarm(context)
+//
+//       // val steps = ValueSharedPreferences.getStepsCounter(context)
+//        val timer = ValueSharedPreferences.getTimer(context)
 //
 //
 //

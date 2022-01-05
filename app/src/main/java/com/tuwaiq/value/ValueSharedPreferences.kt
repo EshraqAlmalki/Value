@@ -9,26 +9,14 @@
 //object ValueSharedPreferences {
 //
 //
-//    fun setStepsCounter(context: Context , steps : String){
-//        PreferenceManager.getDefaultSharedPreferences(context)
-//            .edit().putString(STEPS_KEY ,steps )
-//            .apply()
-//    }
 //
-//
-//    fun getStepsCounter(context: Context):String {
-//        val preferenceManager = PreferenceManager.getDefaultSharedPreferences(context)
-//
-//        return preferenceManager.getString(STEPS_KEY , "")!!
-//    }
-//
-//    fun setTimerAlarm(context: Context , timer:Long){
+//    fun setTimer(context: Context , timer:Long){
 //        PreferenceManager.getDefaultSharedPreferences(context).edit().putString(TIMER_KEY ,
 //            timer.toString()).apply()
 //
 //    }
 //
-//    fun getTimerAlarm(context: Context):String{
+//    fun getTimer(context: Context):String{
 //        val preferenceManager = PreferenceManager.getDefaultSharedPreferences(context)
 //        return preferenceManager.getString(TIMER_KEY , "")!!
 //    }

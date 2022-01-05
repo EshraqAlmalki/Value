@@ -92,19 +92,16 @@ class PersonalInfoFragment : Fragment() {
                 genderTV.text = it.gender
                 activeTV.text = it.active
                 goalTV.text = it.weightGoal
+                Log.e(TAG, "onStart: $value 1", )
             }
 
 
         editBtn.setOnClickListener {
 
-            personalInfoViewModel.updateFirestore(value).observe(
-                this, Observer {
-                    it?.let {
-                        value.gender = genderTV.toString()
-                    }
 
-                }
-            )
+            Log.e(TAG, "onStart: $value 2", )
+            personalInfoViewModel.updateFirestore(value)
+            personalInfoViewModel.updateUserInfo(value)
         }
 
         val watcher = object :TextWatcher{
@@ -122,6 +119,86 @@ class PersonalInfoFragment : Fragment() {
         }
 
         genderTV.addTextChangedListener(watcher)
+
+        val watcher1 = object :TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                value.age = s.toString()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+        }
+
+        ageTV.addTextChangedListener(watcher1)
+
+        val watcher2 = object :TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                value.weight = s.toString()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+        }
+
+        weightTV.addTextChangedListener(watcher2)
+
+        val watcher3 = object :TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                value.height = s.toString()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+        }
+
+        heightTV.addTextChangedListener(watcher3)
+
+        val watcher4 = object :TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                value.active = s.toString()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+        }
+
+        activeTV.addTextChangedListener(watcher4)
+
+        val watcher5 = object :TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                value.weightGoal = s.toString()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+        }
+
+        goalTV.addTextChangedListener(watcher5)
     }
 
 
@@ -167,10 +244,7 @@ class PersonalInfoFragment : Fragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-     value = com.tuwaiq.value.database.Value()
-
-        val email = value.email
-     personalInfoViewModel.getUserInfo(email)
+        value=com.tuwaiq.value.database.Value()
     }
 
 
@@ -183,6 +257,18 @@ class PersonalInfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        personalInfoViewModel.userInfo.observe(
+            viewLifecycleOwner , Observer {
+                it?.let {
+                    it.gender = genderTV.toString()
+                    it.height = heightTV.toString()
+                    it.age = ageTV.toString()
+                    it.weight = weightTV.toString()
+                    it.active = activeTV.toString()
+                    it.weightGoal = goalTV.toString()
+                }
+            }
+        )
 
     }
 

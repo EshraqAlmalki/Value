@@ -140,7 +140,7 @@ class NextRegisterFragment : Fragment() {
                                 Log.e(TAG, "onStart: $value")
                                 Log.e(TAG, "onStart fat: ${value.fat}" )
                                 nextRegisterViewModel.updateUserInfo(value)
-                                nextRegisterViewModel.saveFirestore(value)
+                                     nextRegisterViewModel.saveFirestore(value)
                                 Log.e(TAG, "onStart: firestore: ${nextRegisterViewModel.saveFirestore(value)}", )
                                 val action = NextRegisterFragmentDirections
                                     .actionNextRegisterFragmentToHomePageFragment(email = args.email)
