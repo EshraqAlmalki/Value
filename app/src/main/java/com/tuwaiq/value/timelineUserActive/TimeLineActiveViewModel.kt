@@ -37,7 +37,7 @@ class TimeLineActiveViewModel : ViewModel() {
     fun getAllUserInfo(): LiveData<List<Value>> = valueRepo.getAllUserInfo()
 
 
-    fun retrieverUserActivity(steps: String) :LiveData<Value> = valueRepo.retrieverUserActivity(steps)
+   // fun retrieverUserActivity(steps: String) :LiveData<Value> = valueRepo.retrieverUserActivity(steps)
 
 
 

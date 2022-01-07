@@ -13,8 +13,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.datastore.core.DataStore
 import com.tuwaiq.value.R
 import nl.dionsegijn.konfetti.KonfettiView
+import java.util.prefs.Preferences
 
 private const val TAG = "TimerFragment"
 class TimerFragment : Fragment() {
@@ -28,6 +30,8 @@ class TimerFragment : Fragment() {
     lateinit var countdown_timer: CountDownTimer
     private var isRunning: Boolean = false
     private var time_in_milli_seconds = 0L
+
+
 
 
     private val timerViewModel by lazy {
@@ -52,6 +56,12 @@ class TimerFragment : Fragment() {
 
 
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+    }
+
 
 
     override fun onStart() {

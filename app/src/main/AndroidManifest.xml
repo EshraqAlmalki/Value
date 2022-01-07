@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tuwaiq.value">
 
+    <permission android:name="com.tuwaiq.value.PRIVATE"
+        android:protectionLevel="signature"/>
+
+    <uses-permission android:name="com.tuwaiq.value.PRIVATE"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION"/>
 
@@ -28,6 +32,15 @@
             </intent-filter>
         </activity>
 
+        <receiver
+            android:name=".broadcastRec.NotificationRec"
+            android:exported="false"
+            android:permission="com.tuwaiq.value.PRIVATE">
+
+            <intent-filter>
+                <action android:name="com.tuwaiq.value.SHOW_NOTIFICATION"/>
+            </intent-filter>
+        </receiver>
 
     </application>
 

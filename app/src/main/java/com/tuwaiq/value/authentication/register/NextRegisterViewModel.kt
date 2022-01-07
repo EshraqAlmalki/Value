@@ -26,9 +26,9 @@ class NextRegisterViewModel : ViewModel() {
 
 
 
-    fun updateFirestore(value: Value){
-        valueRepo.updateFirestore(value )
-    }
+//    fun updateFirestore(value: Value){
+//        valueRepo.updateFirestore(value)
+//    }
 
 //    fun addNewUser(value: Value){
 //        valueRepo.addNewUser(value)

@@ -75,7 +75,8 @@ class LoginFragment : Fragment() {
                             showToast("good job")
 
 
-                            viewModel.getUserInfo(email = value.email)
+                            //Log.d(TAG)
+                           viewModel.getUserInfo(email = value.email)
                             //viewModel.saveFirestore(value)
 
 

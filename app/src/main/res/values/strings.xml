@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Value</string>
     <string name="username">username</string>
+    <string name="notification_channe_name" />
+    <string name="timer_end" />
+    <string name="timer_ends_title">your time is up!</string>
+    <string name="good_jod">Good Job</string>
 </resources>
