@@ -13,11 +13,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.google.protobuf.Value
+
 import com.tuwaiq.value.R
+import com.tuwaiq.value.database.Value
 
 const val INFO_KYE = "user-info"
 private const val TAG = "InfoFragment"
@@ -33,8 +35,7 @@ class PersonalInfoFragment : Fragment() {
     lateinit var activeTV:TextView
     lateinit var goalTV:TextView
     lateinit var editBtn:Button
-    lateinit var value:com.tuwaiq.value.database.Value
-
+    lateinit var value: Value
 
 
     companion object {
@@ -65,38 +66,34 @@ class PersonalInfoFragment : Fragment() {
         return view
     }
 
+
+
     override fun onStart() {
         super.onStart()
 
-        value=com.tuwaiq.value.database.Value()
+        value=Value()
 
 
-//        personalInfoViewModel.userInfo.observe(
-//            viewLifecycleOwner , Observer {
-//               it?.let {
-//                  weightTV.text = it.weight
-//                  heightTV.text = it.height
-//                  ageTV.text = it.age
-//                  genderTV.text = it.gender
-//                  activeTV.text = it.active
-//                  goalTV.text = it.weightGoal
-//
-//               }
-//
-//            }
-//        )
+            Log.d(TAG, "email: ${Firebase.auth.currentUser?.email.toString()}")
+            personalInfoViewModel.retrieverUserInfo(Firebase.auth.currentUser?.email.toString())
+                .observe(viewLifecycleOwner){
+                    weightTV.text = it.weight
+                    heightTV.text = it.height
+                    ageTV.text = it.age
+                    genderTV.text = it.gender
+                    activeTV.text = it.active
+                    goalTV.text = it.weightGoal
+                    Log.e(TAG, "onStart: $value 1", )
+                }
 
-        Log.d(TAG, "email: ${Firebase.auth.currentUser?.email.toString()}")
-        personalInfoViewModel.retrieverUserInfo(Firebase.auth.currentUser?.email.toString())
-            .observe(viewLifecycleOwner){
-                weightTV.text = it.weight
-                heightTV.text = it.height
-                ageTV.text = it.age
-                genderTV.text = it.gender
-                activeTV.text = it.active
-                goalTV.text = it.weightGoal
-                Log.e(TAG, "onStart: $value 1", )
-            }
+            personalInfoViewModel.getUserInfo(Firebase.auth.currentUser?.email.toString())
+
+
+
+
+
+
+        Log.e(TAG, "onStart:docId ${value.documentId}", )
 
 
         editBtn.setOnClickListener {
@@ -105,7 +102,7 @@ class PersonalInfoFragment : Fragment() {
             Log.d(TAG, "idd ${value.documentId}")
             personalInfoViewModel.updateFirestore(value.documentId, value)
             personalInfoViewModel.updateUserInfo(value)
-            personalInfoViewModel.retrieverUserInfo(value.email)
+
         }
 
         val watcher = object :TextWatcher{
@@ -211,9 +208,6 @@ class PersonalInfoFragment : Fragment() {
 
     }
 
-
-
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.logout_menu -> {
@@ -231,11 +225,6 @@ class PersonalInfoFragment : Fragment() {
                     alert.show()
                 }
 
-
-
-                Log.e(TAG, "onOptionsItemSelected: ${FirebaseAuth.getInstance().signOut()}", )
-
-
                 true
             }else->super.onContextItemSelected(item)
             }
@@ -246,6 +235,7 @@ class PersonalInfoFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+
 
     }
 
@@ -269,6 +259,7 @@ class PersonalInfoFragment : Fragment() {
                     it.active = activeTV.toString()
                     it.weightGoal = goalTV.toString()
                 }
+                Log.e(TAG, "onViewCreated: $value", )
             }
         )
 

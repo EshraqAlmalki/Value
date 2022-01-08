@@ -20,7 +20,7 @@ class ValueApp:Application() {
 
         val notificationManager = getSystemService(NotificationManager::class.java)
 
-        notificationManager.createNotificationChannel(channel)
+            //        notificationManager.createNotificationChannel(channel)
 
 
         ValueRepo.initialize(this)

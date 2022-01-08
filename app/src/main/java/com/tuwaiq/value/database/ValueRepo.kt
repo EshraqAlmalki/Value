@@ -14,9 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.*
@@ -39,22 +37,43 @@ class ValueRepo private constructor(context: Context){
     private val userPhysicalInfo = Firebase.firestore
         .collection("user-physical-info")
 
-    fun retrieverUserInfo(email: String):LiveData<Value> {
-        return liveData {
-            val getUserPhysicalInfo = Firebase.firestore
+//    fun retrieverUserInfo(email: String):LiveData<Value> = liveData {
+//            val getUserPhysicalInfo = Firebase.firestore
+//
+//            val dataList = getUserPhysicalInfo.collection("user-physical-info")
+//                .whereEqualTo("email", email)
+//                .get()
+//                .await().toObjects(Value::class.java)
+//            emit(dataList[0])
+//    }
 
-            val dataList = getUserPhysicalInfo.collection("user-physical-info")
-                .whereEqualTo("email", email)
-                .get().addOnSuccessListener {
-                    it.forEach {
-                        Log.d(TAG, "ACTIVE: ${it.getString("active")}")
-                    }
+
+    fun retrieverUserInfo(email: String):LiveData<Value> = liveData{
+        val getUserPhysicalInfo = Firebase.firestore
+
+
+        getUserPhysicalInfo.collection("user-physical-info")
+            .whereEqualTo("email",email).addSnapshotListener { value, error ->
+                if (error != null) {
+                    Log.e(TAG, "onEvent: ${error.message.toString()}",)
+                    return@addSnapshotListener
                 }
-                .await().toObjects(Value::class.java)
-            emit(dataList.last())
-            Log.d(TAG, "list: ${dataList.last()}")
-        }
+
+
+                for (doc in value!!.documentChanges) {
+                    when(doc.type){
+                        DocumentChange.Type.MODIFIED ->
+                            return@addSnapshotListener
+                    }
+
+
+                }
+
+            }
     }
+
+
+
 
 //    fun retrieverUserActivity(steps : String):LiveData<Value> = liveData {
 //        val getUserActivity = Firebase.firestore
