@@ -7,8 +7,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationManagerCompat
+import com.tuwaiq.value.worker.ValueWorker
 
-const val NOTIFICATION = "timer-notification"
 class NotificationRec:BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
 
@@ -16,7 +16,7 @@ class NotificationRec:BroadcastReceiver() {
             return
         }
 
-        val notification:Notification = intent?.getParcelableExtra(NOTIFICATION)!!
+        val notification:Notification = intent?.getParcelableExtra(ValueWorker.NOTIFICATION)!!
 
 
 

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Value</string>
+    <string name="username">اسم المستخدم</string>
+    <string name="user_steps">خطواتك</string>
+    <string name="daily_calories_to_reach_the_goal">احتياج السعرات الحرارية للوصول للهدف:</string>
+    <string name="daily_steps_to_reach_the_goal">الخطوات اليويه للوصول للهدف</string>
+    <string name="enter_your_email">ادخل بريدك الالكتروتي</string>
+    <string name="password">"الرقم السري "</string>
+    <string name="enter_your_password">ادخل رقمك السري</string>
+    <string name="login">ادخل</string>
+    <string name="register_now">سجل الان</string>
+    <string name="don_t_have_account_yet">لم تسجل لدينا بعد؟</string>
+</resources>

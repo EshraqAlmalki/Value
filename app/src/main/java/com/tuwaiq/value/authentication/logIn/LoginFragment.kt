@@ -54,6 +54,15 @@ class LoginFragment : Fragment() {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        val currentUser = auth.currentUser
+        if (currentUser != null){
+            Log.e(TAG, "onStart: hi ${currentUser.displayName}", )
+        }
+    }
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

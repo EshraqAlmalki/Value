@@ -3,6 +3,7 @@ package com.tuwaiq.value.database
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.preferencesKey
@@ -14,13 +15,17 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.*
+import com.google.firebase.firestore.core.View
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.ktx.options
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
 import java.lang.Exception
 import java.lang.IllegalStateException
+import java.lang.StringBuilder
 import java.util.concurrent.Executors
 
 const val DATABASE_NAME = "my-database"
@@ -33,44 +38,39 @@ class ValueRepo private constructor(context: Context){
         DATABASE_NAME)
         .build()
 
+    private var snapshotListener: ListenerRegistration? = null
+
 
     private val userPhysicalInfo = Firebase.firestore
         .collection("user-physical-info")
 
-//    fun retrieverUserInfo(email: String):LiveData<Value> = liveData {
-//            val getUserPhysicalInfo = Firebase.firestore
+//    fun retrieverUserInfo():LiveData<Value> = liveData{
+//      userPhysicalInfo.addSnapshotListener { value, error ->
+//          error?.let {
+//              Log.e(TAG, "retrieverUserInfo: there is a mistake", )
+//              return@addSnapshotListener
+//          }
+//          value?.let {
+//              val sb = StringBuilder()
+//              for (document in it){
+//                  val userInfo = document.toObject(Value::class.java)
+//                  sb.append("$userInfo\n")
+//              }
+//          }
 //
-//            val dataList = getUserPhysicalInfo.collection("user-physical-info")
-//                .whereEqualTo("email", email)
-//                .get()
-//                .await().toObjects(Value::class.java)
-//            emit(dataList[0])
+//      }
+//
 //    }
 
-
-    fun retrieverUserInfo(email: String):LiveData<Value> = liveData{
-        val getUserPhysicalInfo = Firebase.firestore
-
-
-        getUserPhysicalInfo.collection("user-physical-info")
-            .whereEqualTo("email",email).addSnapshotListener { value, error ->
-                if (error != null) {
-                    Log.e(TAG, "onEvent: ${error.message.toString()}",)
-                    return@addSnapshotListener
-                }
-
-
-                for (doc in value!!.documentChanges) {
-                    when(doc.type){
-                        DocumentChange.Type.MODIFIED ->
-                            return@addSnapshotListener
-                    }
-
-
-                }
-
-            }
+    fun retrieverUserInfo(email: String):LiveData<Value> = liveData {
+        val getUserInfo = Firebase.firestore
+        val userInfo = getUserInfo.collection("user-physical-info").whereEqualTo("email",
+        email).get().await().toObjects(Value::class.java)
+        emit(userInfo[0])
     }
+
+
+
 
 
 
@@ -113,7 +113,7 @@ class ValueRepo private constructor(context: Context){
 //                                    Log.e(TAG, "onSuccess: document successfully updated", )
 //
 //                                }
-//
+
 //                            })?.addOnFailureListener(object : OnFailureListener {
 //                                override fun onFailure(p0: Exception) {
 //                                    Log.e(TAG, "onFailure: ",p0 )
@@ -129,13 +129,14 @@ class ValueRepo private constructor(context: Context){
 //
 //        })
 //
+
         var idd = ""
         userPhysicalInfo.get().addOnSuccessListener {
             it.forEach {
                 idd = it.getString("documentId").toString()
             }
         }.addOnCompleteListener {
-            Log.e(TAG, "updateFirestore: ${idd}",)
+            Log.e(TAG, "updateFirestore: $idd",)
 
             val updateUserInfo = userPhysicalInfo.document(idd)
 

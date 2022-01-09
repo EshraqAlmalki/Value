@@ -1,8 +1,17 @@
 <resources>
     <string name="app_name">Value</string>
     <string name="username">username</string>
-    <string name="notification_channe_name" />
-    <string name="timer_end" />
-    <string name="timer_ends_title">your time is up!</string>
-    <string name="good_jod">Good Job</string>
+    <string name="notification_channe_name" translatable="false" />
+    <string name="timer_end" translatable="false" />
+    <string name="timer_ends_title" translatable="false">your time is up!</string>
+    <string name="good_jod" translatable="false">Good Job</string>
+    <string name="user_steps">user steps</string>
+    <string name="daily_calories_to_reach_the_goal">daily calories to reach the goal</string>
+    <string name="daily_steps_to_reach_the_goal">daily steps to reach the goal</string>
+    <string name="enter_your_email">Enter your Email</string>
+    <string name="password">password</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="login">login</string>
+    <string name="register_now">Register now</string>
+    <string name="don_t_have_account_yet">don\'t have account yet?</string>
 </resources>

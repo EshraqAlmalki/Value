@@ -21,14 +21,14 @@ class DatastorePreferences(context: Context) {
         }
     }
 
-    suspend fun saveUserTimer(timerIsUp:Long){
+    suspend fun saveUserTimer(context: Context,timerIsUp:Boolean){
         dataStore.edit { setTimer ->
             setTimer[TIMER_KEY] = timerIsUp
         }
     }
 
-    val timerSetting :Flow<Long> = dataStore.data.map {
-        val timerMap = it[TIMER_KEY] ?: 0
+    val timerSetting :Flow<Boolean> = dataStore.data.map {
+        val timerMap = it[TIMER_KEY] ?: false
         timerMap
     }
 
@@ -39,7 +39,7 @@ class DatastorePreferences(context: Context) {
 
     companion object {
         private val LANGUAGE_SETTING_KEY = preferencesKey<Boolean>("language-mode")
-        private val TIMER_KEY = preferencesKey<Long>("timer-is-up")
+        private val TIMER_KEY = preferencesKey<Boolean>("timer-is-up")
     }
 
 

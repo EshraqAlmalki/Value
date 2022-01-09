@@ -20,6 +20,7 @@ import com.google.firebase.ktx.Firebase
 
 import com.tuwaiq.value.R
 import com.tuwaiq.value.database.Value
+import com.tuwaiq.value.homePage.HomePageFragmentArgs
 
 const val INFO_KYE = "user-info"
 private const val TAG = "InfoFragment"
@@ -36,6 +37,9 @@ class PersonalInfoFragment : Fragment() {
     lateinit var goalTV:TextView
     lateinit var editBtn:Button
     lateinit var value: Value
+    lateinit var auth: FirebaseAuth
+
+
 
 
     companion object {
@@ -45,6 +49,7 @@ class PersonalInfoFragment : Fragment() {
 
     private val personalInfoViewModel by lazy {
         ViewModelProvider(this)[PersonalInfoViewModel::class.java]}
+
 
 
     override fun onCreateView(
@@ -74,34 +79,50 @@ class PersonalInfoFragment : Fragment() {
         value=Value()
 
 
+
             Log.d(TAG, "email: ${Firebase.auth.currentUser?.email.toString()}")
             personalInfoViewModel.retrieverUserInfo(Firebase.auth.currentUser?.email.toString())
                 .observe(viewLifecycleOwner){
-                    weightTV.text = it.weight
-                    heightTV.text = it.height
-                    ageTV.text = it.age
-                    genderTV.text = it.gender
-                    activeTV.text = it.active
-                    goalTV.text = it.weightGoal
-                    Log.e(TAG, "onStart: $value 1", )
+                    it?.let {
+                        weightTV.text = it.weight
+                        heightTV.text = it.height
+                        ageTV.text = it.age
+                        genderTV.text = it.gender
+                        activeTV.text = it.active
+                        goalTV.text = it.weightGoal
+                    }
+
+                   
                 }
 
             personalInfoViewModel.getUserInfo(Firebase.auth.currentUser?.email.toString())
 
-
-
-
-
+            personalInfoViewModel.userInfo.observe(
+                viewLifecycleOwner , Observer {
+                    it?.let {
+                        weightTV.text = it.weight
+                        heightTV.text = it.height
+                        ageTV.text = it.age
+                        genderTV.text = it.gender
+                        activeTV.text = it.active
+                        goalTV.text = it.weightGoal
+                    }
+                    Log.e(TAG, "onStart: if $value", )
+                }
+            
+                       
+            )
 
         Log.e(TAG, "onStart:docId ${value.documentId}", )
 
 
         editBtn.setOnClickListener {
 
-            Log.e(TAG, "onStart: $value 2", )
-            Log.d(TAG, "idd ${value.documentId}")
-            personalInfoViewModel.updateFirestore(value.documentId, value)
-            personalInfoViewModel.updateUserInfo(value)
+
+//            Log.e(TAG, "onStart: $value 2", )
+//            Log.d(TAG, "idd ${value.documentId}")
+          personalInfoViewModel.updateFirestore(value.documentId, value)
+//            personalInfoViewModel.updateUserInfo(value)
 
         }
 
@@ -217,7 +238,7 @@ class PersonalInfoFragment : Fragment() {
                     it.setMessage("are sure you want to sign out?")
                     it.setCancelable(false)
                     it.setPositiveButton("Yes I'm"){ _ ,_ ->
-                        FirebaseAuth.getInstance().signOut()
+                        auth.signOut()
                         findNavController().navigate(R.id.loginFragment)
                     }
                     it.setNegativeButton("No"){dialog , id -> dialog.dismiss()}
@@ -243,6 +264,7 @@ class PersonalInfoFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        auth = FirebaseAuth.getInstance()
 
     }
 

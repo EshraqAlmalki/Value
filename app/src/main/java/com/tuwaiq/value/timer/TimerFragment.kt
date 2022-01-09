@@ -1,5 +1,10 @@
 package com.tuwaiq.value.timer
 
+import android.app.Activity
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Color
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -14,10 +19,16 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.datastore.core.DataStore
+import androidx.work.*
 import com.tuwaiq.value.R
+import com.tuwaiq.value.broadcastRec.NotificationRec
+import com.tuwaiq.value.dataStore.DatastorePreferences
+import com.tuwaiq.value.worker.ValueWorker
 import nl.dionsegijn.konfetti.KonfettiView
+import java.util.concurrent.TimeUnit
 import java.util.prefs.Preferences
 
+const val TIMER_RUN = "time-is-up"
 private const val TAG = "TimerFragment"
 class TimerFragment : Fragment() {
 
@@ -30,6 +41,14 @@ class TimerFragment : Fragment() {
     lateinit var countdown_timer: CountDownTimer
     private var isRunning: Boolean = false
     private var time_in_milli_seconds = 0L
+
+    val onShowNotification = object : BroadcastReceiver(){
+        override fun onReceive(context: Context?, intent: Intent?) {
+            Log.d(TAG , "hi im awake")
+            resultCode = Activity.RESULT_CANCELED
+        }
+
+    }
 
 
 
@@ -67,6 +86,11 @@ class TimerFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
+        IntentFilter(ValueWorker.SHOW_NOTIFICATION).also {
+            requireContext().registerReceiver(onShowNotification
+                ,it,ValueWorker.PERM_PRIVATE,null)
+        }
+
         startBtn.setOnClickListener {
 
             val time  = time_edit_text.text.toString()
@@ -84,6 +108,29 @@ class TimerFragment : Fragment() {
 
         reset.setOnClickListener {
             resetTimer()
+        }
+    }
+
+    fun startNotificationWorker(isRunning:Boolean){
+
+        if (isRunning){
+            WorkManager.getInstance(requireContext()).cancelUniqueWork(TIMER_RUN)
+            timerViewModel.datastoreTimer(requireContext(),false)
+
+        }else{
+            val constraints = Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build()
+
+            val workerReq = PeriodicWorkRequest.Builder(ValueWorker::class.java,1,TimeUnit.MINUTES)
+                .setConstraints(constraints).build()
+
+            WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(TIMER_RUN,
+                ExistingPeriodicWorkPolicy.KEEP,workerReq)
+            timerViewModel.datastoreTimer(requireContext(),true)
+
+
+
         }
     }
 
@@ -111,6 +158,9 @@ class TimerFragment : Fragment() {
         countdown_timer = object : CountDownTimer(time_in_seconds, 1000) {
             override fun onFinish() {
                 loadConfeti()
+
+//                val timeIsOut = timerViewModel.datastoreTimer(requireContext(),)
+
             }
 
             override fun onTick(p0: Long) {

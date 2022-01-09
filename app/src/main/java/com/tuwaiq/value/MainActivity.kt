@@ -4,13 +4,15 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import android.util.AttributeSet
+import android.view.*
 import androidx.datastore.core.DataStore
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.tuwaiq.value.authentication.logIn.LoginFragment
+import com.tuwaiq.value.dataStore.DatastorePreferences
 import java.util.prefs.Preferences
 
 class MainActivity : AppCompatActivity() {
@@ -22,7 +24,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+
+//    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
+//      super.onCreateOptionsMenu(menu)
+//        inflater.inflate(R.menu.localization,menu)
+//
+//        val changeLanguage = menu?.findItem(R.id.change_lan)
+//
+//
+//        true
+//
+//
+//    }
+
+
+        override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 

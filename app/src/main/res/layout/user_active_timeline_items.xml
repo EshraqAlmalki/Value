@@ -21,18 +21,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="54dp"
             android:layout_marginTop="45dp"
-            android:hint="user steps"
+            android:hint="@string/user_steps"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView15"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="43dp"
-            android:text="steps"
-            app:layout_constraintStart_toEndOf="@+id/user_activity_sp"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView

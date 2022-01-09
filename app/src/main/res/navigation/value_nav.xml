@@ -43,6 +43,10 @@
         <action
             android:id="@+id/action_personalInfoFragment_to_homePageFragment"
             app:destination="@id/homePageFragment" />
+        <argument
+            android:name="email"
+            app:argType="string"
+            android:defaultValue='"-1"' />
     </fragment>
     <fragment
         android:id="@+id/stepsCountFragment3"

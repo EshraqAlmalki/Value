@@ -41,12 +41,13 @@ class ValueWorker(private val context: Context , workerParameters: WorkerParamet
         val intent = Intent(SHOW_NOTIFICATION).apply {
             putExtra(NOTIFICATION , notification)
         }
+        context.sendOrderedBroadcast(intent , PERM_PRIVATE)
     }
 
 
     companion object{
-        private val SHOW_NOTIFICATION = "com.tuwaiq.value.SHOW_NOTIFICATION"
-        private val PERM_PRIVATE = "com.tuwaiq.value.PRIVATE"
-        private val NOTIFICATION = "timer-notification"
+        val SHOW_NOTIFICATION = "com.tuwaiq.value.SHOW_NOTIFICATION"
+        val PERM_PRIVATE = "com.tuwaiq.value.PRIVATE"
+        val NOTIFICATION = "timer-notification"
     }
 }
