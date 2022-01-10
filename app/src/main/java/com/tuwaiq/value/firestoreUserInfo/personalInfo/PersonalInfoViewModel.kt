@@ -33,6 +33,6 @@ class PersonalInfoViewModel : ViewModel() {
 
 
     fun retrieverUserInfo(email: String):LiveData<Value> =
-        valueRepo.retrieverUserInfo(email)
+        valueRepo.retrieverUserInfo()
 
 }

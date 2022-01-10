@@ -34,6 +34,11 @@ class TimeLineActiveViewModel : ViewModel() {
     }
 
 
+    fun addNewUser(value: Value){
+        valueRepo.addNewUser(value)
+    }
+
+
     fun getAllUserInfo(): LiveData<List<Value>> = valueRepo.getAllUserInfo()
 
 

@@ -11,11 +11,6 @@ class RegisterViewModel : ViewModel() {
 
     private val valueRepo = ValueRepo.get()
 
-    fun saveUpdate(value: Value){
-        valueRepo.updateUserInfo(value)
-    }
-
-
     fun addNewUser(value: Value){
         valueRepo.addNewUser(value)
     }

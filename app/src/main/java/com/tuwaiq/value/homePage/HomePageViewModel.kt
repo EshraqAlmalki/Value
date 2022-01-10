@@ -18,7 +18,7 @@ class HomePageViewModel : ViewModel() {
         }
 
 
-    fun retrieverUserInfo(email: String):LiveData<Value> = valueRepo.retrieverUserInfo(email)
+    fun retrieverUserInfo(uid: String):LiveData<Value> = valueRepo.retrieverUserInfo()
 
     fun getUserInfo(email:String){
        valueLiveData.value = email

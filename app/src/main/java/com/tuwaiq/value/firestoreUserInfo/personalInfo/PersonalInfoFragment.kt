@@ -95,7 +95,7 @@ class PersonalInfoFragment : Fragment() {
                    
                 }
 
-            personalInfoViewModel.getUserInfo(Firebase.auth.currentUser?.email.toString())
+            personalInfoViewModel.getUserInfo(Firebase.auth.currentUser?.uid.toString())
 
             personalInfoViewModel.userInfo.observe(
                 viewLifecycleOwner , Observer {
@@ -119,11 +119,10 @@ class PersonalInfoFragment : Fragment() {
         editBtn.setOnClickListener {
 
 
-//            Log.e(TAG, "onStart: $value 2", )
+          Log.e(TAG, "onStart: $value 2", )
 //            Log.d(TAG, "idd ${value.documentId}")
           personalInfoViewModel.updateFirestore(value.documentId, value)
-//            personalInfoViewModel.updateUserInfo(value)
-
+            personalInfoViewModel.updateUserInfo(value)
         }
 
         val watcher = object :TextWatcher{

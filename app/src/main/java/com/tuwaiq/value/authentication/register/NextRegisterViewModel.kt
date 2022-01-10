@@ -38,6 +38,8 @@ class NextRegisterViewModel : ViewModel() {
         valueRepo.updateUserInfo(value)
     }
 
+
+
     var userInfo:LiveData<Value?> =
         Transformations.switchMap(userLiveData){
             valueRepo.getUserInfo(it)

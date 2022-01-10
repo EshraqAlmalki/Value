@@ -6,7 +6,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.preferencesKey
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.room.Query
@@ -38,117 +38,56 @@ class ValueRepo private constructor(context: Context){
         DATABASE_NAME)
         .build()
 
-    private var snapshotListener: ListenerRegistration? = null
-
 
     private val userPhysicalInfo = Firebase.firestore
         .collection("user-physical-info")
 
-//    fun retrieverUserInfo():LiveData<Value> = liveData{
-//      userPhysicalInfo.addSnapshotListener { value, error ->
-//          error?.let {
-//              Log.e(TAG, "retrieverUserInfo: there is a mistake", )
-//              return@addSnapshotListener
-//          }
-//          value?.let {
-//              val sb = StringBuilder()
-//              for (document in it){
-//                  val userInfo = document.toObject(Value::class.java)
-//                  sb.append("$userInfo\n")
-//              }
-//          }
-//
-//      }
-//
-//    }
 
-    fun retrieverUserInfo(email: String):LiveData<Value> = liveData {
+    fun retrieverUserInfo():LiveData<Value> = liveData {
         val getUserInfo = Firebase.firestore
-        val userInfo = getUserInfo.collection("user-physical-info").whereEqualTo("email",
-        email).get().await().toObjects(Value::class.java)
-        emit(userInfo[0])
+        val userInfo = Firebase.auth.currentUser?.let {
+            getUserInfo.collection("user-physical-info")
+                .document(it.uid).get().await().toObject(Value::class.java)
+        }
+        if (userInfo != null) {
+            emit(userInfo)
+        }
+
+
     }
 
-
-
-
-
-
-
-//    fun retrieverUserActivity(steps : String):LiveData<Value> = liveData {
-//        val getUserActivity = Firebase.firestore
-//
-//        val userActive = getUserActivity.collection("user-physical-info")
-//            .whereEqualTo("steps", steps)
-//            .get().await().toObjects(Value::class.java)
-//        emit(userActive[0])
-//    }
 
 
 
     fun saveFireStore(value:Value){
 
-            val addUserInfo = userPhysicalInfo.document()
+            val addUserInfo = Firebase.auth.currentUser?.let { userPhysicalInfo.document(it.uid) }
+        if (addUserInfo != null) {
             value.documentId = addUserInfo.id
+        }
 
-
-
-            addUserInfo.set(value)
+        addUserInfo?.set(value)
     }
 
 
 
-    fun updateFirestore(id:String,value: Value) {
+    fun updateFirestore(uid:String,value: Value) {
+        val dataMap = mapOf(
+            "gender" to value.gender,
+            "active" to value.active,
+            "age" to value.age,
+            "weight" to value.weight,
+            "height" to value.height,
+            "stGoal" to value.stGoal,
+            "weightGoal" to value.weightGoal
 
-//        val getRef:FirebaseFirestore =FirebaseFirestore.getInstance()
-//        val getDocumentRef : CollectionReference= getRef.collection("user-physical-info")
-//        val docId:com.google.firebase.firestore.Query = getDocumentRef.whereEqualTo("documentId",value.documentId)
-//        docId.get().addOnCompleteListener(object : OnCompleteListener<QuerySnapshot?> {
-//            override fun onComplete(p0: Task<QuerySnapshot?>) {
-//                if (p0.isSuccessful){
-//                    for (document in p0.result!!){
-//                        document.getDocumentReference(value.documentId)?.update("weight",value.weight)
-//                            ?.addOnSuccessListener(object : OnSuccessListener<Void?> {
-//                                override fun onSuccess(p0: Void?) {
-//                                    Log.e(TAG, "onSuccess: document successfully updated", )
-//
-//                                }
-
-//                            })?.addOnFailureListener(object : OnFailureListener {
-//                                override fun onFailure(p0: Exception) {
-//                                    Log.e(TAG, "onFailure: ",p0 )
-//                                }
-//
-//                            })
-//                    }
-//
-//                }else{
-//                    Log.e(TAG, "error getting document ",p0.exception )
-//                }
-//            }
-//
-//        })
-//
-
-        var idd = ""
-        userPhysicalInfo.get().addOnSuccessListener {
-            it.forEach {
-                idd = it.getString("documentId").toString()
-            }
-        }.addOnCompleteListener {
-            Log.e(TAG, "updateFirestore: $idd",)
-
-            val updateUserInfo = userPhysicalInfo.document(idd)
-
-            try {
-
-                updateUserInfo.update("active", value.active)
-            } catch (E: Exception) {
-
-                Log.d(TAG, E.message.toString())
-
-            }
+        )
+        Firebase.auth.currentUser?.let {
+            Firebase.firestore
+                .collection("user-physical-info")
+                .document(it.uid).update(dataMap)
         }
+
     }
 
 
@@ -170,11 +109,6 @@ class ValueRepo private constructor(context: Context){
         executor.execute {
             valueDao.updateUserInfo(value)
         }
-    }
-
-    fun getUserSteps(steps:Int):List<Value>{
-        return valueDao.getUserSteps(steps)
-
     }
 
     fun getStepsGoal(stGoal:Int):List<Value>{

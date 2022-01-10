@@ -1,5 +1,7 @@
 package com.tuwaiq.value
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -25,17 +27,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-//    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
-//      super.onCreateOptionsMenu(menu)
-//        inflater.inflate(R.menu.localization,menu)
 //
-//        val changeLanguage = menu?.findItem(R.id.change_lan)
-//
-//
-//        true
-//
-//
-//    }
 
 
         override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,5 +56,7 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-    }
+
+
+        }
 }

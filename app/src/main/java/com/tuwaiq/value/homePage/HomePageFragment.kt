@@ -31,7 +31,6 @@ class HomePageFragment : Fragment() {
     lateinit var proteinTV :TextView
     lateinit var stepsTV : TextView
 
-    //private lateinit var value:Value
     lateinit var rapidResponse: RapidRespnse
 
 
@@ -55,9 +54,7 @@ class HomePageFragment : Fragment() {
        // value=Value()
         val userInfo = args.email
 
-        if (userInfo != null){
-            homeViewModel.getUserInfo(userInfo)
-        }
+        homeViewModel.getUserInfo(userInfo)
     }
 
 
@@ -99,7 +96,7 @@ class HomePageFragment : Fragment() {
 
         if(args.email != "-1"){
 
-            homeViewModel.retrieverUserInfo(Firebase.auth.currentUser?.email.toString())
+            homeViewModel.retrieverUserInfo(Firebase.auth.currentUser?.uid.toString())
                 .observe(viewLifecycleOwner){
 
                     calorieTV.text = it.calor
@@ -107,10 +104,11 @@ class HomePageFragment : Fragment() {
                     fatTV.text = it.fat
                     proteinTV.text = it.protein
                     stepsTV.text = it.stGoal
+                    Log.e(TAG, "onStart: $it observer" , )
 
                 }
 
-            homeViewModel.getUserInfo(Firebase.auth.currentUser?.email.toString())
+            homeViewModel.getUserInfo(Firebase.auth.currentUser?.uid.toString())
 
             homeViewModel.userInfo.observe(
                 viewLifecycleOwner, Observer {

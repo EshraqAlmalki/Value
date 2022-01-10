@@ -1,11 +1,16 @@
 package com.tuwaiq.value.timer
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Color
+import android.os.Build
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -18,15 +23,21 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.datastore.core.DataStore
+import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.work.*
 import com.tuwaiq.value.R
-import com.tuwaiq.value.broadcastRec.NotificationRec
-import com.tuwaiq.value.dataStore.DatastorePreferences
-import com.tuwaiq.value.worker.ValueWorker
+import com.tuwaiq.value.database.NOTIFICATION_CHANNEL_ID
+import com.tuwaiq.value.firestoreUserInfo.personalInfo.PersonalInfoViewModel
+
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import nl.dionsegijn.konfetti.KonfettiView
+import java.lang.Exception
 import java.util.concurrent.TimeUnit
-import java.util.prefs.Preferences
 
 const val TIMER_RUN = "time-is-up"
 private const val TAG = "TimerFragment"
@@ -41,20 +52,16 @@ class TimerFragment : Fragment() {
     lateinit var countdown_timer: CountDownTimer
     private var isRunning: Boolean = false
     private var time_in_milli_seconds = 0L
-
-    val onShowNotification = object : BroadcastReceiver(){
-        override fun onReceive(context: Context?, intent: Intent?) {
-            Log.d(TAG , "hi im awake")
-            resultCode = Activity.RESULT_CANCELED
-        }
-
-    }
+    private var resources = R.string.notification_channe_name.toString()
 
 
 
 
     private val timerViewModel by lazy {
         ViewModelProvider(this)[TimerViewModel::class.java]}
+
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -79,6 +86,7 @@ class TimerFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
     }
 
 
@@ -86,10 +94,6 @@ class TimerFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        IntentFilter(ValueWorker.SHOW_NOTIFICATION).also {
-            requireContext().registerReceiver(onShowNotification
-                ,it,ValueWorker.PERM_PRIVATE,null)
-        }
 
         startBtn.setOnClickListener {
 
@@ -111,40 +115,13 @@ class TimerFragment : Fragment() {
         }
     }
 
-    fun startNotificationWorker(isRunning:Boolean){
-
-        if (isRunning){
-            WorkManager.getInstance(requireContext()).cancelUniqueWork(TIMER_RUN)
-            timerViewModel.datastoreTimer(requireContext(),false)
-
-        }else{
-            val constraints = Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
-                .build()
-
-            val workerReq = PeriodicWorkRequest.Builder(ValueWorker::class.java,1,TimeUnit.MINUTES)
-                .setConstraints(constraints).build()
-
-            WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(TIMER_RUN,
-                ExistingPeriodicWorkPolicy.KEEP,workerReq)
-            timerViewModel.datastoreTimer(requireContext(),true)
-
-
-
-        }
-    }
-
-
-
     private fun showToast(msg:String){
         Toast.makeText( requireContext(),
             msg  , Toast.LENGTH_SHORT).show()
 
     }
 
-
-
-
+    @SuppressLint("SetTextI18n")
     private fun pauseTimer() {
 
         startBtn.text = "Start"
@@ -154,12 +131,59 @@ class TimerFragment : Fragment() {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun showNotification(context: Context){
+
+        val channelName = resources
+
+        val channelImportance =NotificationManager.IMPORTANCE_DEFAULT
+
+        val channel = NotificationChannel(
+            NOTIFICATION_CHANNEL_ID
+            ,channelName,channelImportance).toString()
+
+        val notificationManager = getSystemService(context,NotificationManager::class.java)
+
+        val builder = context.let {
+            NotificationCompat.Builder(it.applicationContext ,channel )
+                .setTicker(R.string.timer_end.toString())
+                .setSmallIcon(R.drawable.ic_baseline_av_timer_24)
+                .setContentTitle(R.string.timer_ends_title.toString())
+                .setContentText(R.string.good_jod.toString())
+                .setAutoCancel(true)
+
+        }
+
+        val notificationChannel = NotificationChannel(channel ,
+            "timer notification" , NotificationManager.IMPORTANCE_DEFAULT)
+
+        notificationManager?.createNotificationChannel(notificationChannel)
+        builder.setChannelId(channel)
+
+        val notification = builder.build()
+
+        notificationManager?.notify(1000 , notification)
+
+
+
+
+
+    }
+
+
+
+
+
+    @SuppressLint("SetTextI18n")
     private fun startTimer(time_in_seconds: Long) {
         countdown_timer = object : CountDownTimer(time_in_seconds, 1000) {
+            @RequiresApi(Build.VERSION_CODES.O)
             override fun onFinish() {
+
+                showNotification(context!!)
                 loadConfeti()
 
-//                val timeIsOut = timerViewModel.datastoreTimer(requireContext(),)
+                Log.e(TAG, "onFinish: error", )
 
             }
 

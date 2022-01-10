@@ -3,6 +3,7 @@ package com.tuwaiq.value.timelineUserActive
 import android.app.ProgressDialog.show
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.os.Build
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +15,7 @@ import android.widget.ImageView
 import android.widget.SimpleAdapter
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -114,8 +116,13 @@ class TimeLineActiveFragment : Fragment() {
                 val active = activeAdapter.value[position]
                     timeLineActiveViewModel.deleteUserInfo(active)
                     Snackbar.make(
-                        requireView(), "delete" , Snackbar.LENGTH_SHORT
-                    ).show()
+                        requireView(), "delete" , Snackbar.LENGTH_SHORT).apply {
+                            setAction("undo"){
+                                timeLineActiveViewModel.addNewUser(value = Value())
+                            }
+                        show()
+                    }
+
 
             }
 
@@ -133,6 +140,7 @@ class TimeLineActiveFragment : Fragment() {
 
 
 
+        @RequiresApi(Build.VERSION_CODES.O)
         fun bind(value:Value){
             this.value = value
 
@@ -199,6 +207,7 @@ class TimeLineActiveFragment : Fragment() {
             return TimelineActiveHolder(view)
         }
 
+        @RequiresApi(Build.VERSION_CODES.O)
         override fun onBindViewHolder(holder: TimelineActiveHolder, position: Int) {
 
            val value = value[position]
