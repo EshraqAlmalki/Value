@@ -48,10 +48,13 @@ class ValueRepo private constructor(context: Context){
         val userInfo = Firebase.auth.currentUser?.let {
             getUserInfo.collection("user-physical-info")
                 .document(it.uid).get().await().toObject(Value::class.java)
+
         }
-        if (userInfo != null) {
-            emit(userInfo)
-        }
+
+        Log.e(TAG, "retrieverUserInfo: $userInfo", )
+
+            emit(userInfo!!)
+
 
 
     }
@@ -71,7 +74,7 @@ class ValueRepo private constructor(context: Context){
 
 
 
-    fun updateFirestore(uid:String,value: Value) {
+    fun updateFirestore(value: Value) {
         val dataMap = mapOf(
             "gender" to value.gender,
             "active" to value.active,
@@ -80,13 +83,16 @@ class ValueRepo private constructor(context: Context){
             "height" to value.height,
             "stGoal" to value.stGoal,
             "weightGoal" to value.weightGoal
-
         )
+
         Firebase.auth.currentUser?.let {
             Firebase.firestore
                 .collection("user-physical-info")
                 .document(it.uid).update(dataMap)
+            Log.e(TAG, "updateFirestore: ${it.uid}", )
         }
+        Log.e(TAG, "updateFirestore: $dataMap", )
+        
 
     }
 
@@ -100,7 +106,7 @@ class ValueRepo private constructor(context: Context){
 
     fun getAllUserInfo(): LiveData<List<Value>> = valueDao.getAllUserInfo()
 
-    fun getUserInfo(email:String): LiveData<Value?> {
+    fun getUserInfo(email:String) : LiveData<Value?> {
             return valueDao.getUserInfo(email)
 
     }

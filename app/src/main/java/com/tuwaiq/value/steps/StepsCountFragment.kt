@@ -1,5 +1,6 @@
 package com.tuwaiq.value.steps
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModelProvider
@@ -72,25 +73,25 @@ class StepsCountFragment : Fragment() , SensorEventListener{
     override fun onStart() {
         super.onStart()
 
-        resetSteps()
-
-        stepsCountViewModel.getUserInfo(Firebase
-            .auth.currentUser?.email.toString())
+       // resetSteps()
 
 
     }
 
     override fun onResume() {
         super.onResume()
-        running = true
-        val stepsSensor = sensorManager?.getDefaultSensor(Sensor
+
+
+        var stepsSensor = sensorManager?.getDefaultSensor(Sensor
             .TYPE_STEP_COUNTER)
 
         if (stepsSensor == null) {
+            running = false
             showToast("No Step Counter Sensor !")
         } else {
             sensorManager?.registerListener(this, stepsSensor,
                 SensorManager.SENSOR_DELAY_UI)
+            running = true
         }
     }
 
@@ -122,15 +123,18 @@ class StepsCountFragment : Fragment() , SensorEventListener{
         sensorManager?.unregisterListener(this)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onSensorChanged(event: SensorEvent?) {
         if (running) {
 
-            totalSteps = event!!.values[0]
-
-            val currentSteps = totalSteps.toInt() - previousTotalSteps.toInt()
-            stepsCounter.text = ("$currentSteps")
-            stepsCounter.text = value.steps
-            stepsCountViewModel.updateUserInfo(value)
+            stepsCounter.text = ""+ event?.values?.get(0)
+//
+//            totalSteps = event!!.values[0]
+//
+//            val currentSteps = totalSteps.toInt() - previousTotalSteps.toInt()
+//            stepsCounter.text = ("$currentSteps")
+//            stepsCounter.text = value.steps
+//            stepsCountViewModel.updateUserInfo(value)
 
         }
     }

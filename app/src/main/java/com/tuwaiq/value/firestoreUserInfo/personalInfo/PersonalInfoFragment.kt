@@ -9,6 +9,7 @@ import android.view.*
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -19,8 +20,10 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 import com.tuwaiq.value.R
+import com.tuwaiq.value.authentication.register.NextRegisterFragmentDirections
 import com.tuwaiq.value.database.Value
 import com.tuwaiq.value.homePage.HomePageFragmentArgs
+import kotlinx.android.synthetic.main.personal_info_fragment.*
 
 const val INFO_KYE = "user-info"
 private const val TAG = "InfoFragment"
@@ -39,6 +42,7 @@ class PersonalInfoFragment : Fragment() {
     lateinit var value: Value
     lateinit var auth: FirebaseAuth
 
+    private val args : PersonalInfoFragmentArgs by navArgs()
 
 
 
@@ -76,7 +80,7 @@ class PersonalInfoFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        value=Value()
+
 
 
 
@@ -90,6 +94,15 @@ class PersonalInfoFragment : Fragment() {
                         genderTV.text = it.gender
                         activeTV.text = it.active
                         goalTV.text = it.weightGoal
+
+
+                        it.gender = genderTV.text.toString()
+                        it.active = activeTV.text.toString()
+                        it.age = ageTV.text.toString()
+                        it.weight = weightTV.text.toString()
+                        it.height = heightTV.text.toString()
+                        it.weightGoal = goalTV.text.toString()
+                        Log.e(TAG, "onStart: $value 22", )
                     }
 
                    
@@ -106,6 +119,16 @@ class PersonalInfoFragment : Fragment() {
                         genderTV.text = it.gender
                         activeTV.text = it.active
                         goalTV.text = it.weightGoal
+
+                        it.gender = genderTV.text.toString()
+                        it.active = activeTV.text.toString()
+                        it.age = ageTV.text.toString()
+                        it.weight = weightTV.text.toString()
+                        it.height = heightTV.text.toString()
+                        it.weightGoal = goalTV.text.toString()
+                        Log.e(TAG, "onStart: $value 33", )
+
+
                     }
                     Log.e(TAG, "onStart: if $value", )
                 }
@@ -119,10 +142,42 @@ class PersonalInfoFragment : Fragment() {
         editBtn.setOnClickListener {
 
 
-          Log.e(TAG, "onStart: $value 2", )
-//            Log.d(TAG, "idd ${value.documentId}")
-          personalInfoViewModel.updateFirestore(value.documentId, value)
-            personalInfoViewModel.updateUserInfo(value)
+            value.gender = genderTV.text.toString()
+            value.active = activeTV.text.toString()
+            value.age = ageTV.text.toString()
+            value.weight = weightTV.text.toString()
+            value.height = heightTV.text.toString()
+            value.weightGoal = goalTV.text.toString()
+
+            Log.e(TAG, "onStart: $value edit", )
+
+
+           personalInfoViewModel.macrosCount(age = value.age , gender = value.gender ,
+               weight = value.weight ,height = value.height, goal = value.weightGoal ,
+               activityLevel = value.active).observe(viewLifecycleOwner){
+
+
+
+
+                   rapidResponse ->
+
+
+
+               value.calor = rapidResponse.data?.calorie.toString()
+               value.fat = rapidResponse.data?.balanced?.fat.toString()
+               value.carb = rapidResponse.data?.balanced?.carbs.toString()
+               value.protein = rapidResponse.data?.balanced?.protein.toString()
+               value.email = args.email
+
+               Log.e(TAG, "onStart: editbtn : $value", )
+               showToast("your changes is done ${value.calor}")
+               personalInfoViewModel.updateUserInfo(value)
+               personalInfoViewModel.updateFirestore(value)
+//               val action = PersonalInfoFragmentDirections
+//                   .actionPersonalInfoFragmentToHomePageFragment(email = args.email)
+//               findNavController().navigate(R.id.homePageFragment)
+
+           }
         }
 
         val watcher = object :TextWatcher{
@@ -256,6 +311,10 @@ class PersonalInfoFragment : Fragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
+        value = Value()
+        val userInfo = args.email
+        personalInfoViewModel.getUserInfo(userInfo)
+
 
     }
 
@@ -264,6 +323,12 @@ class PersonalInfoFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         auth = FirebaseAuth.getInstance()
+
+    }
+
+    private fun showToast(msg:String){
+        Toast.makeText( requireContext(),
+            msg  , Toast.LENGTH_SHORT).show()
 
     }
 

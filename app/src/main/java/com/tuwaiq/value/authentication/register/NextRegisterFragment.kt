@@ -7,17 +7,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.viewpager.widget.ViewPager
+import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
+import com.tuwaiq.value.PageAdapter
 import com.tuwaiq.value.R
 import com.tuwaiq.value.database.Value
 import com.tuwaiq.value.fitnessCalculator.models.RapidRespnse
 import com.tuwaiq.value.homePage.HomePageFragmentArgs
+import kotlinx.android.synthetic.main.next_register_fragment.*
+import kotlinx.coroutines.NonDisposableHandle.parent
 
 
 private const val INFO_KYE = "user-info"
@@ -33,6 +36,11 @@ class NextRegisterFragment : Fragment() {
     private lateinit var ageET:EditText
     private lateinit var genderET:EditText
     lateinit var rapidResponse:RapidRespnse
+    private lateinit var spinner:Spinner
+    lateinit var genderSpinner:Array<String>
+
+
+
 
 
     lateinit var value:Value
@@ -43,7 +51,8 @@ class NextRegisterFragment : Fragment() {
     private val args : NextRegisterFragmentArgs by navArgs()
 
 
-    private val nextRegisterViewModel by lazy { ViewModelProvider(this)[NextRegisterViewModel::class.java]}
+    private val nextRegisterViewModel by lazy {
+        ViewModelProvider(this)[NextRegisterViewModel::class.java]}
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,12 +69,39 @@ class NextRegisterFragment : Fragment() {
         doneImgV = view.findViewById(R.id.done_iv)
         ageET = view.findViewById(R.id.age_et)
         genderET = view.findViewById(R.id.gender_et)
+        spinner = view.findViewById(R.id.spinner2)
 
+         genderSpinner = resources.getStringArray(R.array.Gender)
+
+
+        if (spinner != null){
+            val adapter = ArrayAdapter(requireContext(),R.layout.support_simple_spinner_dropdown_item,
+            genderSpinner)
+            spinner.adapter = adapter
+        }
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                showToast("right" + genderSpinner[position])
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+        }
 
         rapidResponse=RapidRespnse()
 
         return view
     }
+
+
 
 
 
@@ -92,6 +128,8 @@ class NextRegisterFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
+
 
 
         doneImgV.setOnClickListener {
@@ -121,6 +159,7 @@ class NextRegisterFragment : Fragment() {
 
 
 
+
                     nextRegisterViewModel.macrosCount(age = value.age , gender = value.gender ,
                     weight = value.weight ,height = value.height, goal = value.weightGoal ,
                     activityLevel = value.active)
@@ -137,8 +176,9 @@ class NextRegisterFragment : Fragment() {
                                 value.email = args.email
 
 
-                                Log.e(TAG, "onStart: $value")
-                                Log.e(TAG, "onStart fat: ${value.fat}" )
+                               Log.e(TAG, "onStart: $value")
+                               Log.e(TAG, "onStart fat: ${value.fat}" )
+
                                 nextRegisterViewModel.updateUserInfo(value)
                                      nextRegisterViewModel.saveFirestore(value)
                                 Log.e(TAG, "onStart: firestore: ${nextRegisterViewModel.saveFirestore(value)}", )

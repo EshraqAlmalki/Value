@@ -118,7 +118,9 @@ class TimeLineActiveFragment : Fragment() {
                     Snackbar.make(
                         requireView(), "delete" , Snackbar.LENGTH_SHORT).apply {
                             setAction("undo"){
-                                timeLineActiveViewModel.addNewUser(value = Value())
+                                timeLineActiveViewModel.getUserInfo(
+                                    Firebase.auth.currentUser?.email.toString()
+                                )
                             }
                         show()
                     }

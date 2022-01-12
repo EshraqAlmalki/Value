@@ -28,12 +28,12 @@ class FitnessRepo {
                            height:String, goal:String,
                            activityLevel:String):RapidRespnse{
 
+
        val response = api.calculatorMacros(age, gender, weight, height,
            activityLevel, goal).awaitResponse()
        var rapidRespnse = RapidRespnse()
 
        if (response.isSuccessful){
-
            rapidRespnse =response.body()!!
        }else{
            Log.e(TAG, "the error is: ${response.raw()}")

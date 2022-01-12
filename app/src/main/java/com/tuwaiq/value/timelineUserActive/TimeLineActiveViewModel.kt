@@ -33,6 +33,10 @@ class TimeLineActiveViewModel : ViewModel() {
 
     }
 
+    fun getUserInfo(email:String): LiveData<Value?> {
+        return valueRepo.getUserInfo(email)
+    }
+
 
     fun addNewUser(value: Value){
         valueRepo.addNewUser(value)

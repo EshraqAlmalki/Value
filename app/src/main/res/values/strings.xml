@@ -14,4 +14,9 @@
     <string name="login">login</string>
     <string name="register_now">Register now</string>
     <string name="don_t_have_account_yet">don\'t have account yet?</string>
+
+    <string-array name="Gender">
+        <item name="male" type="string" />
+    <item name="female" type="string"/>
+    </string-array>
 </resources>

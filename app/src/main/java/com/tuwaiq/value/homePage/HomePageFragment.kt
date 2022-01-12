@@ -12,11 +12,13 @@ import android.view.ViewGroup
 import android.widget.NumberPicker
 import android.widget.TextView
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.tuwaiq.value.R
+import com.tuwaiq.value.authentication.register.NextRegisterFragmentDirections
 import com.tuwaiq.value.database.Value
 import com.tuwaiq.value.fitnessCalculator.models.RapidRespnse
 import java.math.RoundingMode
@@ -31,6 +33,7 @@ class HomePageFragment : Fragment() {
     lateinit var proteinTV :TextView
     lateinit var stepsTV : TextView
 
+//    lateinit var value: Value
     lateinit var rapidResponse: RapidRespnse
 
 
@@ -51,7 +54,7 @@ class HomePageFragment : Fragment() {
 
 
 
-       // value=Value()
+
         val userInfo = args.email
 
         homeViewModel.getUserInfo(userInfo)
@@ -92,42 +95,49 @@ class HomePageFragment : Fragment() {
         super.onStart()
 
 
-
+        //value=Value()
 
         if(args.email != "-1"){
 
-            homeViewModel.retrieverUserInfo(Firebase.auth.currentUser?.uid.toString())
-                .observe(viewLifecycleOwner){
 
-                    calorieTV.text = it.calor
-                    carbTV.text = it.carb
-                    fatTV.text = it.fat
-                    proteinTV.text = it.protein
-                    stepsTV.text = it.stGoal
-                    Log.e(TAG, "onStart: $it observer" , )
+                    homeViewModel.retrieverUserInfo(Firebase.auth.currentUser?.uid.toString())
+                        .observe(viewLifecycleOwner){
+                            it?.let {
+                                calorieTV.text = it.calor
+                                carbTV.text = it.carb
+                                fatTV.text = it.fat
+                                proteinTV.text = it.protein
+                                stepsTV.text= it.stGoal
 
-                }
+
+                                Log.e(TAG, "onStart: retriever $it", )
+                            }
+
+
+
+                        }
 
             homeViewModel.getUserInfo(Firebase.auth.currentUser?.uid.toString())
 
-            homeViewModel.userInfo.observe(
-                viewLifecycleOwner, Observer {
-                    it?.let {
+                    homeViewModel.userInfo.observe(
+                        viewLifecycleOwner, Observer {
+                            it?.let {
 
 
-                            calorieTV.text = it.calor
-                            carbTV.text = it.carb
-                            fatTV.text = it.fat
-                            proteinTV.text = it.protein
-                            stepsTV.text= it.stGoal
+                                calorieTV.text = it.calor
+                                carbTV.text = it.carb
+                                fatTV.text = it.fat
+                                proteinTV.text = it.protein
+                                stepsTV.text= it.stGoal
 
 
+                            }
+                            Log.e(TAG, "if onStart: $it",)
 
-                    }
-                    Log.e(TAG, "if onStart: $it",)
+                        }
+                    )
 
-                }
-            )
+
 
         }else{
 
@@ -136,11 +146,15 @@ class HomePageFragment : Fragment() {
                     it?.let {
 
                         calorieTV.text = it.calor
-
                         carbTV.text = it.carb
                         fatTV.text = it.fat
                         proteinTV.text = it.protein
                         stepsTV.text = it.stGoal
+
+                        it.calor = calorieTV.text.toString()
+                        it.fat = fatTV.text.toString()
+                        it.carb = carbTV.text.toString()
+                        it.protein = proteinTV.text.toString()
                     }
                     Log.e(TAG, "else onStart: $it",)
                     Log.e(TAG, "onStart: ${args.email} ${it?.email}", )
@@ -149,15 +163,6 @@ class HomePageFragment : Fragment() {
             
         }
     }
-
-
-//    private fun bind(value: Value){
-//        this.value = value
-//        calorieTV.text = value.calor
-//        carbTV.text = value.carb
-//        fatTV.text = value.fat
-//        proteinTV.text = value.protein
-//    }
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

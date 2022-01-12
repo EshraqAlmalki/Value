@@ -16,8 +16,11 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.viewpager.widget.ViewPager
+import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.tuwaiq.value.PageAdapter
 import com.tuwaiq.value.R
 import com.tuwaiq.value.database.Value
 import com.tuwaiq.value.homePage.HomePageFragmentArgs
@@ -51,6 +54,12 @@ class RegisterFragment : Fragment() {
         nextImgV = view.findViewById(R.id.next_iv)
        // editNextImgV = view.findViewById(R.id.edit_next_iv)
         value = Value()
+//
+//        val viewPager = view.findViewById<ViewPager>(R.id.viewPager)
+//        viewPager.adapter = fragmentManager?.let { PageAdapter(it) }
+//
+//        val tabLayout = view.findViewById<TabLayout>(R.id.tabLayout)
+//        tabLayout.setupWithViewPager(viewPager)
 
 
 
@@ -84,6 +93,8 @@ class RegisterFragment : Fragment() {
         if (currentUser != null){
             Log.d(TAG , "hi ${currentUser.displayName}")
         }
+
+
 
 
         nextImgV.setOnClickListener {

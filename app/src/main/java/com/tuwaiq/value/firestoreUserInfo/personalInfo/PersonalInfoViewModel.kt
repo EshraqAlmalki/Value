@@ -1,11 +1,13 @@
 package com.tuwaiq.value.firestoreUserInfo.personalInfo
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.tuwaiq.value.database.Value
 import com.tuwaiq.value.database.ValueRepo
+import com.tuwaiq.value.fitnessCalculator.models.RapidRespnse
+import com.tuwaiq.value.fitnessCalculator.repo.FitnessRepo
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class PersonalInfoViewModel : ViewModel() {
     private val valueRepo = ValueRepo.get()
@@ -21,8 +23,8 @@ class PersonalInfoViewModel : ViewModel() {
         return valueRepo.getUserInfo(email)
     }
 
-    fun updateFirestore(id:String,value: Value){
-       valueRepo.updateFirestore(id,value )
+    fun updateFirestore(value: Value){
+       valueRepo.updateFirestore(value )
     }
 
     fun updateUserInfo(value: Value){
@@ -34,5 +36,32 @@ class PersonalInfoViewModel : ViewModel() {
 
     fun retrieverUserInfo(email: String):LiveData<Value> =
         valueRepo.retrieverUserInfo()
+
+    private val fitnessRepo = FitnessRepo()
+
+    fun macrosCount(age:String,gender:String,weight:String,height:String,
+                    goal:String,activityLevel:String):LiveData<RapidRespnse>{
+
+        val userInfoLiveData:MutableLiveData<RapidRespnse> = MutableLiveData()
+        var rapidRespnse = RapidRespnse()
+
+
+        viewModelScope.launch(Dispatchers.Main){
+
+
+            rapidRespnse = fitnessRepo.macrosCount(age, gender, weight,
+                height, goal , activityLevel)
+
+
+
+        }.invokeOnCompletion {
+            viewModelScope.launch {
+                userInfoLiveData.value = rapidRespnse
+            }
+        }
+
+        return userInfoLiveData
+    }
+
 
 }
