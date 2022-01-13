@@ -58,7 +58,9 @@
         tools:layout="@layout/personal_info_fragment" >
         <action
             android:id="@+id/action_personalInfoFragment_to_homePageFragment"
-            app:destination="@id/homePageFragment" />
+            app:destination="@id/homePageFragment"
+            app:popUpTo="@id/homePageFragment"
+            app:popUpToInclusive="true" />
         <argument
             android:name="email"
             app:argType="string"
@@ -71,7 +73,9 @@
         tools:layout="@layout/steps_count_fragment" >
         <action
             android:id="@+id/action_stepsCountFragment3_to_homePageFragment"
-            app:destination="@id/homePageFragment" />
+            app:destination="@id/homePageFragment"
+            app:popUpTo="@id/homePageFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/timerFragment3"
@@ -80,7 +84,9 @@
         tools:layout="@layout/timer_fragment" >
         <action
             android:id="@+id/action_timerFragment3_to_homePageFragment"
-            app:destination="@id/homePageFragment" />
+            app:destination="@id/homePageFragment"
+            app:popUpTo="@id/homePageFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -102,6 +108,11 @@
         <action
             android:id="@+id/action_registerFragment_to_nextRegisterFragment"
             app:destination="@id/nextRegisterFragment" />
+        <action
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/nextRegisterFragment"
@@ -114,6 +125,10 @@
         <argument android:name="email"
             app:argType="string"
             android:defaultValue='""' />
+        <action
+            android:id="@+id/action_nextRegisterFragment_to_registerFragment"
+            app:destination="@id/registerFragment"
+            app:popUpTo="@id/registerFragment" />
     </fragment>
     <fragment
         android:id="@+id/timeLineActiveFragment"
@@ -122,6 +137,8 @@
         tools:layout="@layout/time_line_active_fragment" >
         <action
             android:id="@+id/action_timeLineActiveFragment_to_homePageFragment"
-            app:destination="@id/homePageFragment" />
+            app:destination="@id/homePageFragment"
+            app:popUpTo="@id/homePageFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -39,6 +40,7 @@ class PersonalInfoFragment : Fragment() {
     lateinit var activeTV:TextView
     lateinit var goalTV:TextView
     lateinit var editBtn:Button
+    lateinit var delUserInfo : Button
     lateinit var value: Value
     lateinit var auth: FirebaseAuth
 
@@ -70,6 +72,7 @@ class PersonalInfoFragment : Fragment() {
         activeTV = view.findViewById(R.id.active_level_info)
         goalTV = view.findViewById(R.id.weight_goal_info)
         editBtn = view.findViewById(R.id.edit_btn)
+        delUserInfo = view.findViewById(R.id.delete_account)
 
 
         return view
@@ -169,15 +172,25 @@ class PersonalInfoFragment : Fragment() {
                value.protein = rapidResponse.data?.balanced?.protein.toString()
                value.email = args.email
 
+
+
                Log.e(TAG, "onStart: editbtn : $value", )
                showToast("your changes is done ${value.calor}")
                personalInfoViewModel.updateUserInfo(value)
                personalInfoViewModel.updateFirestore(value)
-//               val action = PersonalInfoFragmentDirections
-//                   .actionPersonalInfoFragmentToHomePageFragment(email = args.email)
-//               findNavController().navigate(R.id.homePageFragment)
+               personalInfoViewModel.saveFirestore(value)
+               val action = PersonalInfoFragmentDirections
+                   .actionPersonalInfoFragmentToHomePageFragment(email = args.email)
+               findNavController().navigate(R.id.homePageFragment)
 
            }
+        }
+
+        delUserInfo.setOnClickListener {
+            personalInfoViewModel.delAccount(value)
+            personalInfoViewModel.deleteFirestore(value)
+            personalInfoViewModel.deleteUserInfo(value)
+            findNavController().navigate(R.id.loginFragment)
         }
 
         val watcher = object :TextWatcher{
@@ -349,7 +362,17 @@ class PersonalInfoFragment : Fragment() {
             }
         )
 
+        val callBack = object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                findNavController().navigate(R.id.homePageFragment)
+            }
+
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(callBack)
+
     }
+
+
 
 
 

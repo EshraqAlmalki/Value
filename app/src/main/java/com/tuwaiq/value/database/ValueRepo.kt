@@ -97,6 +97,36 @@ class ValueRepo private constructor(context: Context){
     }
 
 
+    fun deleteFirestore(value: Value) {
+        val dataMap = mapOf(
+            "gender" to value.gender,
+            "active" to value.active,
+            "age" to value.age,
+            "weight" to value.weight,
+            "height" to value.height,
+            "stGoal" to value.stGoal,
+            "weightGoal" to value.weightGoal
+        )
+
+        Firebase.auth.currentUser?.let {
+            Firebase.firestore
+                .collection("user-physical-info")
+                .document(it.uid).delete()
+            Log.e(TAG, "updateFirestore: ${it.uid}", )
+        }
+        Log.e(TAG, "updateFirestore: $dataMap", )
+
+
+    }
+
+    fun deleteAccount(value: Value){
+        val user = Firebase.auth.currentUser!!
+        user.delete().addOnCompleteListener {
+            if (it.isSuccessful){
+                Log.e(TAG, "deleteFirestore: deleted", )
+            }
+        }
+    }
 
 
     private val valueDao = database.valueDao()

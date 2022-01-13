@@ -31,6 +31,22 @@ class PersonalInfoViewModel : ViewModel() {
         valueRepo.updateUserInfo(value)
     }
 
+    fun saveFirestore(value: Value){
+        valueRepo.saveFireStore(value)
+    }
+
+    fun delAccount(value: Value){
+        valueRepo.deleteAccount(value)
+    }
+
+    fun deleteFirestore(value: Value){
+        valueRepo.deleteFirestore(value)
+    }
+
+    fun deleteUserInfo(value: Value){
+        valueRepo.deleteUserInfo(value)
+    }
+
 
 
 
