@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -36,8 +37,10 @@ class NextRegisterFragment : Fragment() {
     private lateinit var ageET:EditText
     private lateinit var genderET:EditText
     lateinit var rapidResponse:RapidRespnse
-    private lateinit var spinner:Spinner
-    lateinit var genderSpinner:Array<String>
+    lateinit var autoCompleteTextView: AutoCompleteTextView
+//    private lateinit var spinner:Spinner
+//    lateinit var genderSpinner:Array<String>
+
 
 
 
@@ -69,32 +72,11 @@ class NextRegisterFragment : Fragment() {
         doneImgV = view.findViewById(R.id.done_iv)
         ageET = view.findViewById(R.id.age_et)
         genderET = view.findViewById(R.id.gender_et)
-        spinner = view.findViewById(R.id.spinner2)
+        autoCompleteTextView = view.findViewById(R.id.autoCompleteTextView)
 
-         genderSpinner = resources.getStringArray(R.array.Gender)
-
-
-        if (spinner != null){
-            val adapter = ArrayAdapter(requireContext(),R.layout.support_simple_spinner_dropdown_item,
-            genderSpinner)
-            spinner.adapter = adapter
-        }
-
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                showToast("right" + genderSpinner[position])
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-
-        }
+        val genderItem = resources.getStringArray(R.array.Gender)
+        val genderItemAdapter = ArrayAdapter(requireContext() , R.layout.dropdown_gender_item , genderItem)
+        autoCompleteTextView.setAdapter(genderItemAdapter)
 
         rapidResponse=RapidRespnse()
 
@@ -141,7 +123,8 @@ class NextRegisterFragment : Fragment() {
             value.stGoal = stepsGoal.text.toString()
             value.weightGoal= weightGoal.text.toString()
             value.age= ageET.text.toString()
-            value.gender = genderET.text.toString()
+           value.gender = genderET.text.toString()
+          //  value.gender = autoCompleteTextView.text.toString()
 
 
 

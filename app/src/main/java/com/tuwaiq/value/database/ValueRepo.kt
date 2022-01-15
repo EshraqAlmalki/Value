@@ -3,29 +3,21 @@ package com.tuwaiq.value.database
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
-import androidx.room.Query
+
 import androidx.room.Room
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.android.gms.tasks.Task
+
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.*
-import com.google.firebase.firestore.core.View
+
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.ktx.options
-import kotlinx.coroutines.*
+
 import kotlinx.coroutines.tasks.await
-import java.lang.Exception
+
 import java.lang.IllegalStateException
-import java.lang.StringBuilder
+
 import java.util.concurrent.Executors
 
 const val DATABASE_NAME = "my-database"
@@ -51,7 +43,7 @@ class ValueRepo private constructor(context: Context){
 
         }
 
-        Log.e(TAG, "retrieverUserInfo: $userInfo", )
+        Log.e(TAG, "retrieverUserInfo: $userInfo" )
 
             emit(userInfo!!)
 
@@ -89,9 +81,9 @@ class ValueRepo private constructor(context: Context){
             Firebase.firestore
                 .collection("user-physical-info")
                 .document(it.uid).update(dataMap)
-            Log.e(TAG, "updateFirestore: ${it.uid}", )
+            Log.e(TAG, "updateFirestore: ${it.uid}" )
         }
-        Log.e(TAG, "updateFirestore: $dataMap", )
+        Log.e(TAG, "updateFirestore: $dataMap" )
         
 
     }
@@ -112,9 +104,9 @@ class ValueRepo private constructor(context: Context){
             Firebase.firestore
                 .collection("user-physical-info")
                 .document(it.uid).delete()
-            Log.e(TAG, "updateFirestore: ${it.uid}", )
+            Log.e(TAG, "updateFirestore: ${it.uid}" )
         }
-        Log.e(TAG, "updateFirestore: $dataMap", )
+        Log.e(TAG, "updateFirestore: $dataMap" )
 
 
     }
@@ -123,7 +115,7 @@ class ValueRepo private constructor(context: Context){
         val user = Firebase.auth.currentUser!!
         user.delete().addOnCompleteListener {
             if (it.isSuccessful){
-                Log.e(TAG, "deleteFirestore: deleted", )
+                Log.e(TAG, "deleteFirestore: deleted" )
             }
         }
     }
@@ -167,7 +159,7 @@ class ValueRepo private constructor(context: Context){
 
 
     companion object{
-        var INSTANCE : ValueRepo?= null
+        private var INSTANCE : ValueRepo?= null
         fun initialize(context: Context){
             if (INSTANCE == null){
                 INSTANCE = ValueRepo(context)

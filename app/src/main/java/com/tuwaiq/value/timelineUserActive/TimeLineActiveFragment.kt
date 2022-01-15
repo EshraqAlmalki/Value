@@ -1,8 +1,6 @@
 package com.tuwaiq.value.timelineUserActive
 
-import android.app.ProgressDialog.show
 import android.content.ContentValues.TAG
-import android.content.Intent
 import android.os.Build
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -12,32 +10,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.SimpleAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.tuwaiq.value.R
-import com.tuwaiq.value.database.Value
-
-import java.sql.Time
-import java.time.Duration
-import java.time.Instant
-import java.time.ZoneId
-import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
-import java.util.*
+import com.tuwaiq.value.newsOfHealthApi.models.HealthNewsItem
+import com.tuwaiq.value.newsOfHealthApi.models.News
 
 class TimeLineActiveFragment : Fragment() {
 
@@ -79,12 +64,18 @@ class TimeLineActiveFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+        timeLineActiveViewModel.getNews().observe(
+            this , Observer {
+                updateUI(it)
+            }
+        )
     }
 
-    fun updateUI(value:List<Value>){
-        val valueAdapter = TimelineActiveAdapter(value)
-        timelineUserActiveRV.adapter=valueAdapter
-        activeAdapter = TimelineActiveAdapter(value)
+    fun updateUI(news:List<HealthNewsItem>){
+        val newAdapter = TimelineActiveAdapter(news)
+        timelineUserActiveRV.adapter=newAdapter
+        activeAdapter = TimelineActiveAdapter(news)
     }
 
 
@@ -98,6 +89,7 @@ class TimeLineActiveFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
 
         swipeToDel()
     }
@@ -113,8 +105,8 @@ class TimeLineActiveFragment : Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
-                val active = activeAdapter.value[position]
-                    timeLineActiveViewModel.deleteUserInfo(active)
+                val active = activeAdapter.news[position]
+                   // timeLineActiveViewModel.deleteUserInfo()
                     Snackbar.make(
                         requireView(), "delete" , Snackbar.LENGTH_SHORT).apply {
                             setAction("undo"){
@@ -136,72 +128,80 @@ class TimeLineActiveFragment : Fragment() {
 
     private inner class TimelineActiveHolder(view: View):RecyclerView.ViewHolder(view){
 
-        private lateinit var value : Value
-        private val stepsGoalTV :TextView = itemView.findViewById(R.id.user_activity_sp)
+      // private lateinit var news: News
+//        private val stepsGoalTV :TextView = itemView.findViewById(R.id.user_activity_sp)
         private val shareActive :ImageView = itemView.findViewById(R.id.share_user_steps)
+        private val newsTitle:TextView = itemView.findViewById(R.id.news_title)
+        private val newsSource:TextView = itemView.findViewById(R.id.news_source)
+        private val newUrl:TextView = itemView.findViewById(R.id.news_url)
 
 
 
         @RequiresApi(Build.VERSION_CODES.O)
-        fun bind(value:Value){
-            this.value = value
-
-
-
-
-
-            Log.e(TAG, "bind: ${value.stGoal}", )
-
-
-            val shareActiveTime = Instant.parse("2021-01-03T14:00:00.013678Z")
-            val now = Instant.now()
-            val duration = Duration.between(shareActiveTime , now)
-            val showActivity = duration.toHours()
-            Log.e(TAG, "bind: $shareActiveTime", )
-
-            if (showActivity >= 24L ) {
-                if (value.stGoal >= value.steps) {
-                    stepsGoalTV.text = "you reach the goal"
-                } else {
-                    stepsGoalTV.text = "try to reach the goal"
-                }
-            }
+        fun bind(news: HealthNewsItem){
+          newsTitle.text = news.title
+            newsSource.text = news.source
+            newUrl.text = news.url
+            Log.e(TAG, "bind:${news.title} ", )
 
 
 
 
 
 
-                shareActive.setOnClickListener {
-                showToast("share it now")
-                Intent(Intent.ACTION_SEND).apply {
-                    putExtra(Intent.EXTRA_TEXT , shareSteps())
-                    putExtra(Intent.EXTRA_SUBJECT,"share with other")
-                    setType("TEXT/plain")
-                }.also {
-                    val chooserIntent = Intent.createChooser(it,"share it")
-                    startActivity(chooserIntent)
-                }
-            }
+
+
+
+
+//            val shareActiveTime = Instant.parse("2021-01-03T14:00:00.013678Z")
+//            val now = Instant.now()
+//            val duration = Duration.between(shareActiveTime , now)
+//            val showActivity = duration.toHours()
+//            Log.e(TAG, "bind: $shareActiveTime", )
+//
+//            if (showActivity >= 24L ) {
+//                if (value.stGoal >= value.steps) {
+//                    stepsGoalTV.text = "you reach the goal"
+//                } else {
+//                    stepsGoalTV.text = "try to reach the goal"
+//                }
+//            }
+
+
+
+
+
+
+//                shareActive.setOnClickListener {
+//                showToast("share it now")
+//                Intent(Intent.ACTION_SEND).apply {
+//                    putExtra(Intent.EXTRA_TEXT , shareNews())
+//                    putExtra(Intent.EXTRA_SUBJECT,"share with other")
+//                    setType("TEXT/plain")
+//                }.also {
+//                    val chooserIntent = Intent.createChooser(it,"share it")
+//                    startActivity(chooserIntent)
+//                }
+//            }
 
 
         }
 
-        fun shareSteps():String{
-            val stepsActive = if (value.stGoal.isNotBlank()){
-                "this user reach the goal by ${value.stGoal}"
-            }else{
-                "lets work together and reach the goal!"
-            }
-
-            return "try this out i already $stepsActive"
-        }
+//        fun shareNews():String{
+//            val stepsActive = if (news){
+//                "this user reach the goal by ${value.stGoal}"
+//            }else{
+//                "lets work together and reach the goal!"
+//            }
+//
+//            return "try this out i already $stepsActive"
+//        }
 
 
 
     }
 
-    private inner class TimelineActiveAdapter(val value: List<Value>):RecyclerView
+    private inner class TimelineActiveAdapter(val news: List<HealthNewsItem>):RecyclerView
     .Adapter<TimelineActiveHolder>(){
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimelineActiveHolder {
 
@@ -212,25 +212,22 @@ class TimeLineActiveFragment : Fragment() {
         @RequiresApi(Build.VERSION_CODES.O)
         override fun onBindViewHolder(holder: TimelineActiveHolder, position: Int) {
 
-           val value = value[position]
-            holder.bind(value)
+           val news = news[position]
+            holder.bind(news)
 
 
 
         }
 
-        override fun getItemCount(): Int = value.size
+        override fun getItemCount(): Int = news.size
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        timeLineActiveViewModel.getAllUserInfo().observe(
-            viewLifecycleOwner, Observer {
-                updateUI(it)
-            }
-        )
+
+
     }
 
 

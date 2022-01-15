@@ -16,7 +16,7 @@
     <string name="don_t_have_account_yet">don\'t have account yet?</string>
 
     <string-array name="Gender">
-        <item name="male" type="string" />
-    <item name="female" type="string"/>
+       <item>Female</item>
+        <item>Male</item>
     </string-array>
 </resources>

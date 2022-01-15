@@ -1,13 +1,22 @@
 package com.tuwaiq.value.timelineUserActive
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.lifecycle.*
 import com.tuwaiq.value.database.Value
 import com.tuwaiq.value.database.ValueRepo
+import com.tuwaiq.value.newsOfHealthApi.models.HealthNews
+import com.tuwaiq.value.newsOfHealthApi.models.HealthNewsItem
+import com.tuwaiq.value.newsOfHealthApi.models.News
+import com.tuwaiq.value.newsOfHealthApi.repo.HealthNewsRepo
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class TimeLineActiveViewModel : ViewModel() {
 
 
     private val valueRepo = ValueRepo.get()
+    private val healthNewsRepo = HealthNewsRepo()
 
     private var valueLiveData = MutableLiveData<String>()
 
@@ -32,6 +41,27 @@ class TimeLineActiveViewModel : ViewModel() {
 
 
     }
+
+    fun getNews(): LiveData<List<HealthNewsItem>> {
+
+
+        var healthNewsItem:List<HealthNewsItem> = emptyList()
+        val newsLiveData:MutableLiveData<List<HealthNewsItem>> = MutableLiveData()
+
+        viewModelScope.launch{
+            healthNewsRepo.getAllNews()
+        }.invokeOnCompletion {
+            viewModelScope.launch {
+                newsLiveData.value = healthNewsItem
+            }
+        }
+        Log.e(TAG, "getNews:${newsLiveData.value} ", )
+
+
+        return newsLiveData
+    }
+
+
 
     fun getUserInfo(email:String): LiveData<Value?> {
         return valueRepo.getUserInfo(email)
