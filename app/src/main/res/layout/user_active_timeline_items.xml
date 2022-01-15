@@ -6,14 +6,24 @@
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="413dp"
+        android:layout_height="209dp"
         android:layout_marginTop="4dp"
-        android:background="#00897B"
+        android:background="#458747"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/news_title"
+            android:layout_width="308dp"
+            android:layout_height="119dp"
+            android:layout_marginEnd="68dp"
+            android:layout_marginBottom="44dp"
+            android:hint="title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <ImageView
             android:id="@+id/share_user_steps"
@@ -26,33 +36,25 @@
             app:srcCompat="@drawable/ic_baseline_share_24" />
 
         <TextView
-            android:id="@+id/news_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="21dp"
-            android:layout_marginEnd="246dp"
-            android:hint="title"
-            app:layout_constraintEnd_toStartOf="@+id/share_user_steps"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
             android:id="@+id/news_source"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="7dp"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="8dp"
             android:hint="source"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/news_url"
+            android:id="@+id/learn_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="41dp"
-            android:layout_marginEnd="180dp"
-            android:hint="news url"
-            app:layout_constraintEnd_toStartOf="@+id/share_user_steps"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="16dp"
+            android:text="learn more"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

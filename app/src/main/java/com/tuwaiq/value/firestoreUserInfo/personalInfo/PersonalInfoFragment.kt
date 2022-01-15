@@ -6,10 +6,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.*
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -33,12 +30,12 @@ class PersonalInfoFragment : Fragment() {
 //    lateinit var usernameET :EditText
 //    lateinit var emailET :EditText
 //    lateinit var passwordET: EditText
-    lateinit var weightTV:TextView
-    lateinit var heightTV:TextView
+    lateinit var weightTV:AutoCompleteTextView
+    lateinit var heightTV:AutoCompleteTextView
     lateinit var ageTV:TextView
-    lateinit var genderTV:TextView
-    lateinit var activeTV:TextView
-    lateinit var goalTV:TextView
+    lateinit var genderTV:AutoCompleteTextView
+    lateinit var activeTV:AutoCompleteTextView
+    lateinit var goalTV:AutoCompleteTextView
     lateinit var editBtn:Button
     lateinit var delUserInfo : Button
     lateinit var value: Value
@@ -74,6 +71,26 @@ class PersonalInfoFragment : Fragment() {
         editBtn = view.findViewById(R.id.edit_btn)
         delUserInfo = view.findViewById(R.id.delete_account)
 
+        val genderItem = resources.getStringArray(R.array.Gender)
+        val genderItemAdapter = ArrayAdapter(requireContext() , R.layout.dropdown_gender_item , genderItem)
+        genderTV.setAdapter(genderItemAdapter)
+
+        val weightItem = resources.getStringArray(R.array.weight)
+        val weightItemAdapter = ArrayAdapter(requireContext() , R.layout.dropdown_weight_item , weightItem)
+        weightTV.setAdapter(weightItemAdapter)
+
+        val heightItem = resources.getStringArray(R.array.height)
+        val heightItemAdapter = ArrayAdapter(requireContext() , R.layout.dropdown_height_item , heightItem)
+        heightTV.setAdapter(heightItemAdapter)
+
+        val activeItem = resources.getStringArray(R.array.active)
+        val activeItemAdapter = ArrayAdapter(requireContext() , R.layout.dropdown_active_item , activeItem)
+        activeTV.setAdapter(activeItemAdapter)
+
+        val weightGoalItem = resources.getStringArray(R.array.goal)
+        val weightGoalItemAdapter = ArrayAdapter(requireContext() , R.layout.dropdown_goal_item , weightGoalItem)
+        goalTV.setAdapter(weightGoalItemAdapter)
+
 
         return view
     }
@@ -91,12 +108,12 @@ class PersonalInfoFragment : Fragment() {
             personalInfoViewModel.retrieverUserInfo(Firebase.auth.currentUser?.email.toString())
                 .observe(viewLifecycleOwner){
                     it?.let {
-                        weightTV.text = it.weight
-                        heightTV.text = it.height
-                        ageTV.text = it.age
-                        genderTV.text = it.gender
-                        activeTV.text = it.active
-                        goalTV.text = it.weightGoal
+//                        weightTV.text = it.weight
+//                        heightTV.text = it.height
+//                        ageTV.text = it.age
+//                        genderTV.text = it.gender
+//                        activeTV.text = it.active
+//                        goalTV.text = it.weightGoal
 
 
                         it.gender = genderTV.text.toString()
@@ -116,12 +133,12 @@ class PersonalInfoFragment : Fragment() {
             personalInfoViewModel.userInfo.observe(
                 viewLifecycleOwner , Observer {
                     it?.let {
-                        weightTV.text = it.weight
-                        heightTV.text = it.height
-                        ageTV.text = it.age
-                        genderTV.text = it.gender
-                        activeTV.text = it.active
-                        goalTV.text = it.weightGoal
+//                        weightTV.text = it.weight.toString()
+//                        heightTV.text = it.height
+//                        ageTV.text = it.age
+//                        genderTV.text = it.gender
+//                        activeTV.text = it.active
+//                        goalTV.text = it.weightGoal
 
                         it.gender = genderTV.text.toString()
                         it.active = activeTV.text.toString()

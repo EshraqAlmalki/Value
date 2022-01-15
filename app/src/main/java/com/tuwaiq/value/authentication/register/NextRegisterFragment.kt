@@ -5,46 +5,34 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.viewpager.widget.ViewPager
-import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
-import com.tuwaiq.value.PageAdapter
 import com.tuwaiq.value.R
 import com.tuwaiq.value.database.Value
 import com.tuwaiq.value.fitnessCalculator.models.RapidRespnse
-import com.tuwaiq.value.homePage.HomePageFragmentArgs
-import kotlinx.android.synthetic.main.next_register_fragment.*
-import kotlinx.coroutines.NonDisposableHandle.parent
 
 
 private const val INFO_KYE = "user-info"
 private const val TAG = "NextRegisterFragment"
 class NextRegisterFragment : Fragment() {
 
-    private lateinit var userWeight:EditText
-    private lateinit var userHeight:EditText
-    private lateinit var userActive:EditText
+    private lateinit var userWeight:AutoCompleteTextView
+    private lateinit var userHeight:AutoCompleteTextView
+    private lateinit var userActive:AutoCompleteTextView
     private lateinit var stepsGoal:EditText
-    private lateinit var weightGoal:EditText
+    private lateinit var weightGoal:AutoCompleteTextView
     private lateinit var doneImgV:ImageView
     private lateinit var ageET:EditText
-    private lateinit var genderET:EditText
-    lateinit var rapidResponse:RapidRespnse
-    lateinit var autoCompleteTextView: AutoCompleteTextView
+   // private lateinit var genderET:EditText
+    private lateinit var rapidResponse:RapidRespnse
+    lateinit var genderET: AutoCompleteTextView
 //    private lateinit var spinner:Spinner
 //    lateinit var genderSpinner:Array<String>
-
-
-
-
-
 
     lateinit var value:Value
 
@@ -64,19 +52,36 @@ class NextRegisterFragment : Fragment() {
         val view = inflater.inflate(R.layout.next_register_fragment
             , container, false)
 
-        userWeight = view.findViewById(R.id.weight_et)
-        userHeight = view.findViewById(R.id.height_et)
-        userActive = view.findViewById(R.id.active_et)
+        userWeight = view.findViewById(R.id.weight_info)
+        userHeight = view.findViewById(R.id.height_info)
+        userActive = view.findViewById(R.id.active_level_info)
         stepsGoal = view.findViewById(R.id.steps_goal)
-        weightGoal = view.findViewById(R.id.weight_goals)
+        weightGoal = view.findViewById(R.id.weight_goal_info)
         doneImgV = view.findViewById(R.id.done_iv)
-        ageET = view.findViewById(R.id.age_et)
-        genderET = view.findViewById(R.id.gender_et)
-        autoCompleteTextView = view.findViewById(R.id.autoCompleteTextView)
+        ageET = view.findViewById(R.id.age_info)
+            // genderET = view.findViewById(R.id.gender_et)
+        genderET = view.findViewById(R.id.gender_info)
 
         val genderItem = resources.getStringArray(R.array.Gender)
         val genderItemAdapter = ArrayAdapter(requireContext() , R.layout.dropdown_gender_item , genderItem)
-        autoCompleteTextView.setAdapter(genderItemAdapter)
+        genderET.setAdapter(genderItemAdapter)
+
+        val weightItem = resources.getStringArray(R.array.weight)
+        val weightItemAdapter = ArrayAdapter(requireContext() , R.layout.dropdown_weight_item , weightItem)
+        userWeight.setAdapter(weightItemAdapter)
+
+        val heightItem = resources.getStringArray(R.array.height)
+        val heightItemAdapter = ArrayAdapter(requireContext() , R.layout.dropdown_height_item , heightItem)
+        userHeight.setAdapter(heightItemAdapter)
+
+        val activeItem = resources.getStringArray(R.array.active)
+        val activeItemAdapter = ArrayAdapter(requireContext() , R.layout.dropdown_active_item , activeItem)
+        userActive.setAdapter(activeItemAdapter)
+
+        val weightGoalItem = resources.getStringArray(R.array.goal)
+        val weightGoalItemAdapter = ArrayAdapter(requireContext() , R.layout.dropdown_goal_item , weightGoalItem)
+        weightGoal.setAdapter(weightGoalItemAdapter)
+
 
         rapidResponse=RapidRespnse()
 
@@ -123,9 +128,8 @@ class NextRegisterFragment : Fragment() {
             value.stGoal = stepsGoal.text.toString()
             value.weightGoal= weightGoal.text.toString()
             value.age= ageET.text.toString()
-           value.gender = genderET.text.toString()
-          //  value.gender = autoCompleteTextView.text.toString()
-
+           //value.gender = genderET.text.toString()
+            value.gender = genderET.text.toString()
 
 
 

@@ -42,23 +42,36 @@ class TimeLineActiveViewModel : ViewModel() {
 
     }
 
-    fun getNews(): LiveData<List<HealthNewsItem>> {
+//    fun getNews(): LiveData<List<HealthNewsItem>> {
+//
+//
+//       // var healthNewsItem:List<HealthNewsItem> = emptyList()
+//
+//        val newsLiveData:MutableLiveData<List<HealthNewsItem>> = MutableLiveData()
+//
+//        viewModelScope.launch{
+//
+//            var healthNewsItem:List<HealthNewsItem> = healthNewsRepo.getAllNewsFromApi()
+//
+//        }.invokeOnCompletion {
+//
+//                newsLiveData.value = healthNewsItem
+//
+//
+//        }
+//
+//        Log.e(TAG, "getNews:${newsLiveData.value} ", )
+//
+//
+//        return newsLiveData
+//    }
+    
+    fun getNews():LiveData<List<HealthNewsItem>> = liveData {
 
 
-        var healthNewsItem:List<HealthNewsItem> = emptyList()
-        val newsLiveData:MutableLiveData<List<HealthNewsItem>> = MutableLiveData()
-
-        viewModelScope.launch{
-            healthNewsRepo.getAllNews()
-        }.invokeOnCompletion {
-            viewModelScope.launch {
-                newsLiveData.value = healthNewsItem
-            }
-        }
-        Log.e(TAG, "getNews:${newsLiveData.value} ", )
-
-
-        return newsLiveData
+        var healthNewsItem:List<HealthNewsItem> =  healthNewsRepo.getAllNewsFromApi()
+        emit(healthNewsItem)
+        Log.e(TAG, "getNews: $healthNewsItem", )
     }
 
 

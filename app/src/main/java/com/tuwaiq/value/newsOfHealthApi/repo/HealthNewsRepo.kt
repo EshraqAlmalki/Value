@@ -3,8 +3,10 @@ package com.tuwaiq.value.newsOfHealthApi.repo
 import android.content.ContentValues.TAG
 import android.util.Log
 import com.tuwaiq.value.newsOfHealthApi.api.HealthNewsApi
+import com.tuwaiq.value.newsOfHealthApi.models.HealthNews
 
 import com.tuwaiq.value.newsOfHealthApi.models.HealthNewsItem
+import retrofit2.Call
 
 import retrofit2.Retrofit
 import retrofit2.awaitResponse
@@ -19,11 +21,14 @@ class HealthNewsRepo {
 
     private val api = retrofit.create(HealthNewsApi::class.java)
 
-    suspend fun getAllNews():List<HealthNewsItem?>{
+    suspend fun getAllNewsFromApi():List<HealthNewsItem> = getAllNews(api.healthNews())
 
-        var newsList:List<HealthNewsItem?> = emptyList()
 
-        val response = api.healthNews().awaitResponse()
+    private suspend fun getAllNews(healthNews:Call<HealthNews> ):List<HealthNewsItem>{
+
+        var newsList:List<HealthNewsItem> = emptyList()
+
+        val response = healthNews.awaitResponse()
 
         if (response.isSuccessful){
           newsList = response.body()?.toList().orEmpty()

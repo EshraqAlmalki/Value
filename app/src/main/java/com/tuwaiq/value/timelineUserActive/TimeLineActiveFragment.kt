@@ -1,6 +1,7 @@
 package com.tuwaiq.value.timelineUserActive
 
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Build
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -21,9 +22,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.tuwaiq.value.R
+import com.tuwaiq.value.WebViewNewsActivity
 import com.tuwaiq.value.newsOfHealthApi.models.HealthNewsItem
-import com.tuwaiq.value.newsOfHealthApi.models.News
-
+const val NEWS_URL = "news"
 class TimeLineActiveFragment : Fragment() {
 
     private lateinit var timelineUserActiveRV:RecyclerView
@@ -133,7 +134,8 @@ class TimeLineActiveFragment : Fragment() {
         private val shareActive :ImageView = itemView.findViewById(R.id.share_user_steps)
         private val newsTitle:TextView = itemView.findViewById(R.id.news_title)
         private val newsSource:TextView = itemView.findViewById(R.id.news_source)
-        private val newUrl:TextView = itemView.findViewById(R.id.news_url)
+       // private val newUrl:TextView = itemView.findViewById(R.id.news_url)
+        private val learnMore:TextView =itemView.findViewById(R.id.learn_more)
 
 
 
@@ -141,8 +143,18 @@ class TimeLineActiveFragment : Fragment() {
         fun bind(news: HealthNewsItem){
           newsTitle.text = news.title
             newsSource.text = news.source
-            newUrl.text = news.url
-            Log.e(TAG, "bind:${news.title} ", )
+           // newUrl.text = news.url
+            Log.e(TAG, "bind:${news.url} ", )
+
+            learnMore.setOnClickListener {
+                val newsUrl = news.url
+
+
+                val intent = Intent(requireContext() , WebViewNewsActivity::class.java).apply {
+                    putExtra(NEWS_URL , newsUrl)
+                }
+                startActivity(intent)
+            }
 
 
 
@@ -172,30 +184,33 @@ class TimeLineActiveFragment : Fragment() {
 
 
 
-//                shareActive.setOnClickListener {
-//                showToast("share it now")
-//                Intent(Intent.ACTION_SEND).apply {
-//                    putExtra(Intent.EXTRA_TEXT , shareNews())
-//                    putExtra(Intent.EXTRA_SUBJECT,"share with other")
-//                    setType("TEXT/plain")
-//                }.also {
-//                    val chooserIntent = Intent.createChooser(it,"share it")
-//                    startActivity(chooserIntent)
-//                }
-//            }
+                shareActive.setOnClickListener {
+                showToast("share it now")
+                Intent(Intent.ACTION_SEND).apply {
+                    putExtra(Intent.EXTRA_TEXT , shareNews())
+                    putExtra(Intent.EXTRA_SUBJECT,"share with other")
+                    setType("TEXT/plain")
+                }.also {
+                    val chooserIntent = Intent.createChooser(it,"share it")
+                    startActivity(chooserIntent)
+                }
+            }
 
 
         }
 
-//        fun shareNews():String{
-//            val stepsActive = if (news){
+        fun shareNews():String{
+            val news= HealthNewsItem()
+            val healthNews = "here is the news : ${news.title}"
+//            val getNews = if (news){
 //                "this user reach the goal by ${value.stGoal}"
 //            }else{
 //                "lets work together and reach the goal!"
 //            }
 //
-//            return "try this out i already $stepsActive"
-//        }
+//            return "try this out i already $getNews"
+            return healthNews
+        }
 
 
 
