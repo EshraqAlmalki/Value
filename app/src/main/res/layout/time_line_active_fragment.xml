@@ -10,6 +10,7 @@
             android:id="@+id/user_active_rv"
             android:layout_width="391dp"
             android:layout_height="720dp"
+            android:layoutAnimation="@anim/layout_anim"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView10" />
 

@@ -19,18 +19,19 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout6"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-            android:layout_width="329dp"
-            android:layout_height="61dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="32dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+            android:layout_width="169dp"
+            android:layout_height="72dp"
+            android:gravity="center"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout3">
 
             <AutoCompleteTextView
                 android:id="@+id/gender_info"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_width="151dp"
+                android:layout_height="49dp"
+                android:ems="10"
                 android:hint="gender"
                 android:inputType="none"
                 android:text=""
@@ -41,20 +42,19 @@
 
         <ImageView
             android:id="@+id/imageView4"
-            android:layout_width="438dp"
-            android:layout_height="157dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginBottom="76dp"
+            android:layout_width="395dp"
+            android:layout_height="178dp"
+            android:layout_marginBottom="456dp"
             android:src="@drawable/waves"
-            app:layout_constraintBottom_toTopOf="@+id/textInputLayout4"
+            app:layout_constraintBottom_toTopOf="@+id/delete_account"
             app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
             android:id="@+id/imageView6"
-            android:layout_width="582dp"
-            android:layout_height="144dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginBottom="36dp"
+            android:layout_width="397dp"
+            android:layout_height="124dp"
+            android:layout_marginStart="104dp"
+            android:layout_marginBottom="68dp"
             android:src="@drawable/valueinapp"
             app:layout_constraintBottom_toTopOf="@+id/textInputLayout4"
             app:layout_constraintStart_toStartOf="parent" />
@@ -64,16 +64,17 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
             android:layout_width="169dp"
             android:layout_height="72dp"
-            android:layout_marginStart="30dp"
+            android:gravity="center"
+            android:layout_marginStart="25dp"
             android:layout_marginTop="36dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView4">
 
             <AutoCompleteTextView
                 android:id="@+id/weight_info"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_width="151dp"
+                android:layout_height="49dp"
+                android:ems="10"
                 android:hint="weight"
                 android:inputType="none"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
@@ -84,15 +85,16 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
             android:layout_width="169dp"
             android:layout_height="72dp"
+            android:gravity="center"
             android:layout_marginTop="36dp"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="25dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView4">
 
             <AutoCompleteTextView
                 android:id="@+id/height_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="151dp"
+                android:layout_height="49dp"
                 android:layout_weight="1"
                 android:hint="height"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
@@ -103,16 +105,17 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
             android:layout_width="169dp"
             android:layout_height="72dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="30dp"
+            android:gravity="center"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="25dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout6">
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout3">
 
             <AutoCompleteTextView
                 android:id="@+id/active_level_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="151dp"
+                android:layout_height="49dp"
+                android:ems="10"
                 android:hint="active level"
                 android:text=""
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
@@ -121,12 +124,12 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout3"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-            android:layout_width="169dp"
-            android:layout_height="72dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="12dp"
+            android:layout_width="327dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout6">
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
 
 
             <AutoCompleteTextView
@@ -142,8 +145,8 @@
             android:id="@+id/edit_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="36dp"
-            android:layout_marginBottom="236dp"
+            android:layout_marginEnd="48dp"
+            android:layout_marginBottom="106dp"
             android:text="done"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -153,19 +156,20 @@
             android:id="@+id/delete_account"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="236dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="106dp"
             android:text="delete account"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="169dp"
             android:layout_height="72dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="25dp"
             android:gravity="center"
             app:boxStrokeColor="@color/value_green"
             app:hintTextColor="@color/value_green"
@@ -174,12 +178,36 @@
 
             <EditText
                 android:id="@+id/age_info"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="151dp"
+                android:layout_height="49dp"
                 android:ems="10"
                 android:hint="age"
                 android:inputType="textPersonName"
                 tools:ignore="SpeakableTextPresentCheck" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="169dp"
+            android:layout_height="72dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            app:boxStrokeColor="@color/value_green"
+            app:hintTextColor="@color/value_green"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout6">
+
+            <EditText
+                android:id="@+id/steps_goal_info"
+                android:layout_width="151dp"
+                android:layout_height="49dp"
+                android:ems="10"
+                android:hint="steps goal"
+                android:inputType="textPersonName"
+                android:minHeight="48dp"
+                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!--        <NumberPicker-->
