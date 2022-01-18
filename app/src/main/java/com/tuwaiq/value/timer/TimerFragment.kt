@@ -164,10 +164,6 @@ class TimerFragment : Fragment() {
 
         notificationManager?.notify(1000 , notification)
 
-
-
-
-
     }
 
 
@@ -228,11 +224,6 @@ class TimerFragment : Fragment() {
             .streamFor(300, 5000L)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-
-    }
 
 }
 

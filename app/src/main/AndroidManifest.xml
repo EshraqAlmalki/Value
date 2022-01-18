@@ -22,9 +22,9 @@
     <application
         android:name=".database.ValueApp"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/icon_value"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/desklogo"
         android:supportsRtl="true"
         android:theme="@style/Theme.Value"
         android:usesCleartextTraffic="true">

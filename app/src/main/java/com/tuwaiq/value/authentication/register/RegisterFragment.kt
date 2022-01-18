@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,10 +21,13 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import com.tuwaiq.value.PageAdapter
 import com.tuwaiq.value.R
 import com.tuwaiq.value.database.Value
 import com.tuwaiq.value.homePage.HomePageFragmentArgs
+import java.util.regex.Pattern
 
 private const val TAG = "RegisterFragment"
 class RegisterFragment : Fragment() {
@@ -70,9 +74,12 @@ class RegisterFragment : Fragment() {
         auth.createUserWithEmailAndPassword(email,password)
             .addOnCompleteListener { task->
                 if (task.isSuccessful){
+                    
                     showToast("good job")
+                    Log.e(TAG, "registerUser: wahoooo", )
 
                 }else{
+                       showToast("email address already taken")
                     Log.e(TAG , "there was something wrong",task.exception)
                 }
 
@@ -86,7 +93,6 @@ class RegisterFragment : Fragment() {
     }
 
 
-
     override fun onStart() {
         super.onStart()
         val currentUser = auth.currentUser
@@ -98,27 +104,28 @@ class RegisterFragment : Fragment() {
 
 
         nextImgV.setOnClickListener {
-            val username:String = usernameET.text.toString()
+           
+            value.name = usernameET.text.toString()
            value.email = emailET.text.toString()
             value.password = passwordET.text.toString()
             val confirmPassword = confirmPass.text.toString()
             
            val tempEmail = value.email
 
-
-//
-
             when{
-                username.isEmpty() -> showToast("Enter username please")
-                value.email.isEmpty() || !value.email.contains("@")-> showToast("Enter Email please")
+
+                value.name.isEmpty() -> showToast("Enter username please")
+
+                value.email.isEmpty() || !value.email.contains("@") -> showToast("Enter Email please")
                 value.password.isEmpty() -> showToast("Enter password please")
                 value.password != confirmPassword -> showToast("passwords must be matched" )
-           
+
+
                 else ->{
 
 
 
-                    registerUser(username,value.email,value.password)
+                    registerUser(value.name,value.email,value.password)
 
 
                     registerViewModel.addNewUser(value)
@@ -146,6 +153,11 @@ class RegisterFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
 
     }
+
+//    private fun check():Boolean{
+//
+//
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

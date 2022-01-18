@@ -91,6 +91,7 @@ class StepsCountFragment : Fragment() , SensorEventListener{
         } else {
             sensorManager?.registerListener(this, stepsSensor,
                 SensorManager.SENSOR_DELAY_UI)
+            value.steps = stepsCounter.text.toString()
             running = true
         }
     }

@@ -11,7 +11,7 @@ data class Value(
     var weight:String ="",
     var weightGoal:String="",
     var height:String ="",
-    val name:String ="",
+    var name:String ="",
     var password:String ="",
     @PrimaryKey
     var email:String ="",

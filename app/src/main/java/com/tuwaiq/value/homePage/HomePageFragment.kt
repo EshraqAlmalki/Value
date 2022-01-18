@@ -32,6 +32,8 @@ class HomePageFragment : Fragment() {
     lateinit var carbTV :TextView
     lateinit var proteinTV :TextView
     lateinit var stepsTV : TextView
+    lateinit var stepsGoal : TextView
+    lateinit var usernameTV:TextView
 
 //    lateinit var value: Value
     lateinit var rapidResponse: RapidRespnse
@@ -75,6 +77,8 @@ class HomePageFragment : Fragment() {
         carbTV = view.findViewById(R.id.carb_tv)
         proteinTV = view.findViewById(R.id.protein_tv)
         stepsTV = view.findViewById(R.id.steps_tv)
+        stepsGoal = view.findViewById(R.id.steps_goalEt)
+        usernameTV= view.findViewById(R.id.hello_username)
 
 
         rapidResponse= RapidRespnse()
@@ -83,12 +87,6 @@ class HomePageFragment : Fragment() {
         return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-
-    }
 
 
     override fun onStart() {
@@ -107,7 +105,9 @@ class HomePageFragment : Fragment() {
                                 carbTV.text = it.carb
                                 fatTV.text = it.fat
                                 proteinTV.text = it.protein
-                                stepsTV.text= it.stGoal
+                                stepsTV.text= it.steps
+                                stepsGoal.text = it.stGoal
+                                usernameTV.text = it.name
 
 
                                 Log.e(TAG, "onStart: retriever $it", )
@@ -122,15 +122,13 @@ class HomePageFragment : Fragment() {
                     homeViewModel.userInfo.observe(
                         viewLifecycleOwner, Observer {
                             it?.let {
-
-
                                 calorieTV.text = it.calor
                                 carbTV.text = it.carb
                                 fatTV.text = it.fat
                                 proteinTV.text = it.protein
-                                stepsTV.text= it.stGoal
-
-
+                                stepsTV.text= it.steps
+                                stepsGoal.text = it.stGoal
+                                usernameTV.text = it.name
                             }
                             Log.e(TAG, "if onStart: $it",)
 
@@ -149,7 +147,8 @@ class HomePageFragment : Fragment() {
                         carbTV.text = it.carb
                         fatTV.text = it.fat
                         proteinTV.text = it.protein
-                        stepsTV.text = it.stGoal
+                        stepsTV.text = it.steps
+                        stepsGoal.text = it.stGoal
 
                         it.calor = calorieTV.text.toString()
                         it.fat = fatTV.text.toString()

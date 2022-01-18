@@ -6,22 +6,24 @@
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="413dp"
-        android:layout_height="209dp"
-        android:layout_marginTop="4dp"
-        android:background="#458747"
+        android:layout_width="382dp"
+        android:layout_height="186dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/nav_shape"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/news_title"
-            android:layout_width="308dp"
-            android:layout_height="119dp"
-            android:layout_marginEnd="68dp"
-            android:layout_marginBottom="44dp"
+            android:layout_width="296dp"
+            android:layout_height="101dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="35dp"
+            android:fontFamily="serif"
             android:hint="title"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -29,8 +31,8 @@
             android:id="@+id/share_user_steps"
             android:layout_width="28dp"
             android:layout_height="36dp"
-            android:layout_marginTop="28dp"
-            android:layout_marginEnd="43dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="11dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_baseline_share_24" />
@@ -41,8 +43,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="44dp"
             android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif-smallcaps"
             android:hint="source"
-            android:textStyle="bold"
+            android:textStyle="normal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -50,7 +53,7 @@
             android:id="@+id/learn_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginBottom="16dp"
             android:text="learn more"
             app:layout_constraintBottom_toBottomOf="parent"

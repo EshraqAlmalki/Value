@@ -128,13 +128,11 @@ class NextRegisterFragment : Fragment() {
             value.stGoal = stepsGoal.text.toString()
             value.weightGoal= weightGoal.text.toString()
             value.age= ageET.text.toString()
-           //value.gender = genderET.text.toString()
             value.gender = genderET.text.toString()
 
 
-
             when{
-                value.weight.isEmpty() -> showToast("Enter weight!")
+                value.weight.isEmpty()  -> showToast("Enter weight!")
                 value.height.isEmpty() -> showToast("Enter height!")
                 value.active.isEmpty() -> showToast("Enter active!")
                 value.stGoal.isEmpty() -> showToast("Enter steps goals!")
@@ -145,40 +143,35 @@ class NextRegisterFragment : Fragment() {
                 else -> {
 
 
+                        nextRegisterViewModel.macrosCount(age = value.age , gender = value.gender ,
+                            weight = value.weight ,height = value.height, goal = value.weightGoal ,
+                            activityLevel = value.active)
+                            .observe(
+                                viewLifecycleOwner , Observer {
+
+                                        rapidResponse ->
 
 
-                    nextRegisterViewModel.macrosCount(age = value.age , gender = value.gender ,
-                    weight = value.weight ,height = value.height, goal = value.weightGoal ,
-                    activityLevel = value.active)
-                        .observe(
-                        viewLifecycleOwner , Observer {
-
-                                rapidResponse ->
+                                    value.calor = rapidResponse.data?.calorie.toString()
+                                    value.fat = rapidResponse.data?.balanced?.fat.toString()
+                                    value.carb = rapidResponse.data?.balanced?.protein.toString()
+                                    value.protein = rapidResponse.data?.balanced?.protein.toString()
+                                    value.email = args.email
 
 
-                                value.calor = rapidResponse.data?.calorie.toString()
-                                value.fat = rapidResponse.data?.balanced?.fat.toString()
-                                value.carb = rapidResponse.data?.balanced?.protein.toString()
-                                value.protein = rapidResponse.data?.balanced?.protein.toString()
-                                value.email = args.email
+                                    Log.e(TAG, "onStart: $value")
+                                    Log.e(TAG, "onStart fat: ${value.fat}" )
 
+                                    nextRegisterViewModel.updateUserInfo(value)
+                                    nextRegisterViewModel.saveFirestore(value)
+                                    Log.e(TAG, "onStart: firestore: ${nextRegisterViewModel.saveFirestore(value)}", )
+                                    val action = NextRegisterFragmentDirections
+                                        .actionNextRegisterFragmentToHomePageFragment(email = args.email)
+                                    Log.e(TAG, "onStart: ${args.email}", )
 
-                               Log.e(TAG, "onStart: $value")
-                               Log.e(TAG, "onStart fat: ${value.fat}" )
-
-                                nextRegisterViewModel.updateUserInfo(value)
-                                     nextRegisterViewModel.saveFirestore(value)
-                                Log.e(TAG, "onStart: firestore: ${nextRegisterViewModel.saveFirestore(value)}", )
-                                val action = NextRegisterFragmentDirections
-                                    .actionNextRegisterFragmentToHomePageFragment(email = args.email)
-                                Log.e(TAG, "onStart: ${args.email}", )
-
-                                findNavController().navigate(action)
-                        }
-
-                   )
-
-
+                                    findNavController().navigate(action)
+                                }
+                            )
                 }
 
             }

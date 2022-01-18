@@ -38,28 +38,6 @@ class FitnessRepo {
        }else{
            Log.e(TAG, "the error is: ${response.raw()}")
        }
-//       api.calculatorMacros(age, gender, weight, height,
-//           activityLevel, goal).await()
-
-//       api.calculatorMacros(age, gender, weight, height,
-//           activityLevel, goal).await().data.balanced
-
-//       api.calculatorMacros(age, gender, weight, height,
-//           activityLevel, goal).enqueue( object :Callback<RapidRespnse>{
-//
-//
-//           override fun onResponse(call: Call<RapidRespnse>, response: Response<RapidRespnse>) {
-//               if (response.isSuccessful){
-//                   member.value =response.body()!!
-//               }else{
-//                   Log.d(TAG , "the response is not successful")
-//               }
-//           }
-//
-//           override fun onFailure(call: Call<RapidRespnse>, t: Throwable) {
-//               Log.e(TAG, "there is no response")
-//           }
-//       })
 
        return rapidRespnse
 

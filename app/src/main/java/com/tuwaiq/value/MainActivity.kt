@@ -29,10 +29,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-//
-
-
         override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -59,15 +55,6 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-//            val viewPager = findViewById<ViewPager>(R.id.viewPager)
-//            viewPager.adapter = PageAdapter(supportFragmentManager)
-//
-//            val tabLayout = findViewById<TabLayout>(R.id.tabLayout)
-//            tabLayout.setupWithViewPager(viewPager)
-//
-
-
-        }
-
+    }
 
 }

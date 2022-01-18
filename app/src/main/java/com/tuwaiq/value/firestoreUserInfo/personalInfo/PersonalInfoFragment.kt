@@ -108,12 +108,12 @@ class PersonalInfoFragment : Fragment() {
             personalInfoViewModel.retrieverUserInfo(Firebase.auth.currentUser?.email.toString())
                 .observe(viewLifecycleOwner){
                     it?.let {
-//                        weightTV.text = it.weight
-//                        heightTV.text = it.height
-//                        ageTV.text = it.age
-//                        genderTV.text = it.gender
-//                        activeTV.text = it.active
-//                        goalTV.text = it.weightGoal
+                        weightTV.setText(it.weight)
+                        heightTV.setText(it.height)
+                        ageTV.setText(it.age)
+                        genderTV.setText(it.gender)
+                        activeTV.setText(it.active)
+                        goalTV.setText(it.weightGoal)
 
 
                         it.gender = genderTV.text.toString()
@@ -169,38 +169,57 @@ class PersonalInfoFragment : Fragment() {
             value.height = heightTV.text.toString()
             value.weightGoal = goalTV.text.toString()
 
-            Log.e(TAG, "onStart: $value edit", )
+            Log.e(TAG, "onStart: $value edit",)
 
 
-           personalInfoViewModel.macrosCount(age = value.age , gender = value.gender ,
-               weight = value.weight ,height = value.height, goal = value.weightGoal ,
-               activityLevel = value.active).observe(viewLifecycleOwner){
+            when {
+                value.weight.isEmpty() -> showToast("Enter weight!")
+                value.height.isEmpty() -> showToast("Enter height!")
+                value.active.isEmpty() -> showToast("Enter active!")
+                value.stGoal.isEmpty() -> showToast("Enter steps goals!")
+                value.weightGoal.isEmpty() -> showToast("Enter weight goals!")
+                value.age.isEmpty() -> showToast("Enter age!")
+                value.gender.isEmpty() -> showToast("Enter gender!")
+
+                else -> {
+
+                    if (value.weight.length in 40..160 && value.height.length in 130..230) {
+
+
+                        personalInfoViewModel.macrosCount(
+                            age = value.age, gender = value.gender,
+                            weight = value.weight, height = value.height, goal = value.weightGoal,
+                            activityLevel = value.active
+                        ).observe(viewLifecycleOwner) {
+
+
+                                rapidResponse ->
+
+
+                            value.calor = rapidResponse.data?.calorie.toString()
+                            value.fat = rapidResponse.data?.balanced?.fat.toString()
+                            value.carb = rapidResponse.data?.balanced?.carbs.toString()
+                            value.protein = rapidResponse.data?.balanced?.protein.toString()
+                            value.email = args.email
 
 
 
+                            Log.e(TAG, "onStart: editbtn : $value",)
+                            showToast("your changes is done ${value.calor}")
+                            personalInfoViewModel.updateUserInfo(value)
+                            personalInfoViewModel.updateFirestore(value)
+                            personalInfoViewModel.saveFirestore(value)
+                            val action = PersonalInfoFragmentDirections
+                                .actionPersonalInfoFragmentToHomePageFragment(email = args.email)
+                            findNavController().navigate(R.id.homePageFragment)
 
-                   rapidResponse ->
-
-
-
-               value.calor = rapidResponse.data?.calorie.toString()
-               value.fat = rapidResponse.data?.balanced?.fat.toString()
-               value.carb = rapidResponse.data?.balanced?.carbs.toString()
-               value.protein = rapidResponse.data?.balanced?.protein.toString()
-               value.email = args.email
-
-
-
-               Log.e(TAG, "onStart: editbtn : $value", )
-               showToast("your changes is done ${value.calor}")
-               personalInfoViewModel.updateUserInfo(value)
-               personalInfoViewModel.updateFirestore(value)
-               personalInfoViewModel.saveFirestore(value)
-               val action = PersonalInfoFragmentDirections
-                   .actionPersonalInfoFragmentToHomePageFragment(email = args.email)
-               findNavController().navigate(R.id.homePageFragment)
-
-           }
+                        }
+                    }else{
+                        showToast("height must be between 130-230 " +
+                                "and weight must be between 40-60")
+                    }
+                }
+            }
         }
 
         delUserInfo.setOnClickListener {

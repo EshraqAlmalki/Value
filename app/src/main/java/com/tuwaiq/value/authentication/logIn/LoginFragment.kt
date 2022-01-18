@@ -18,7 +18,7 @@ private const val TAG = "StartFragment"
 class LoginFragment : Fragment() {
 
     private lateinit var loginBtn:Button
-    private lateinit var emailLoginET:EditText
+    private lateinit var emailLoginET:AutoCompleteTextView
     private lateinit var passwordLogin:EditText
     private lateinit var registerTV:TextView
 
