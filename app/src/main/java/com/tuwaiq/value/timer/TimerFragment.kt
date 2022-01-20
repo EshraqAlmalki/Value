@@ -144,12 +144,13 @@ class TimerFragment : Fragment() {
 
         val notificationManager = getSystemService(context,NotificationManager::class.java)
 
+        val resources = getResources()
         val builder = context.let {
             NotificationCompat.Builder(it.applicationContext ,channel )
                 .setTicker(R.string.timer_end.toString())
                 .setSmallIcon(R.drawable.ic_baseline_av_timer_24)
-                .setContentTitle(R.string.timer_ends_title.toString())
-                .setContentText(R.string.good_jod.toString())
+                .setContentTitle(resources.getString(R.string.timer_ends_title))
+                .setContentText(resources.getString(R.string.good_jod))
                 .setAutoCancel(true)
 
         }

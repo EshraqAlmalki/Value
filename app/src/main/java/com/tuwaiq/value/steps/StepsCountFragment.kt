@@ -59,14 +59,8 @@ class StepsCountFragment : Fragment() , SensorEventListener{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        value = Value()
-
-
-        sensorManager = requireActivity().getSystemService(Context
-            .SENSOR_SERVICE) as SensorManager
+        onCreateStepsCount()
     }
-
-
 
 
 
@@ -82,18 +76,7 @@ class StepsCountFragment : Fragment() , SensorEventListener{
         super.onResume()
 
 
-        var stepsSensor = sensorManager?.getDefaultSensor(Sensor
-            .TYPE_STEP_COUNTER)
-
-        if (stepsSensor == null) {
-            running = false
-            showToast("No Step Counter Sensor !")
-        } else {
-            sensorManager?.registerListener(this, stepsSensor,
-                SensorManager.SENSOR_DELAY_UI)
-            value.steps = stepsCounter.text.toString()
-            running = true
-        }
+        onResumeStepsCount()
     }
 
 
@@ -120,6 +103,46 @@ class StepsCountFragment : Fragment() , SensorEventListener{
 
     override fun onPause(){
         super.onPause()
+        onPauseStepsCount()
+    }
+
+
+
+
+
+
+// transofrmation functions
+    private fun onCreateStepsCount() {
+        value = Value()
+
+
+        sensorManager = requireActivity().getSystemService(
+            Context
+                .SENSOR_SERVICE
+        ) as SensorManager
+    }
+
+
+    private fun onResumeStepsCount() {
+        var stepsSensor = sensorManager?.getDefaultSensor(
+            Sensor
+                .TYPE_STEP_COUNTER
+        )
+
+        if (stepsSensor == null) {
+            running = false
+            showToast("No Step Counter Sensor !")
+        } else {
+            sensorManager?.registerListener(
+                this, stepsSensor,
+                SensorManager.SENSOR_DELAY_UI
+            )
+            value.steps = stepsCounter.text.toString()
+            running = true
+        }
+    }
+
+    private fun onPauseStepsCount() {
         running = false
         sensorManager?.unregisterListener(this)
     }
@@ -134,30 +157,16 @@ class StepsCountFragment : Fragment() , SensorEventListener{
 //
 //            val currentSteps = totalSteps.toInt() - previousTotalSteps.toInt()
 //            stepsCounter.text = ("$currentSteps")
-//            stepsCounter.text = value.steps
-//            stepsCountViewModel.updateUserInfo(value)
+            stepsCounter.text = value.steps
+            stepsCountViewModel.updateUserInfo(value)
 
         }
     }
 
-
-
-
-    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-
-    }
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
 
     private fun showToast(msg:String){
         Toast.makeText( requireContext(), msg  , Toast.LENGTH_SHORT).show()
 
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-
-    }
-
-
-
 }

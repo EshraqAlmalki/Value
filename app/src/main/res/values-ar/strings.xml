@@ -4,11 +4,20 @@
     <string name="username">اسم المستخدم</string>
     <string name="user_steps">خطواتك</string>
     <string name="daily_calories_to_reach_the_goal">احتياج السعرات الحرارية للوصول للهدف:</string>
-    <string name="daily_steps_to_reach_the_goal">الخطوات اليوlيه للوصول للهدف</string>
     <string name="enter_your_email">ادخل بريدك الالكتروتي</string>
     <string name="password">"الرقم السري "</string>
     <string name="enter_your_password">ادخل رقمك السري</string>
     <string name="login">ادخل</string>
     <string name="register_now">سجل الان</string>
     <string name="don_t_have_account_yet">لم تسجل لدينا بعد؟</string>
+    <string name="daily_steps_to_reach_the_goal">خطواتك اليوم</string>
+    <string name="steps_goal">الخطوات اليومية للوصول لهدفك</string>
+    <string name="email">البريد الالكتروني</string>
+    <string name="current_steps">خطواتك الحالية</string>
+    <string name="set_timer">ادخل المؤقت (بالدقيقة)</string>
+    <string name="start_workout">اضبط المؤقت وابدا تمرينك!</string>
+    <string name="confirm_password">تأكيد الرقم السري</string>
+    <string name="hello_username">مرحباً</string>
+    <string name="timer_ends_title" translatable="false">انتهى الوقت!</string>
+    <string name="good_jod" translatable="false">احسنت!</string>
 </resources>

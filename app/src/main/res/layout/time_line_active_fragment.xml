@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,19 +13,20 @@
             android:layout_height="720dp"
             android:layoutAnimation="@anim/layout_anim"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView10" />
+            app:layout_constraintTop_toBottomOf="@+id/textView10"
+            android:visibility="visible"/>
 
         <TextView
             android:id="@+id/textView10"
-            android:layout_width="189dp"
-            android:layout_height="59dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="70dp"
+            android:layout_width="305dp"
+            android:layout_height="65dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="68dp"
             android:fontFamily="sans-serif-smallcaps"
             android:gravity="center"
-            android:text="Health News:"
+            android:text="@string/health_news"
             android:textColor="@color/value_green"
-            android:textSize="24sp"
+            android:textSize="48sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

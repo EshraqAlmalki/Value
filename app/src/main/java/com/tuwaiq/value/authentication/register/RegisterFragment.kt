@@ -3,6 +3,7 @@ package com.tuwaiq.value.authentication.register
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
 import android.util.Patterns
@@ -27,6 +28,8 @@ import com.tuwaiq.value.PageAdapter
 import com.tuwaiq.value.R
 import com.tuwaiq.value.database.Value
 import com.tuwaiq.value.homePage.HomePageFragmentArgs
+import java.lang.Exception
+import java.lang.IllegalStateException
 import java.util.regex.Pattern
 
 private const val TAG = "RegisterFragment"
@@ -70,26 +73,39 @@ class RegisterFragment : Fragment() {
         return view
     }
 
-    private fun registerUser(username:String,email: String, password: String) {
+    private fun registerUser(username:String,email: String, password: String):Boolean {
+        var authState = false
         auth.createUserWithEmailAndPassword(email,password)
             .addOnCompleteListener { task->
-                if (task.isSuccessful){
-                    
-                    showToast("good job")
-                    Log.e(TAG, "registerUser: wahoooo", )
 
-                }else{
-                       showToast("email address already taken")
-                    Log.e(TAG , "there was something wrong",task.exception)
-                }
+                    if (task.isSuccessful){
+                        authState = true
+                        showToast("good job")
+                        val action = RegisterFragmentDirections
+                            .actionRegisterFragmentToNextRegisterFragment(email = value.email)
+                        Log.e(TAG, "onStart: ${value.email}", )
+                        findNavController().navigate(action)
+
+                        Log.e(TAG, "registerUser: wahoooo", )
+
+                    }else{
+
+                        showToast("email address already taken")
+                        Log.e(TAG , "there was something wrong",task.exception)
+
+                    }
+
+
 
             }
         val updateProfile = userProfileChangeRequest{
             displayName = username
         }
 
+
         auth.currentUser?.updateProfile(updateProfile)
 
+        return authState
     }
 
 
@@ -104,7 +120,7 @@ class RegisterFragment : Fragment() {
 
 
         nextImgV.setOnClickListener {
-           
+
             value.name = usernameET.text.toString()
            value.email = emailET.text.toString()
             value.password = passwordET.text.toString()
@@ -115,8 +131,7 @@ class RegisterFragment : Fragment() {
             when{
 
                 value.name.isEmpty() -> showToast("Enter username please")
-
-                value.email.isEmpty() || !value.email.contains("@") -> showToast("Enter Email please")
+                value.email.isEmpty() && !value.email.contains("@") -> showToast("Enter email please")
                 value.password.isEmpty() -> showToast("Enter password please")
                 value.password != confirmPassword -> showToast("passwords must be matched" )
 
@@ -125,15 +140,18 @@ class RegisterFragment : Fragment() {
 
 
 
-                    registerUser(value.name,value.email,value.password)
+                    if (registerUser(value.name,value.email,value.password)){
+                        registerViewModel.addNewUser(value)
+
+                        }else{
+                           return@setOnClickListener
+                    }
 
 
-                    registerViewModel.addNewUser(value)
+
+
                    
-                    val action = RegisterFragmentDirections
-                        .actionRegisterFragmentToNextRegisterFragment(email = tempEmail)
-                    Log.e(TAG, "onStart: $tempEmail", )
-                    findNavController().navigate(action)
+
 
                 }
             }

@@ -1,5 +1,6 @@
 package com.tuwaiq.value.timelineUserActive
 
+import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Build
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -20,6 +22,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tuwaiq.value.R
 import com.tuwaiq.value.WebViewNewsActivity
 import com.tuwaiq.value.newsOfHealthApi.models.HealthNewsItem
+import android.view.animation.LayoutAnimationController
+
+
+
 const val NEWS_URL = "news"
 class TimeLineActiveFragment : Fragment() {
 
@@ -56,15 +62,26 @@ class TimeLineActiveFragment : Fragment() {
 
         timeLineActiveViewModel.getNews().observe(
             this , Observer {
+
                 updateUI(it)
+
             }
         )
     }
+
+    override fun onStart() {
+        super.onStart()
+
+    }
+
+
 
     private fun updateUI(news:List<HealthNewsItem>){
         val newAdapter = TimelineActiveAdapter(news)
         timelineUserActiveRV.adapter=newAdapter
         activeAdapter = TimelineActiveAdapter(news)
+
+
     }
 
 
@@ -82,6 +99,9 @@ class TimeLineActiveFragment : Fragment() {
         fun bind(news: HealthNewsItem){
           newsTitle.text = news.title
             newsSource.text = news.source
+
+
+
 
 
             learnMore.setOnClickListener {
@@ -117,6 +137,7 @@ class TimeLineActiveFragment : Fragment() {
 
             return healthNews
         }
+
 
 
 

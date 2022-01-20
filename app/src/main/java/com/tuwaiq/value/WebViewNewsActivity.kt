@@ -10,6 +10,15 @@ class WebViewNewsActivity : AppCompatActivity() {
 
     private lateinit var webView: WebView
 
+    override fun onBackPressed() {
+
+        if (webView.canGoBack())
+            webView.goBack()
+        else
+            super.onBackPressed()
+
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

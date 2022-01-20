@@ -12,26 +12,71 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="108dp"
+        android:layout_marginTop="336dp"
         android:layout_marginEnd="8dp"
-        android:text="Steps"
-        android:textColor="@color/teal_700"
-        android:textSize="50sp"
+        android:background="@drawable/nav_shape"
+        android:fontFamily="serif"
+        android:gravity="center"
+        android:text="@string/current_steps"
+        android:textColor="@color/value_green"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/stepsValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="119dp"
+        android:layout_height="113dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="8dp"
+        android:fontFamily="serif"
+        android:gravity="center"
         android:text="0"
-        android:textColor="#A100897B"
-        android:textSize="35sp"
+        android:textColor="@color/value_green"
+        android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/stepsLbl" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/waves"
+        app:layout_constraintBottom_toTopOf="@+id/stepsLbl"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="393dp"
+        android:layout_height="148dp"
+        android:background="@color/value_green"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="105dp"
+        android:layout_height="103dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginBottom="308dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/fitnesshealth" />
+
+    <ImageView
+        android:id="@+id/imageView12"
+        android:layout_width="421dp"
+        android:layout_height="261dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginBottom="104dp"
+        android:src="@drawable/valueinapp"
+        app:layout_constraintBottom_toTopOf="@+id/stepsLbl"
+        app:layout_constraintStart_toStartOf="@+id/view3" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,12 @@
 package com.tuwaiq.value.homePage
 
+import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
+import android.content.Context
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.text.format.Formatter
@@ -11,6 +17,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.NumberPicker
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -24,7 +31,7 @@ import com.tuwaiq.value.fitnessCalculator.models.RapidRespnse
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
-class HomePageFragment : Fragment() {
+class HomePageFragment : Fragment() , SensorEventListener {
 
 
     lateinit var calorieTV : TextView
@@ -33,9 +40,15 @@ class HomePageFragment : Fragment() {
     lateinit var proteinTV :TextView
     lateinit var stepsTV : TextView
     lateinit var stepsGoal : TextView
-    lateinit var usernameTV:TextView
+   // lateinit var usernameTV:TextView
 
-//    lateinit var value: Value
+    private var running = false
+    private var sensorManager: SensorManager? = null
+    private var totalSteps = 0f
+    private var previousTotalSteps = 0f
+
+
+    lateinit var value: Value
     lateinit var rapidResponse: RapidRespnse
 
 
@@ -60,6 +73,8 @@ class HomePageFragment : Fragment() {
         val userInfo = args.email
 
         homeViewModel.getUserInfo(userInfo)
+
+        onCreateStepsCount()
     }
 
 
@@ -78,7 +93,8 @@ class HomePageFragment : Fragment() {
         proteinTV = view.findViewById(R.id.protein_tv)
         stepsTV = view.findViewById(R.id.steps_tv)
         stepsGoal = view.findViewById(R.id.steps_goalEt)
-        usernameTV= view.findViewById(R.id.hello_username)
+       // usernameTV = view.findViewById(R.id.username_tv)
+
 
 
         rapidResponse= RapidRespnse()
@@ -101,13 +117,14 @@ class HomePageFragment : Fragment() {
                     homeViewModel.retrieverUserInfo(Firebase.auth.currentUser?.uid.toString())
                         .observe(viewLifecycleOwner){
                             it?.let {
-                                calorieTV.text = it.calor
-                                carbTV.text = it.carb
-                                fatTV.text = it.fat
+                                calorieTV.text = it.calor.toDouble().toInt().toString()
+                                carbTV.text = it.carb.toDouble().toInt().toString()
+                                fatTV.text = it.fat.toDouble().toInt().toString()
                                 proteinTV.text = it.protein
-                                stepsTV.text= it.steps
+//                                stepsTV.text= it.steps
                                 stepsGoal.text = it.stGoal
-                                usernameTV.text = it.name
+                               // usernameTV.text = it.name
+
 
 
                                 Log.e(TAG, "onStart: retriever $it", )
@@ -122,13 +139,14 @@ class HomePageFragment : Fragment() {
                     homeViewModel.userInfo.observe(
                         viewLifecycleOwner, Observer {
                             it?.let {
-                                calorieTV.text = it.calor
-                                carbTV.text = it.carb
-                                fatTV.text = it.fat
+                                calorieTV.text = it.calor.toDouble().toInt().toString()
+                                carbTV.text = it.carb.toDouble().toInt().toString()
+                                fatTV.text = it.fat.toDouble().toInt().toString()
                                 proteinTV.text = it.protein
-                                stepsTV.text= it.steps
+//                                stepsTV.text= it.steps
                                 stepsGoal.text = it.stGoal
-                                usernameTV.text = it.name
+                               // usernameTV.text = it.name
+
                             }
                             Log.e(TAG, "if onStart: $it",)
 
@@ -143,17 +161,19 @@ class HomePageFragment : Fragment() {
                 viewLifecycleOwner, Observer {
                     it?.let {
 
-                        calorieTV.text = it.calor
+                        calorieTV.text = it.calor.split(".").toString()
                         carbTV.text = it.carb
                         fatTV.text = it.fat
                         proteinTV.text = it.protein
-                        stepsTV.text = it.steps
+//                        stepsTV.text = it.steps
                         stepsGoal.text = it.stGoal
+                       // usernameTV.text = it.name
 
                         it.calor = calorieTV.text.toString()
                         it.fat = fatTV.text.toString()
                         it.carb = carbTV.text.toString()
                         it.protein = proteinTV.text.toString()
+
                     }
                     Log.e(TAG, "else onStart: $it",)
                     Log.e(TAG, "onStart: ${args.email} ${it?.email}", )
@@ -163,9 +183,77 @@ class HomePageFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        onResumeStepsCount()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        onPauseStepsCount()
+    }
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+    }
+
+    private fun onCreateStepsCount() {
+        value = Value()
+
+
+        sensorManager = requireActivity().getSystemService(
+            Context
+                .SENSOR_SERVICE
+        ) as SensorManager
+    }
+
+
+    private fun onResumeStepsCount() {
+        var stepsSensor = sensorManager?.getDefaultSensor(
+            Sensor
+                .TYPE_STEP_COUNTER
+        )
+
+        if (stepsSensor == null) {
+            running = false
+            showToast("No Step Counter Sensor !")
+        } else {
+            sensorManager?.registerListener(
+                this, stepsSensor,
+                SensorManager.SENSOR_DELAY_UI
+            )
+            value.steps = stepsTV.text.toString()
+            running = true
+        }
+    }
+
+    private fun onPauseStepsCount() {
+        running = false
+        sensorManager?.unregisterListener(this)
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun onSensorChanged(event: SensorEvent?) {
+        if (running) {
+
+            stepsTV.text = ""+ event?.values?.get(0)
+//
+//            totalSteps = event!!.values[0]
+//
+//            val currentSteps = totalSteps.toInt() - previousTotalSteps.toInt()
+//            stepsCounter.text = ("$currentSteps")
+            stepsTV.text = value.steps
+            homeViewModel.updateUserInfo(value)
+
+        }
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
+
+    private fun showToast(msg:String){
+        Toast.makeText( requireContext(), msg  , Toast.LENGTH_SHORT).show()
 
     }
 

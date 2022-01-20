@@ -36,10 +36,12 @@ class PersonalInfoFragment : Fragment() {
     lateinit var genderTV:AutoCompleteTextView
     lateinit var activeTV:AutoCompleteTextView
     lateinit var goalTV:AutoCompleteTextView
+    lateinit var stepsGoal:EditText
     lateinit var editBtn:Button
     lateinit var delUserInfo : Button
     lateinit var value: Value
     lateinit var auth: FirebaseAuth
+    lateinit var signOut:ImageView
 
     private val args : PersonalInfoFragmentArgs by navArgs()
 
@@ -68,8 +70,10 @@ class PersonalInfoFragment : Fragment() {
         genderTV = view.findViewById(R.id.gender_info)
         activeTV = view.findViewById(R.id.active_level_info)
         goalTV = view.findViewById(R.id.weight_goal_info)
+        stepsGoal= view.findViewById(R.id.steps_goal_info)
         editBtn = view.findViewById(R.id.edit_btn)
         delUserInfo = view.findViewById(R.id.delete_account)
+        signOut = view.findViewById(R.id.signout_iv)
 
         val genderItem = resources.getStringArray(R.array.Gender)
         val genderItemAdapter = ArrayAdapter(requireContext() , R.layout.dropdown_gender_item , genderItem)
@@ -102,6 +106,20 @@ class PersonalInfoFragment : Fragment() {
 
 
 
+        signOut.setOnClickListener {
+            val builder = context?.let { it -> AlertDialog.Builder(it) }
+            builder?.let {
+                it.setMessage("are sure you want to sign out?")
+                it.setCancelable(false)
+                it.setPositiveButton("Yes I'm"){ _ ,_ ->
+                    auth.signOut()
+                    findNavController().navigate(R.id.loginFragment)
+                }
+                it.setNegativeButton("No"){dialog , id -> dialog.dismiss()}
+                val alert = builder.create()
+                alert.show()
+            }
+        }
 
 
             Log.d(TAG, "email: ${Firebase.auth.currentUser?.email.toString()}")
@@ -114,6 +132,8 @@ class PersonalInfoFragment : Fragment() {
                         genderTV.setText(it.gender)
                         activeTV.setText(it.active)
                         goalTV.setText(it.weightGoal)
+                        stepsGoal.setText(it.stGoal)
+
 
 
                         it.gender = genderTV.text.toString()
@@ -122,6 +142,7 @@ class PersonalInfoFragment : Fragment() {
                         it.weight = weightTV.text.toString()
                         it.height = heightTV.text.toString()
                         it.weightGoal = goalTV.text.toString()
+                        it.stGoal = stepsGoal.text.toString()
                         Log.e(TAG, "onStart: $value 22", )
                     }
 
@@ -146,6 +167,7 @@ class PersonalInfoFragment : Fragment() {
                         it.weight = weightTV.text.toString()
                         it.height = heightTV.text.toString()
                         it.weightGoal = goalTV.text.toString()
+
                         Log.e(TAG, "onStart: $value 33", )
 
 
@@ -168,6 +190,7 @@ class PersonalInfoFragment : Fragment() {
             value.weight = weightTV.text.toString()
             value.height = heightTV.text.toString()
             value.weightGoal = goalTV.text.toString()
+            value.stGoal = stepsGoal.text.toString()
 
             Log.e(TAG, "onStart: $value edit",)
 
@@ -183,7 +206,7 @@ class PersonalInfoFragment : Fragment() {
 
                 else -> {
 
-                    if (value.weight.length in 40..160 && value.height.length in 130..230) {
+
 
 
                         personalInfoViewModel.macrosCount(
@@ -214,19 +237,30 @@ class PersonalInfoFragment : Fragment() {
                             findNavController().navigate(R.id.homePageFragment)
 
                         }
-                    }else{
-                        showToast("height must be between 130-230 " +
-                                "and weight must be between 40-60")
-                    }
+
                 }
             }
         }
 
         delUserInfo.setOnClickListener {
-            personalInfoViewModel.delAccount(value)
-            personalInfoViewModel.deleteFirestore(value)
-            personalInfoViewModel.deleteUserInfo(value)
-            findNavController().navigate(R.id.loginFragment)
+            val builder = context?.let { it -> AlertDialog.Builder(it) }
+            builder?.let {
+                it.setMessage("are sure you want to delete this account?")
+                it.setCancelable(false)
+                it.setPositiveButton("Yes I'm") { _, _ ->
+                   // auth.signOut()
+                    personalInfoViewModel.delAccount(value)
+                    personalInfoViewModel.deleteFirestore(value)
+                    personalInfoViewModel.deleteUserInfo(value)
+                    findNavController().navigate(R.id.loginFragment)
+                }
+
+                it.setNegativeButton("No") { dialog, id -> dialog.dismiss() }
+                val alert = builder.create()
+                alert.show()
+
+
+            }
         }
 
         val watcher = object :TextWatcher{
