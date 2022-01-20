@@ -3,7 +3,7 @@
     <string name="app_name">Value</string>
     <string name="username">اسم المستخدم</string>
     <string name="user_steps">خطواتك</string>
-    <string name="daily_calories_to_reach_the_goal">احتياج السعرات الحرارية للوصول للهدف:</string>
+    <string name="daily_calories_to_reach_the_goal">سعراتك اليومية</string>
     <string name="enter_your_email">ادخل بريدك الالكتروتي</string>
     <string name="password">"الرقم السري "</string>
     <string name="enter_your_password">ادخل رقمك السري</string>
@@ -20,4 +20,5 @@
     <string name="hello_username">مرحباً</string>
     <string name="timer_ends_title" translatable="false">انتهى الوقت!</string>
     <string name="good_jod" translatable="false">احسنت!</string>
+    <string name="health_news">كل مايهمك عن الصحة:</string>
 </resources>

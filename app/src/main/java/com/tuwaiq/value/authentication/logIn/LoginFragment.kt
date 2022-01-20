@@ -81,7 +81,7 @@ class LoginFragment : Fragment() {
                 auth.signInWithEmailAndPassword(value.email, value.password)
                     .addOnCompleteListener{ task->
                         if (task.isSuccessful){
-                            showToast("good job")
+//                            showToast("good job")
 
 
                             //Log.d(TAG)

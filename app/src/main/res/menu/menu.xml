@@ -6,10 +6,10 @@
         android:icon="@drawable/ic_baseline_person_24"
         android:title="info"/>
 
-    <item
-        android:id="@+id/stepsCountFragment3"
-        android:icon="@drawable/ic_baseline_do_not_step_24"
-        android:title="steps"/>
+<!--    <item-->
+<!--        android:id="@+id/stepsCountFragment3"-->
+<!--        android:icon="@drawable/ic_baseline_do_not_step_24"-->
+<!--        android:title="steps"/>-->
 
     <item
         android:id="@+id/timerFragment3"

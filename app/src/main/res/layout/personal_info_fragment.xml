@@ -148,9 +148,10 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="48dp"
             android:layout_marginBottom="106dp"
-            android:text="done"
             android:background="@drawable/shapes"
-            android:textColor="@color/white"
+            android:fontFamily="serif"
+            android:text="@string/done"
+            android:textColor="@color/value_green"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/delete_account" />
 
@@ -159,10 +160,11 @@
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:layout_marginEnd="40dp"
-            android:background="@drawable/shapes"
             android:layout_marginBottom="106dp"
-            android:text="delete account"
-            android:textColor="@color/white"
+            android:background="@drawable/shapes"
+            android:fontFamily="serif"
+            android:text="@string/delete_account"
+            android:textColor="@color/value_green"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 

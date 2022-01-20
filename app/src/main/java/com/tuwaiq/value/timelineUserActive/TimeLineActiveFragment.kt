@@ -154,8 +154,10 @@ class TimeLineActiveFragment : Fragment() {
         @RequiresApi(Build.VERSION_CODES.O)
         override fun onBindViewHolder(holder: TimelineActiveHolder, position: Int) {
 
+
            val news = news[position]
             holder.bind(news)
+
 
 
 
