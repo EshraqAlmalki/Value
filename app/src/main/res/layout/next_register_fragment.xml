@@ -35,7 +35,7 @@
             android:layout_width="151dp"
             android:layout_height="49dp"
             android:layout_weight="1"
-            android:hint="gender"
+            android:hint="@string/register_gender"
             android:inputType="none"
             tools:ignore="TouchTargetSizeCheck,DuplicateClickableBoundsCheck" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -58,7 +58,7 @@
             android:layout_width="151dp"
             android:layout_height="49dp"
             android:layout_weight="1"
-            android:hint="weight"
+            android:hint="@string/register_weight"
             android:inputType="none"
             tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -81,7 +81,7 @@
             android:layout_width="151dp"
             android:layout_height="49dp"
             android:layout_weight="1"
-            android:hint="height"
+            android:hint="@string/register_height"
             tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -103,7 +103,7 @@
             android:layout_width="151dp"
             android:layout_height="49dp"
             android:layout_weight="1"
-            android:hint="active level"
+            android:hint="@string/register_active_level"
             android:text=""
             tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -129,7 +129,7 @@
             android:layout_width="315dp"
             android:layout_height="49dp"
             android:layout_weight="1"
-            android:hint="goal" />
+            android:hint="@string/register_goal" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
@@ -169,7 +169,7 @@
             android:layout_width="151dp"
             android:layout_height="49dp"
             android:ems="10"
-            android:hint="age"
+            android:hint="@string/register_age"
             android:inputType="textPersonName"
             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -191,7 +191,7 @@
             android:layout_width="151dp"
             android:layout_height="49dp"
             android:ems="10"
-            android:hint="steps goal"
+            android:hint="@string/register_steps_goal"
             android:inputType="textPersonName"
             android:minHeight="48dp"
             tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />

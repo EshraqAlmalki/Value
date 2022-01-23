@@ -23,6 +23,8 @@
     <string name="don_t_have_account_yet">don\'t have an account yet?</string>
     <string name="hello_username">Hello</string>
 
+    <string name="google_maps_key">AIzaSyC5EyXfNqzXGtiWaF6C2XrLePYWaD98-qA</string>
+
     <string-array name="Gender">
         <item>female</item>
         <item>male</item>
@@ -288,5 +290,20 @@
     <string name="health_news">Health News:</string>
     <string name="done">done</string>
     <string name="delete_account">delete account</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="gender">gender</string>
+    <string name="weight">weight</string>
+    <string name="height">height</string>
+    <string name="active_level">active level</string>
+    <string name="goal">goal</string>
+    <string name="age">age</string>
+    <string name="register_gender">gender</string>
+    <string name="register_weight">weight</string>
+    <string name="register_height">height</string>
+    <string name="register_active_level">active level</string>
+    <string name="register_goal">goal</string>
+    <string name="register_age">age</string>
+    <string name="register_steps_goal">steps goal</string>
 
 </resources>

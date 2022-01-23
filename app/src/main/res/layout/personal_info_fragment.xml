@@ -33,7 +33,7 @@
                 android:layout_width="151dp"
                 android:layout_height="49dp"
                 android:ems="10"
-                android:hint="gender"
+                android:hint="@string/gender"
                 android:inputType="none"
                 android:text=""
                 tools:ignore="TouchTargetSizeCheck,DuplicateClickableBoundsCheck" />
@@ -76,7 +76,7 @@
                 android:layout_width="151dp"
                 android:layout_height="49dp"
                 android:ems="10"
-                android:hint="weight"
+                android:hint="@string/weight"
                 android:inputType="none"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -97,7 +97,7 @@
                 android:layout_width="151dp"
                 android:layout_height="49dp"
                 android:layout_weight="1"
-                android:hint="height"
+                android:hint="@string/height"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -117,7 +117,7 @@
                 android:layout_width="151dp"
                 android:layout_height="49dp"
                 android:ems="10"
-                android:hint="active level"
+                android:hint="@string/active_level"
                 android:text=""
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -138,7 +138,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:hint="goal"
+                android:hint="@string/goal"
                 android:text="" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -152,6 +152,7 @@
             android:fontFamily="serif"
             android:text="@string/done"
             android:textColor="@color/value_green"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/delete_account" />
 
@@ -165,6 +166,7 @@
             android:fontFamily="serif"
             android:text="@string/delete_account"
             android:textColor="@color/value_green"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -186,7 +188,7 @@
                 android:layout_width="151dp"
                 android:layout_height="49dp"
                 android:ems="10"
-                android:hint="age"
+                android:hint="@string/age"
                 android:inputType="textPersonName"
                 tools:ignore="SpeakableTextPresentCheck" />
 

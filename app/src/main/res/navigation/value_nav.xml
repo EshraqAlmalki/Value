@@ -4,6 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/value_nav"
     app:startDestination="@id/loginFragment">
+
+    <action
+        android:id="@+id/action_global_timerFragment"
+        app:destination="@+id/timerFragment3"
+        app:launchSingleTop="true"/>
     <fragment
         android:id="@+id/homePageFragment"
         android:name="com.tuwaiq.value.homePage.HomePageFragment"
@@ -45,6 +50,9 @@
             android:name="protien"
             app:argType="string"
             android:defaultValue='""' />
+        <action
+            android:id="@+id/action_homePageFragment_to_runTimelineFragment"
+            app:destination="@id/runTimelineFragment" />
     </fragment>
     <fragment
         android:id="@+id/personalInfoFragment"
@@ -127,4 +135,9 @@
             app:popUpTo="@id/homePageFragment"
             app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+        android:id="@+id/runTimelineFragment"
+        android:name="com.tuwaiq.value.timer.RunTimelineFragment"
+        android:label="fragment_run_timeline"
+        tools:layout="@layout/fragment_run_timeline" />
 </navigation>

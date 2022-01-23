@@ -20,5 +20,20 @@
     <string name="hello_username">مرحباً</string>
     <string name="timer_ends_title" translatable="false">انتهى الوقت!</string>
     <string name="good_jod" translatable="false">احسنت!</string>
-    <string name="health_news">كل مايهمك عن الصحة:</string>
+    <string name="health_news">أعرف أكثر:</string>
+    <string name="done">حفظ</string>
+    <string name="delete_account">حذف الحساب</string>
+    <string name="gender">الجنس</string>
+    <string name="weight">الوزن</string>
+    <string name="height">الطول</string>
+    <string name="active_level">مستوى النشاط</string>
+    <string name="goal">الهدف</string>
+    <string name="age">العمر</string>
+    <string name="register_gender">الجنس</string>
+    <string name="register_weight">الوزن</string>
+    <string name="register_height">الطول</string>
+    <string name="register_active_level">مستوى النشاط</string>
+    <string name="register_goal">الهدف</string>
+    <string name="register_age">العمر</string>
+    <string name="register_steps_goal">هدف الخطوات</string>
 </resources>

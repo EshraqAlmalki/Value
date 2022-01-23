@@ -12,9 +12,13 @@
 <!--        android:title="steps"/>-->
 
     <item
-        android:id="@+id/timerFragment3"
+        android:id="@+id/runTimelineFragment"
         android:icon="@drawable/ic_baseline_av_timer_24"
-        android:title="timer"/>
+        android:title="run"/>
+<!--    <item-->
+<!--        android:id="@+id/timerFragment3"-->
+<!--        android:icon="@drawable/ic_baseline_av_timer_24"-->
+<!--        android:title="timer"/>-->
 
     <item
         android:id="@+id/homePageFragment"
