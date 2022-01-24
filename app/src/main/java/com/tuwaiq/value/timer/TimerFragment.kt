@@ -39,6 +39,7 @@ private const val TAG = "TimerFragment"
 private const val REQUEST_CODE_LOCATION_PERMISSION = 0
 private const val MAP_ZOOM = 15f
 
+//@AndroidEntryPoint
 class TimerFragment : Fragment(){
 
 
@@ -61,6 +62,7 @@ class TimerFragment : Fragment(){
     private lateinit var countdown_timer: CountDownTimer
     private lateinit var mapView: MapView
     private lateinit var toggleButton:Button
+    private lateinit var finishButton:Button
     private lateinit var serviceIntent: Intent
 
 
@@ -85,6 +87,7 @@ class TimerFragment : Fragment(){
         timer = view.findViewById(R.id.timer)
         mapView = view.findViewById(R.id.mapView)
         toggleButton = view.findViewById(R.id.toggle_btn)
+        finishButton = view.findViewById(R.id.finish_btn)
 
         return view
 
@@ -144,9 +147,10 @@ class TimerFragment : Fragment(){
         TrackingService.timeRunInMil.observe(viewLifecycleOwner, Observer {
             curTimeInMilli = it
             val formattedTime = TrackingUtility.FormattedStopWatchTime(curTimeInMilli,
-            true)
+                true)
             timer.text = formattedTime
         })
+
     }
 
     private fun toggleRun(){
@@ -161,10 +165,10 @@ class TimerFragment : Fragment(){
       this.isTracking = isTracking
         if (!isTracking){
             toggleButton.text = "start"
-            toggleButton.visibility = View.VISIBLE
+            finishButton.visibility = View.VISIBLE
         }else{
             toggleButton.text = "stop"
-            toggleButton.visibility = View.GONE
+            finishButton.visibility = View.GONE
         }
 
     }
@@ -366,86 +370,9 @@ class TimerFragment : Fragment(){
             .streamFor(300, 5000L)
     }
 
-//    private fun requestPermissions() {
-//        if(TrackingUtility.locationPer(requireContext())) {
-//            return
-//        }
-//        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-//            EasyPermissions.requestPermissions(
-//                this,
-//                "You need to accept location permissions to use this app.",
-//                REQUEST_CODE_LOCATION_PERMISSION,
-//                Manifest.permission.ACCESS_COARSE_LOCATION,
-//                Manifest.permission.ACCESS_FINE_LOCATION
-//            )
-//        } else {
-//            EasyPermissions.requestPermissions(
-//                this,
-//                "You need to accept location permissions to use this app.",
-//                REQUEST_CODE_LOCATION_PERMISSION,
-//                Manifest.permission.ACCESS_COARSE_LOCATION,
-//                Manifest.permission.ACCESS_FINE_LOCATION,
-//                Manifest.permission.ACCESS_BACKGROUND_LOCATION
-//            )
-//        }
-//    }
-//
-//    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
-//        if(EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-//            AppSettingsDialog.Builder(this).build().show()
-//        } else {
-//            requestPermissions()
-//        }
-//    }
-//
-//    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {}
-//
-//    override fun onRequestPermissionsResult(
-//        requestCode: Int,
-//        permissions: Array<out String>,
-//        grantResults: IntArray
-//    ) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
-//    }
 
 
 
-
-    private fun getTimeStringFromDouble(time: Double): String
-    {
-        val resultInt = time.roundToInt()
-        val hours = resultInt % 86400 / 3600
-        val minutes = resultInt % 86400 % 3600 / 60
-        val seconds = resultInt % 86400 % 3600 % 60
-
-        return makeTimeString(hours, minutes, seconds)
-    }
-
-    private fun makeTimeString(hour: Int, min: Int, sec: Int): String
-    = String.format("%02d:%02d:%02d", hour, min, sec)
-
-
-
-
-//   companion object TrackingUtility {
-//        fun locationPer(context: Context):Boolean{
-//            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q){
-//                EasyPermissions.hasPermissions(context
-//                , Manifest.permission.ACCESS_FINE_LOCATION
-//                , Manifest.permission.ACCESS_COARSE_LOCATION
-//                )
-//            }else{
-//                EasyPermissions.hasPermissions(context
-//                    , Manifest.permission.ACCESS_FINE_LOCATION
-//                    , Manifest.permission.ACCESS_COARSE_LOCATION
-//                    , Manifest.permission.ACCESS_BACKGROUND_LOCATION
-//                )
-//            }
-//
-//            return true
-//        }
-//    }
 }
 
 

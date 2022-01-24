@@ -8,27 +8,46 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.tuwaiq.value.R
-import kotlinx.android.synthetic.main.fragment_run_timeline.*
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
 private const val REQUEST_CODE_LOCATION_PERMISSION = 0
 
-class RunTimelineFragment : Fragment(R.layout.fragment_run_timeline), EasyPermissions.PermissionCallbacks {
+class RunTimelineFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
+
+    lateinit var floatingBtn:FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(
+            R.layout.fragment_run_timeline, container, false
+        )
+
+        floatingBtn = view.findViewById(R.id.run_floating)
+
+
+
+        return view
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requestPermissions()
-        run_floating.setOnClickListener{
+
+        floatingBtn.setOnClickListener {
             findNavController().navigate(R.id.timerFragment3)
         }
+
     }
 
     private fun requestPermissions() {

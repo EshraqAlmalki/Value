@@ -25,12 +25,13 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.maps.model.LatLng
 import com.tuwaiq.value.MainActivity
 import com.tuwaiq.value.R
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.util.*
+
 
 
 const val ACTION_START_OR_RESUME_SERVICE = "ACTION_START_OR_RESUME_SERVICE"
@@ -48,7 +49,10 @@ const val TIMER_UPDATE_INTERVAL = 50L
 
 typealias Polyline = MutableList<LatLng>
 typealias Polylines = MutableList<Polyline>
+
+
 class TrackingService: LifecycleService() {
+
 
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
@@ -105,8 +109,8 @@ class TrackingService: LifecycleService() {
     }
 
 
-    var isFirstRun = true
 
+    var isFirstRun = true
 
 
 
@@ -194,7 +198,9 @@ class TrackingService: LifecycleService() {
 
 
 
+
     private fun startForegroundService(){
+
 
         startTimer()
         addEmptyPolyline()
@@ -207,18 +213,25 @@ class TrackingService: LifecycleService() {
             createNotification(notificationManger)
         }
 
-        val notificationBuilder = NotificationCompat.Builder(this , NOTIFICATION_CHANNEL_ID)
-            .setAutoCancel(false)
-            .setOngoing(true)
-            .setSmallIcon(R.drawable.ic_baseline_av_timer_24)
-            .setContentTitle("Running")
-            .setContentText("00:00:00")
-            //.setContentIntent(getMainActivityPendingIntent())
-        startForeground(NOTIFICATION_ID, notificationBuilder.build())
+
+        val notificationBuilder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+
+        .setAutoCancel(false)
+        .setOngoing(true)
+        .setSmallIcon(R.drawable.ic_baseline_av_timer_24)
+        .setContentTitle("Running")
+        .setContentText("00:00:00")
+      //  .setContentIntent(getMainActivityPendingIntent())
+             startForeground(NOTIFICATION_ID, notificationBuilder.build())
+
     }
 
     private fun getMainActivityPendingIntent() = PendingIntent.getActivity(
-        this , 0 , Intent(this , MainActivity::class.java).also {
+        this,
+        0,
+        Intent(
+            this , MainActivity::class.java
+        ).also {
             it.action = ACTION_SHOW_TIMER_FRAGMENT
         }, FLAG_UPDATE_CURRENT
     )
@@ -230,4 +243,6 @@ class TrackingService: LifecycleService() {
             ,IMPORTANCE_LOW)
         notificationManager.createNotificationChannel(channel)
     }
+
+
 }

@@ -21,7 +21,6 @@ import com.tuwaiq.value.R
 import com.tuwaiq.value.authentication.register.NextRegisterFragmentDirections
 import com.tuwaiq.value.database.Value
 import com.tuwaiq.value.homePage.HomePageFragmentArgs
-import kotlinx.android.synthetic.main.personal_info_fragment.*
 
 const val INFO_KYE = "user-info"
 private const val TAG = "InfoFragment"

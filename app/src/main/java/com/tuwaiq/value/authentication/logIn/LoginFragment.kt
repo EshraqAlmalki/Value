@@ -59,7 +59,7 @@ class LoginFragment : Fragment() {
 
         val currentUser = auth.currentUser
         if (currentUser != null){
-            Log.e(TAG, "onStart: hi ${currentUser.displayName}", )
+            findNavController().navigate(R.id.homePageFragment)
         }
     }
 
