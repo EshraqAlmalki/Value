@@ -7,9 +7,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.tuwaiq.value.R
+import com.tuwaiq.value.database.Run
+import com.tuwaiq.value.timelineUserActive.TimeLineActiveFragment
+import com.tuwaiq.value.timelineUserActive.TimeLineActiveViewModel
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
@@ -17,12 +27,30 @@ private const val REQUEST_CODE_LOCATION_PERMISSION = 0
 
 class RunTimelineFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
+    lateinit var runActivityRV:RecyclerView
+    private lateinit var runActiveAdapter:RunTimelineAdapter
+
+    private val runTimeLineViewModel by lazy {
+        ViewModelProvider(this)[RunTimelineViewModel::class.java]
+    }
+
 
     lateinit var floatingBtn:FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        runTimeLineViewModel.getAllActivities.observe(
+            viewLifecycleOwner , Observer {
+                updateUI(it)
+            }
+        )
     }
 
     override fun onCreateView(
@@ -36,9 +64,21 @@ class RunTimelineFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
         floatingBtn = view.findViewById(R.id.run_floating)
 
+        runActivityRV=  view.findViewById(R.id.user_run_active_rv)
+        val linearLayoutManager = LinearLayoutManager(context)
+        runActivityRV.layoutManager = linearLayoutManager
+
 
 
         return view
+    }
+
+    fun updateUI(run:List<Run>){
+        val newRunAdapter = RunTimelineAdapter(run)
+        runActivityRV.adapter= newRunAdapter
+        runActiveAdapter = RunTimelineAdapter(run)
+
+
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -91,6 +131,43 @@ class RunTimelineFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+
+
+
+    private inner class RunTimelineHolder(view: View):RecyclerView.ViewHolder(view){
+       // private val zoomOutPolyline:ImageView = itemView.findViewById(R.id.zoom_out_map_iv)
+        private val caloriesBurned:TextView = itemView.findViewById(R.id.calories_burned_tv)
+        private val distance : TextView = view.findViewById(R.id.distance_tv)
+
+
+        fun bind(run: Run){
+            caloriesBurned.text = run.caloriesBurned.toString()
+            distance.text = run.distanceInMeters.toString()
+//            zoomOutPolyline.apply {
+//                Glide.with(this).load(run.imgL).into(zoomOutPolyline)
+//            }
+
+
+        }
+    }
+
+    private inner class RunTimelineAdapter(val run : List<Run>):RecyclerView.Adapter<RunTimelineHolder>(){
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RunTimelineHolder {
+
+            val view = layoutInflater.inflate(R.layout.run_user_active_item,parent,false)
+            return RunTimelineHolder(view)
+
+        }
+
+        override fun onBindViewHolder(holder: RunTimelineHolder, position: Int) {
+
+            val run = run[position]
+            holder.bind(run)
+        }
+
+        override fun getItemCount(): Int = run.size
+
     }
 
 

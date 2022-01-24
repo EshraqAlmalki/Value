@@ -28,4 +28,34 @@ interface ValueDao {
 
     @Query("SELECT * FROM value WHERE stGoal=(:stGoal)")
     fun getStepsGoal(stGoal : Int):List<Value>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertRun(run: Run)
+
+    @Delete
+    fun deleteRun(run: Run)
+
+
+    @Query("SELECT * FROM `run-model-class` ORDER BY timestamp DESC")
+    fun getAllRunSortByDate():LiveData<List<Run>>
+
+    @Query("SELECT SUM(timeInMilli) FROM `run-model-class` ")
+    fun getTotalTimeInMillis(): LiveData<Long>
+
+    @Query("SELECT SUM(distanceInMeters) FROM `run-model-class` ")
+    fun getTotalDistance(): LiveData<Int>
+
+
+    @Query("SELECT * FROM `run-model-class`")
+    fun getAllActivities():LiveData<List<Run>>
+
+
+    @Query("SELECT SUM(avgSpeedInKMH) FROM `run-model-class` ")
+    fun getTotalAvgSpeed(): LiveData<Float>
+
+
+    @Query("SELECT SUM(caloriesBurned) FROM `run-model-class` ")
+    fun getTotalCaloriesBurned(): LiveData<Int>
+
+
 }

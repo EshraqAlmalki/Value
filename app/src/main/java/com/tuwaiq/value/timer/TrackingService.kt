@@ -14,6 +14,7 @@ import android.location.LocationRequest
 import android.os.Build
 import android.os.IBinder
 import android.os.Looper
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
@@ -32,6 +33,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+private const val TAG = "TrackingService"
 
 
 const val ACTION_START_OR_RESUME_SERVICE = "ACTION_START_OR_RESUME_SERVICE"
@@ -173,6 +175,7 @@ class TrackingService: LifecycleService() {
                     for (location in it ){
                         addPathPoint(location)
                         Timber.d("NEW LOCATION : ${location.altitude}, ${location.longitude}")
+                        Log.d(TAG, "onLocationResult: ${location.altitude}, ${location.longitude}")
                     }
                 }
             }
@@ -185,6 +188,7 @@ class TrackingService: LifecycleService() {
             pathPoints.value?.apply {
                 last().add(pos)
                 pathPoints.postValue(this)
+
             }
         }
     }

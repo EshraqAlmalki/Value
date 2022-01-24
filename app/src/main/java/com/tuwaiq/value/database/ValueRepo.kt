@@ -156,6 +156,25 @@ class ValueRepo private constructor(context: Context){
 
     }
 
+    fun addRun(run: Run){
+        executor.execute {
+            valueDao.insertRun(run)
+        }
+    }
+
+    fun getAllActivities():LiveData<List<Run>> = valueDao.getAllActivities()
+    fun deleteRun(run: Run){
+        executor.execute {
+            valueDao.deleteRun(run)
+        }
+    }
+
+    fun getAllRunSortByDate():LiveData<List<Run>>{
+
+            return valueDao.getAllRunSortByDate()
+
+    }
+
 
 
     companion object{

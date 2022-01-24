@@ -1,6 +1,6 @@
 package com.tuwaiq.value.timer
 
-import android.Manifest
+
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -23,16 +23,21 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.Observer
-import androidx.work.*
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.PolylineOptions
 import com.tuwaiq.value.R
 import com.tuwaiq.value.database.NOTIFICATION_CHANNEL_ID
+import com.tuwaiq.value.database.Run
+import com.tuwaiq.value.database.Value
 import nl.dionsegijn.konfetti.KonfettiView
-import pub.devrel.easypermissions.EasyPermissions
+import java.lang.Math.round
+import java.util.*
 import kotlin.math.roundToInt
+
 
 const val TIMER_RUN = "time-is-up"
 private const val TAG = "TimerFragment"
@@ -64,6 +69,7 @@ class TimerFragment : Fragment(){
     private lateinit var toggleButton:Button
     private lateinit var finishButton:Button
     private lateinit var serviceIntent: Intent
+    private lateinit var value:Value
 
 
 
@@ -99,17 +105,27 @@ class TimerFragment : Fragment(){
         super.onCreate(savedInstanceState)
 
 
+        value = Value()
 
 
     }
 
 
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         toggleButton.setOnClickListener {
            toggleRun()
+        }
+
+        finishButton.setOnClickListener {
+        zoomToSeeWholeTrack()
+           endRunAndSaveToDatabase(value)
+
+            findNavController().navigate(R.id.runTimelineFragment)
         }
 
 
@@ -143,11 +159,13 @@ class TimerFragment : Fragment(){
             moveCamToUser()
 
         })
+        
+
 
         TrackingService.timeRunInMil.observe(viewLifecycleOwner, Observer {
             curTimeInMilli = it
             val formattedTime = TrackingUtility.FormattedStopWatchTime(curTimeInMilli,
-                true)
+                false)
             timer.text = formattedTime
         })
 
@@ -173,7 +191,49 @@ class TimerFragment : Fragment(){
 
     }
 
-    private fun moveCamToUser(){
+    private fun zoomToSeeWholeTrack () {
+        val bounds = LatLngBounds.builder()
+
+        for (polyline in pathPoints){
+            for (position in polyline){
+                bounds.include(position)
+            }
+        }
+
+        map?.moveCamera(
+            CameraUpdateFactory.newLatLngBounds(
+                bounds.build(),
+                mapView.width,
+                mapView.height,
+                (mapView.height * 0.05f).toInt()
+            )
+        )
+    }
+
+    private fun endRunAndSaveToDatabase(value: Value){
+        map?.snapshot { bitmap ->
+            var distanceInMeters = 0
+            for (polyline in pathPoints){
+                distanceInMeters += TrackingUtility.calculatePolylineLength(polyline).toInt()
+            }
+            val avgSpeed = ((distanceInMeters / 1000f) / (curTimeInMilli / 1000f / 60 / 60) * 10).roundToInt() / 10f
+            val dateTimestamp = Calendar.getInstance().timeInMillis
+            val caloriesBurned = ((distanceInMeters / 1000f) * 4F ).toInt()
+
+            val run = Run(caloriesBurned , curTimeInMilli , distanceInMeters , avgSpeed , dateTimestamp , bitmap)
+            timerViewModel.insertRun(run)
+            Log.e(TAG, "endRunAndSaveToDatabase: $run", )
+            // snack bar that the run is saved
+            stopRun()
+        }
+    }
+
+    private fun stopRun(){
+        sendCommandToService(ACTION_STOP_SERVICE)
+    }
+
+
+        private fun moveCamToUser(){
         if (pathPoints.isNotEmpty() && pathPoints.last().isNotEmpty()){
             map?.animateCamera(
                 CameraUpdateFactory.newLatLngZoom(
