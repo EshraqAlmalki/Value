@@ -13,7 +13,7 @@
     <string name="email">Email</string>
     <string name="current_steps">your current steps:</string>
     <string name="set_timer">Enter time (in minutes)</string>
-    <string name="start_workout">Set the timer and let\'s start the workout!</string>
+    <string name="start_workout">Set the timer and let\'s start the run!</string>
 
     <string name="password">Password</string>
     <string name="confirm_password">Confirm password</string>

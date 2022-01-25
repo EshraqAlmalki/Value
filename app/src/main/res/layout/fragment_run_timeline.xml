@@ -29,7 +29,7 @@
             android:id="@+id/textView12"
             android:layout_width="288dp"
             android:layout_height="61dp"
-            android:layout_marginTop="68dp"
+            android:layout_marginTop="28dp"
             android:fontFamily="serif"
             android:gravity="center|start"
             android:text="your activites:"
@@ -45,10 +45,11 @@
             android:id="@+id/user_run_active_rv"
             android:layout_width="401dp"
             android:layout_height="709dp"
-            android:layout_marginTop="1dp"
+            android:layout_marginTop="650sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView12" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.887" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

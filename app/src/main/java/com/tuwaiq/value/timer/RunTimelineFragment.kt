@@ -1,6 +1,7 @@
 package com.tuwaiq.value.timer
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -22,6 +23,8 @@ import com.tuwaiq.value.timelineUserActive.TimeLineActiveFragment
 import com.tuwaiq.value.timelineUserActive.TimeLineActiveViewModel
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
+import java.text.SimpleDateFormat
+import java.util.*
 
 private const val REQUEST_CODE_LOCATION_PERMISSION = 0
 
@@ -136,17 +139,23 @@ class RunTimelineFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
 
     private inner class RunTimelineHolder(view: View):RecyclerView.ViewHolder(view){
-       // private val zoomOutPolyline:ImageView = itemView.findViewById(R.id.zoom_out_map_iv)
+        private val zoomOutPolyline:ImageView = itemView.findViewById(R.id.zoom_out_map_iv)
         private val caloriesBurned:TextView = itemView.findViewById(R.id.calories_burned_tv)
         private val distance : TextView = view.findViewById(R.id.distance_tv)
 
 
+        @SuppressLint("SimpleDateFormat")
         fun bind(run: Run){
             caloriesBurned.text = run.caloriesBurned.toString()
             distance.text = run.distanceInMeters.toString()
-//            zoomOutPolyline.apply {
-//                Glide.with(this).load(run.imgL).into(zoomOutPolyline)
-//            }
+//
+//            var currentDate = Date()
+//            val dateFormat = SimpleDateFormat("dd/MM/yyyy")
+//            currentDate = dateFormat.parse(dateFormat.format(currentDate))
+//            runDate.text = currentDate.toString()
+
+                Glide.with(requireContext()).load(run.imgL).into(zoomOutPolyline)
+
 
 
         }
