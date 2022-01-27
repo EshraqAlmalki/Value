@@ -218,7 +218,7 @@ class HomePageFragment : Fragment() , SensorEventListener {
 
         if (stepsSensor == null) {
             running = false
-            showToast("No Step Counter Sensor !")
+
         } else {
             sensorManager?.registerListener(
                 this, stepsSensor,

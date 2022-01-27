@@ -227,7 +227,7 @@ class PersonalInfoFragment : Fragment() {
 
 
                             Log.e(TAG, "onStart: editbtn : $value",)
-                            showToast("your changes is done ${value.calor}")
+
                             personalInfoViewModel.updateUserInfo(value)
                             personalInfoViewModel.updateFirestore(value)
                             personalInfoViewModel.saveFirestore(value)

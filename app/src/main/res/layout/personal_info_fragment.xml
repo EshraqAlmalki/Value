@@ -41,35 +41,16 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="395dp"
-            android:layout_height="178dp"
-            android:layout_marginBottom="500dp"
-            android:src="@drawable/waves"
-            app:layout_constraintBottom_toTopOf="@+id/delete_account"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="397dp"
-            android:layout_height="124dp"
-            android:layout_marginStart="104dp"
-            android:layout_marginBottom="56dp"
-            android:src="@drawable/valueinapp"
-            app:layout_constraintBottom_toTopOf="@+id/textInputLayout4"
-            app:layout_constraintStart_toStartOf="parent" />
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
             android:layout_width="169dp"
             android:layout_height="72dp"
-            android:gravity="center"
             android:layout_marginStart="25dp"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="69dp"
+            android:gravity="center"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView4">
+            app:layout_constraintTop_toBottomOf="@+id/signout_iv">
 
             <AutoCompleteTextView
                 android:id="@+id/weight_info"
@@ -86,11 +67,11 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
             android:layout_width="169dp"
             android:layout_height="72dp"
+            android:layout_marginTop="248dp"
+            android:layout_marginEnd="28dp"
             android:gravity="center"
-            android:layout_marginTop="36dp"
-            android:layout_marginEnd="25dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView4">
+            app:layout_constraintTop_toTopOf="parent">
 
             <AutoCompleteTextView
                 android:id="@+id/height_info"
@@ -219,13 +200,13 @@
 
         <ImageView
             android:id="@+id/signout_iv"
-            android:layout_width="42dp"
-            android:layout_height="35dp"
+            android:layout_width="52dp"
+            android:layout_height="30dp"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="104dp"
+            android:layout_marginTop="148dp"
             android:src="@drawable/signout"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imageView4" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!--        <NumberPicker-->
         <!--            android:id="@+id/steps_goal_np"-->

@@ -20,17 +20,6 @@
 
 
     <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="172dp"
-        android:src="@drawable/waves"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageView
         android:id="@+id/imageView10"
         android:layout_width="393dp"
         android:layout_height="499dp"
@@ -44,8 +33,8 @@
         android:id="@+id/textView6"
         android:layout_width="339dp"
         android:layout_height="65dp"
-        android:layout_marginTop="124dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="28dp"
         android:background="@drawable/shapes"
         android:fontFamily="serif"
         android:gravity="center"
@@ -74,8 +63,8 @@
         android:id="@+id/textView4"
         android:layout_width="339dp"
         android:layout_height="65dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="316dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="264dp"
         android:background="@drawable/shapes"
         android:fontFamily="serif"
         android:gravity="center"
@@ -134,7 +123,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="52dp"
+        android:layout_marginEnd="84dp"
 
         android:fontFamily="serif"
         android:gravity="center"
@@ -167,17 +156,17 @@
         android:layout_width="31dp"
         android:layout_height="0dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="44dp"
+        android:layout_marginEnd="76dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:layout_width="56dp"
         android:layout_height="55dp"
-        android:layout_marginStart="72dp"
+        android:layout_marginStart="40dp"
         android:layout_marginBottom="18dp"
         app:layout_constraintBottom_toTopOf="@+id/view4"
-        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        app:layout_constraintStart_toStartOf="@+id/textView13"
         app:lottie_autoPlay="true"
         app:lottie_loop="false"
         app:lottie_rawRes="@raw/foodcarousel" />
@@ -209,8 +198,8 @@
         android:id="@+id/textView13"
         android:layout_width="339dp"
         android:layout_height="65dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="244dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="204dp"
         android:background="@drawable/nav_shape"
         android:fontFamily="serif"
         android:gravity="center"
@@ -250,7 +239,7 @@
         android:layout_width="117dp"
         android:layout_height="48dp"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="28dp"
         android:fontFamily="sans-serif-smallcaps"
         android:gravity="center|start"
         android:text="@string/hello_username"
@@ -261,8 +250,8 @@
 
     <View
         android:id="@+id/view4"
-        android:layout_width="360dp"
-        android:layout_height="90dp"
+        android:layout_width="304dp"
+        android:layout_height="84dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/nav_shape"
         app:layout_constraintEnd_toEndOf="parent"
