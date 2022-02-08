@@ -8,7 +8,7 @@ fitness application
 an android application that allows users to save thier health active by tracking steps/calories counters.
 
 # the features: 
-- User can Add/Edit/Delete/Read the all information.
+- User can Add/Edit/Delete/Read  all of the information.
 - Steps counter.
 - Calories burned counter.
 - Macros method.
@@ -27,7 +27,7 @@ an android application that allows users to save thier health active by tracking
 
 # the API's 
 - (fitness calculator) 
-The required parameters for calculate the macros:
+The required parameters to calculate the macros:
 Age, Weight, Height, Active and The goal.
 
 - (Live fitness and health news)
