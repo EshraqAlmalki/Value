@@ -2,6 +2,8 @@
 
 fitness application 
 
+<img width="184" alt="value logo" src="https://user-images.githubusercontent.com/92253619/153073715-fe52ede4-d57f-4bbd-94ca-1611f68e60e4.png">
+
 # overview
 an android application that allows users to save thier health active by tracking steps/calories counters.
 
