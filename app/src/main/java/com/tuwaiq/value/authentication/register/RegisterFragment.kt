@@ -131,7 +131,8 @@ class RegisterFragment : Fragment() {
             when{
 
                 value.name.isEmpty() -> showToast("Enter username please")
-                value.email.isEmpty() && !value.email.contains("@") -> showToast("Enter email please")
+                value.email.isEmpty() && !value.email.contains("@")
+                -> showToast("Enter email please")
                 value.password.isEmpty() -> showToast("Enter password please")
                 value.password != confirmPassword -> showToast("passwords must be matched" )
 

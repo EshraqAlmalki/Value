@@ -120,8 +120,8 @@
 
             <EditText
                 android:id="@+id/pass_et"
-                android:layout_width="342dp"
-                android:layout_height="60dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginStart="10sp"
                 android:hint="@string/password"
                 android:inputType="none"
@@ -152,8 +152,8 @@
 
             <EditText
                 android:id="@+id/confirm_et"
-                android:layout_width="342dp"
-                android:layout_height="60dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginStart="10sp"
                 android:hint="@string/confirm_password"
                 android:inputType="none"
@@ -192,8 +192,8 @@
 
             <EditText
                 android:id="@+id/email_et"
-                android:layout_width="342dp"
-                android:layout_height="60dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginStart="10sp"
                 android:hint="@string/email"
                 android:inputType="none"
@@ -224,8 +224,8 @@
 
             <EditText
                 android:id="@+id/username_et"
-                android:layout_width="342dp"
-                android:layout_height="60dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginStart="10sp"
                 android:hint="@string/username"
                 android:inputType="none"

@@ -123,6 +123,7 @@ class TimerFragment : Fragment(){
 
         finishButton.setOnClickListener {
         zoomToSeeWholeTrack()
+
            endRunAndSaveToDatabase(value)
 
             findNavController().navigate(R.id.runTimelineFragment)
@@ -174,8 +175,10 @@ class TimerFragment : Fragment(){
     private fun toggleRun(){
         if (isTracking){
             sendCommandToService(ACTION_PAUSE_SERVICE)
+            loadConfeti()
         }else{
             sendCommandToService(ACTION_START_OR_RESUME_SERVICE)
+
         }
     }
 

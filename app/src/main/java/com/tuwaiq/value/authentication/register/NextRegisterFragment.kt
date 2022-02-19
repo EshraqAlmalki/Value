@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.util.toRange
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -52,7 +53,7 @@ class NextRegisterFragment : Fragment() {
         val view = inflater.inflate(R.layout.next_register_fragment
             , container, false)
 
-        userWeight = view.findViewById(R.id.weight_info)
+        userWeight = view.findViewById(R.id.weight_info_re)
         userHeight = view.findViewById(R.id.height_info)
         userActive = view.findViewById(R.id.active_level_info)
         stepsGoal = view.findViewById(R.id.steps_goal)
@@ -66,13 +67,13 @@ class NextRegisterFragment : Fragment() {
         val genderItemAdapter = ArrayAdapter(requireContext() , R.layout.dropdown_gender_item , genderItem)
         genderET.setAdapter(genderItemAdapter)
 
-        val weightItem = resources.getStringArray(R.array.weight)
-        val weightItemAdapter = ArrayAdapter(requireContext() , R.layout.dropdown_weight_item , weightItem)
-        userWeight.setAdapter(weightItemAdapter)
+//        val weightItem = resources.getStringArray(R.array.weight)
+//        val weightItemAdapter = ArrayAdapter(requireContext() , R.layout.dropdown_weight_item , weightItem)
+//        userWeight.setAdapter(weightItemAdapter)
 
-        val heightItem = resources.getStringArray(R.array.height)
-        val heightItemAdapter = ArrayAdapter(requireContext() , R.layout.dropdown_height_item , heightItem)
-        userHeight.setAdapter(heightItemAdapter)
+//        val heightItem = resources.getStringArray(R.array.height)
+//        val heightItemAdapter = ArrayAdapter(requireContext() , R.layout.dropdown_height_item , heightItem)
+//        userHeight.setAdapter(heightItemAdapter)
 
         val activeItem = resources.getStringArray(R.array.active)
         val activeItemAdapter = ArrayAdapter(requireContext() , R.layout.dropdown_active_item , activeItem)
@@ -132,8 +133,10 @@ class NextRegisterFragment : Fragment() {
 
 
             when{
-                value.weight.isEmpty()  -> showToast("Enter weight!")
-                value.height.isEmpty() -> showToast("Enter height!")
+                value.weight.isEmpty() || value.weight.toInt() !in 40..160
+                -> userWeight.error = "must be between 40-160"
+                value.height.isEmpty() || value.height.toInt() !in 130..230
+                -> userHeight.error = "must be between 130-230"
                 value.active.isEmpty() -> showToast("Enter active!")
                 value.stGoal.isEmpty() -> showToast("Enter steps goals!")
                 value.weightGoal.isEmpty() -> showToast("Enter weight goals!")

@@ -78,13 +78,13 @@ class PersonalInfoFragment : Fragment() {
         val genderItemAdapter = ArrayAdapter(requireContext() , R.layout.dropdown_gender_item , genderItem)
         genderTV.setAdapter(genderItemAdapter)
 
-        val weightItem = resources.getStringArray(R.array.weight)
-        val weightItemAdapter = ArrayAdapter(requireContext() , R.layout.dropdown_weight_item , weightItem)
-        weightTV.setAdapter(weightItemAdapter)
+//        val weightItem = resources.getStringArray(R.array.weight)
+//        val weightItemAdapter = ArrayAdapter(requireContext() , R.layout.dropdown_weight_item , weightItem)
+//        weightTV.setAdapter(weightItemAdapter)
 
-        val heightItem = resources.getStringArray(R.array.height)
-        val heightItemAdapter = ArrayAdapter(requireContext() , R.layout.dropdown_height_item , heightItem)
-        heightTV.setAdapter(heightItemAdapter)
+//        val heightItem = resources.getStringArray(R.array.height)
+//        val heightItemAdapter = ArrayAdapter(requireContext() , R.layout.dropdown_height_item , heightItem)
+//        heightTV.setAdapter(heightItemAdapter)
 
         val activeItem = resources.getStringArray(R.array.active)
         val activeItemAdapter = ArrayAdapter(requireContext() , R.layout.dropdown_active_item , activeItem)
@@ -114,14 +114,13 @@ class PersonalInfoFragment : Fragment() {
                     auth.signOut()
                     findNavController().navigate(R.id.loginFragment)
                 }
-                it.setNegativeButton("No"){dialog , id -> dialog.dismiss()}
+                it.setNegativeButton("No"){ dialog, _ -> dialog.dismiss()}
                 val alert = builder.create()
                 alert.show()
             }
         }
 
 
-            Log.d(TAG, "email: ${Firebase.auth.currentUser?.email.toString()}")
             personalInfoViewModel.retrieverUserInfo(Firebase.auth.currentUser?.email.toString())
                 .observe(viewLifecycleOwner){
                     it?.let {
@@ -142,7 +141,6 @@ class PersonalInfoFragment : Fragment() {
                         it.height = heightTV.text.toString()
                         it.weightGoal = goalTV.text.toString()
                         it.stGoal = stepsGoal.text.toString()
-                        Log.e(TAG, "onStart: $value 22", )
                     }
 
                    
@@ -167,17 +165,11 @@ class PersonalInfoFragment : Fragment() {
                         it.height = heightTV.text.toString()
                         it.weightGoal = goalTV.text.toString()
 
-                        Log.e(TAG, "onStart: $value 33", )
-
-
                     }
-                    Log.e(TAG, "onStart: if $value", )
                 }
             
                        
             )
-
-        Log.e(TAG, "onStart:docId ${value.documentId}", )
 
 
         editBtn.setOnClickListener {
@@ -191,17 +183,20 @@ class PersonalInfoFragment : Fragment() {
             value.weightGoal = goalTV.text.toString()
             value.stGoal = stepsGoal.text.toString()
 
-            Log.e(TAG, "onStart: $value edit",)
 
 
             when {
-                value.weight.isEmpty() -> showToast("Enter weight!")
-                value.height.isEmpty() -> showToast("Enter height!")
-                value.active.isEmpty() -> showToast("Enter active!")
+                value.weight.isEmpty() || value.weight.toInt() !in 40..160
+                -> weightTV.error = "must be between 40-160"
+                value.height.isEmpty() || value.height.toInt() !in 130..230
+                -> heightTV.error = "must be between 130-230"
+                value.active.isEmpty() || value.active.toInt() !in 1..7
+                        -> activeTV.error = "must be between 1-7"
                 value.stGoal.isEmpty() -> showToast("Enter steps goals!")
                 value.weightGoal.isEmpty() -> showToast("Enter weight goals!")
                 value.age.isEmpty() -> showToast("Enter age!")
-                value.gender.isEmpty() -> showToast("Enter gender!")
+                value.gender.isEmpty() || !value.gender.contains("female") &&
+                        !value.gender.contains("male")-> genderTV.error = "must be female or male"
 
                 else -> {
 
@@ -224,10 +219,6 @@ class PersonalInfoFragment : Fragment() {
                             value.protein = rapidResponse.data?.balanced?.protein.toString()
                             value.email = args.email
 
-
-
-                            Log.e(TAG, "onStart: editbtn : $value",)
-
                             personalInfoViewModel.updateUserInfo(value)
                             personalInfoViewModel.updateFirestore(value)
                             personalInfoViewModel.saveFirestore(value)
@@ -247,7 +238,6 @@ class PersonalInfoFragment : Fragment() {
                 it.setMessage("are sure you want to delete this account?")
                 it.setCancelable(false)
                 it.setPositiveButton("Yes I'm") { _, _ ->
-                   // auth.signOut()
                     personalInfoViewModel.delAccount(value)
                     personalInfoViewModel.deleteFirestore(value)
                     personalInfoViewModel.deleteUserInfo(value)
@@ -427,7 +417,6 @@ class PersonalInfoFragment : Fragment() {
                     it.active = activeTV.toString()
                     it.weightGoal = goalTV.toString()
                 }
-                Log.e(TAG, "onViewCreated: $value", )
             }
         )
 
