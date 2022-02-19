@@ -57,10 +57,10 @@ class LoginFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-//        val currentUser = auth.currentUser
-//        if (currentUser != null){
-//            findNavController().navigate(R.id.homePageFragment)
-//        }
+        val currentUser = auth.currentUser
+        if (currentUser != null){
+            findNavController().navigate(R.id.homePageFragment)
+        }
     }
 
 
